@@ -33,6 +33,10 @@ commands:
   menuedit:
     description: Editor de menus (admin)
     usage: /menuedit <shop>
+  menu:
+    description: Editor de menús in-game
+    usage: /menu <edit|slot|material|name|action|save|cancel>
+    aliases: [menued]
 
 permissions:
   survivalcore.admin:

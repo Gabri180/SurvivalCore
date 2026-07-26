@@ -28,6 +28,7 @@ import com.atlasMC.survivalcore.commands.AuctionCommand;
 import com.atlasMC.survivalcore.commands.BountyCommand;
 import com.atlasMC.survivalcore.commands.ClanCommand;
 import com.atlasMC.survivalcore.commands.JobCommand;
+import com.atlasMC.survivalcore.commands.MenuCommand;
 import com.atlasMC.survivalcore.commands.MenuEditCommand;
 import com.atlasMC.survivalcore.commands.StatsCommand;
 import com.atlasMC.survivalcore.config.ConfigManager;
@@ -55,8 +56,10 @@ import com.atlasMC.survivalcore.listeners.PlayerDataListener;
 import com.atlasMC.survivalcore.listeners.PvPArenaListener;
 import com.atlasMC.survivalcore.listeners.PvPKillstreakListener;
 import com.atlasMC.survivalcore.menu.ChatInputPrompt;
+import com.atlasMC.survivalcore.menu.MenuEditorManager;
 import com.atlasMC.survivalcore.menu.MenuLoader;
 import com.atlasMC.survivalcore.menu.MenuManager;
+import com.atlasMC.survivalcore.menu.MenuYamlWriter;
 import com.atlasMC.survivalcore.prestige.PrestigeManager;
 import com.atlasMC.survivalcore.scheduler.SchedulerManager;
 import com.atlasMC.survivalcore.seasons.SeasonManager;
@@ -80,6 +83,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
     private SeasonManager seasonManager;
     private PrestigeManager prestigeManager;
     private MenuManager menuManager;
+    private MenuEditorManager menuEditorManager;
 
     // Repositorios listos para Hauch (Jobs/Skills/Misiones)
     private JobRepository jobRepository;
@@ -156,6 +160,9 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         MenuLoader menuLoader = new MenuLoader(this, menuManager);
         menuLoader.loadMenus();
 
+        MenuYamlWriter yamlWriter = new MenuYamlWriter(this);
+        this.menuEditorManager = new MenuEditorManager(menuManager, yamlWriter);
+
         registerListeners();
         registerCommands();
         new SchedulerManager(this, playerCache, seasonManager, bossManager, auctionManager);
@@ -226,6 +233,10 @@ public final class SurvivalCorePlugin extends JavaPlugin {
 
         // Menú editor
         getCommand("menuedit").setExecutor(new MenuEditCommand(this));
+
+        MenuCommand menuCmd = new MenuCommand(menuEditorManager);
+        getCommand("menu").setExecutor(menuCmd);
+        getCommand("menu").setTabCompleter(menuCmd);
     }
 
     public static SurvivalCorePlugin getInstance() {
@@ -264,6 +275,10 @@ public final class SurvivalCorePlugin extends JavaPlugin {
 
     public MenuManager getMenuManager() {
         return menuManager;
+    }
+
+    public MenuEditorManager getMenuEditorManager() {
+        return menuEditorManager;
     }
 
     // ---- Repositorios (listos para conectar managers de Hauch/Dev3) ----
