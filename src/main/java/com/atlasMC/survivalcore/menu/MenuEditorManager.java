@@ -73,6 +73,22 @@ public class MenuEditorManager {
         player.sendMessage("§aNombre establecido a: " + name);
     }
 
+    public void addItemLore(Player player, String loreLine) {
+        EditSession session = editSessions.get(player);
+        if (session == null) return;
+
+        session.addLoreLine(loreLine);
+        player.sendMessage("§a✓ Lore agregado");
+    }
+
+    public void clearItemLore(Player player) {
+        EditSession session = editSessions.get(player);
+        if (session == null) return;
+
+        session.clearLore();
+        player.sendMessage("§a✓ Lore eliminado");
+    }
+
     public void setAction(Player player, String actionType, String value) {
         EditSession session = editSessions.get(player);
         if (session == null) return;
@@ -147,6 +163,16 @@ public class MenuEditorManager {
             if (item == null) return;
 
             menuData.setItem(selectedSlot, item, action);
+        }
+
+        public void addLoreLine(String loreLine) {
+            if (selectedSlot < 0) return;
+            menuData.addLoreLine(selectedSlot, loreLine);
+        }
+
+        public void clearLore() {
+            if (selectedSlot < 0) return;
+            menuData.clearLore(selectedSlot);
         }
 
         public String getMenuName() {

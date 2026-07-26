@@ -82,6 +82,15 @@ public class MenuCommand implements CommandExecutor, TabExecutor {
                     editorManager.setAction(player, type, value);
                 }
             }
+            case "lore" -> {
+                if (args.length < 2) {
+                    player.sendMessage("§cUso: /menu lore <texto>");
+                } else {
+                    String loreLine = String.join(" ", java.util.Arrays.copyOfRange(args, 1, args.length));
+                    editorManager.addItemLore(player, loreLine);
+                }
+            }
+            case "clearlore" -> editorManager.clearItemLore(player);
             case "save" -> editorManager.saveMenu(player);
             case "cancel" -> editorManager.cancelEdit(player);
             case "help" -> showHelp(player);
@@ -96,16 +105,17 @@ public class MenuCommand implements CommandExecutor, TabExecutor {
         player.sendMessage("§e/menu edit <nombre> §7- Editar un menú");
         player.sendMessage("§e/menu slot <número> §7- Seleccionar slot (0-53)");
         player.sendMessage("§e/menu material <material> §7- Cambiar material del item");
-        player.sendMessage("§e/menu name <nombre> §7- Cambiar nombre del item (color: §)");
+        player.sendMessage("§e/menu name <nombre> §7- Cambiar nombre (soporta color §)");
+        player.sendMessage("§e/menu lore <texto> §7- Agregar línea de lore");
+        player.sendMessage("§e/menu clearlore §7- Limpiar lore del item");
         player.sendMessage("§e/menu action <tipo> <valor> §7- Establecer acción");
         player.sendMessage("§e/menu save §7- Guardar cambios");
         player.sendMessage("§e/menu cancel §7- Cancelar edición");
         player.sendMessage("");
-        player.sendMessage("§6Tipos de acción:");
-        player.sendMessage("§e  COMMAND <comando> §7- Ejecutar comando");
-        player.sendMessage("§e  OPEN_MENU <menú> §7- Abrir otro menú");
-        player.sendMessage("§e  MESSAGE <mensaje> §7- Mostrar mensaje");
-        player.sendMessage("§e  CLOSE §7- Cerrar inventario");
+        player.sendMessage("§6Placeholders para comandos/mensajes:");
+        player.sendMessage("§7Jugador: %player%, %uuid%, %display_name%, %health%, %max_health%");
+        player.sendMessage("§7Ubicación: %world%, %x%, %y%, %z%, %yaw%, %pitch%");
+        player.sendMessage("§7Otros: %level%, %exp%, %game_mode%, %ping%, %online_players%");
     }
 
     @Override
@@ -117,6 +127,8 @@ public class MenuCommand implements CommandExecutor, TabExecutor {
             completions.add("slot");
             completions.add("material");
             completions.add("name");
+            completions.add("lore");
+            completions.add("clearlore");
             completions.add("action");
             completions.add("save");
             completions.add("cancel");

@@ -69,13 +69,43 @@ public class MenuAction {
         }
     }
 
-    private String replacePlaceholders(String text, Player player) {
-        return text
-            .replace("%player%", player.getName())
-            .replace("%uuid%", player.getUniqueId().toString())
-            .replace("%world%", player.getWorld().getName())
-            .replace("%x%", String.valueOf((int) player.getLocation().getX()))
-            .replace("%y%", String.valueOf((int) player.getLocation().getY()))
-            .replace("%z%", String.valueOf((int) player.getLocation().getZ()));
+    public static String replacePlaceholders(String text, Player player) {
+        // Placeholders de jugador
+        text = text.replace("%player%", player.getName());
+        text = text.replace("%uuid%", player.getUniqueId().toString());
+        text = text.replace("%display_name%", player.getDisplayName());
+        text = text.replace("%health%", String.format("%.1f", player.getHealth()));
+        text = text.replace("%max_health%", String.format("%.1f", player.getMaxHealth()));
+        text = text.replace("%hunger%", String.valueOf(player.getFoodLevel()));
+        text = text.replace("%saturation%", String.format("%.1f", player.getSaturation()));
+        text = text.replace("%level%", String.valueOf(player.getLevel()));
+        text = text.replace("%exp%", String.format("%.1f", player.getExp()));
+        text = text.replace("%game_mode%", player.getGameMode().name());
+
+        // Placeholders de ubicación
+        text = text.replace("%world%", player.getWorld().getName());
+        text = text.replace("%x%", String.valueOf((int) player.getLocation().getX()));
+        text = text.replace("%y%", String.valueOf((int) player.getLocation().getY()));
+        text = text.replace("%z%", String.valueOf((int) player.getLocation().getZ()));
+        text = text.replace("%yaw%", String.format("%.1f", player.getLocation().getYaw()));
+        text = text.replace("%pitch%", String.format("%.1f", player.getLocation().getPitch()));
+
+        // Placeholders de inventario
+        text = text.replace("%held_item%", player.getInventory().getItemInMainHand().getType().name());
+        text = text.replace("%off_hand%", player.getInventory().getItemInOffHand().getType().name());
+
+        // Placeholders de tiempo
+        long time = System.currentTimeMillis();
+        text = text.replace("%time%", String.valueOf(time));
+        text = text.replace("%timestamp%", String.valueOf(System.currentTimeMillis() / 1000));
+
+        // Placeholders de ping
+        text = text.replace("%ping%", String.valueOf(player.getPing()));
+
+        // Placeholders de servidor
+        text = text.replace("%online_players%", String.valueOf(player.getServer().getOnlinePlayers().size()));
+        text = text.replace("%max_players%", String.valueOf(player.getServer().getMaxPlayers()));
+
+        return text;
     }
 }

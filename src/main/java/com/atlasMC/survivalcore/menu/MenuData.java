@@ -1,6 +1,12 @@
 package com.atlasMC.survivalcore.menu;
 
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MenuData {
     private final String name;
@@ -8,6 +14,7 @@ public class MenuData {
     private final int size;
     private final MenuAction[] actions;
     private final ItemStack[] items;
+    private final Map<Integer, List<String>> lores = new HashMap<>();
 
     public MenuData(String name, String title, int size) {
         this.name = name;
@@ -25,10 +32,47 @@ public class MenuData {
         if (slot < 0 || slot >= size) return;
         items[slot] = item;
         actions[slot] = action != null ? action : MenuAction.none();
+        applyLore(slot);
     }
 
     public void setItem(int slot, ItemStack item) {
         setItem(slot, item, MenuAction.none());
+    }
+
+    public void addLoreLine(int slot, String line) {
+        if (slot < 0 || slot >= size) return;
+        lores.computeIfAbsent(slot, k -> new ArrayList<>()).add(line);
+        applyLore(slot);
+    }
+
+    public void setLore(int slot, List<String> loreLines) {
+        if (slot < 0 || slot >= size) return;
+        lores.put(slot, new ArrayList<>(loreLines));
+        applyLore(slot);
+    }
+
+    public void clearLore(int slot) {
+        if (slot < 0 || slot >= size) return;
+        lores.remove(slot);
+        applyLore(slot);
+    }
+
+    public List<String> getLore(int slot) {
+        return lores.getOrDefault(slot, new ArrayList<>());
+    }
+
+    private void applyLore(int slot) {
+        ItemStack item = items[slot];
+        if (item == null) return;
+
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) return;
+
+        List<String> lore = lores.get(slot);
+        if (lore != null && !lore.isEmpty()) {
+            meta.setLore(new ArrayList<>(lore));
+            item.setItemMeta(meta);
+        }
     }
 
     public ItemStack getItem(int slot) {
