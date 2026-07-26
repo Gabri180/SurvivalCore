@@ -106,6 +106,9 @@ public class MenuAction {
         text = text.replace("%online_players%", String.valueOf(player.getServer().getOnlinePlayers().size()));
         text = text.replace("%max_players%", String.valueOf(player.getServer().getMaxPlayers()));
 
+        // TODO: Placeholders de items (%item_name_<menu>_<slot>%, %item_description_<menu>_<slot>%)
+        // Será implementado en versión futura con mejor manejo de MenuManager
+
         return text;
     }
 }
