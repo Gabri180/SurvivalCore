@@ -23,6 +23,7 @@ import com.atlasMC.survivalcore.api.impl.JobManagerImpl;
 import com.atlasMC.survivalcore.api.impl.MissionManagerImpl;
 import com.atlasMC.survivalcore.api.impl.SkillManagerImpl;
 import com.atlasMC.survivalcore.cache.PlayerCache;
+import com.atlasMC.survivalcore.commands.AdminCommand;
 import com.atlasMC.survivalcore.commands.ArenaCommand;
 import com.atlasMC.survivalcore.commands.AuctionCommand;
 import com.atlasMC.survivalcore.commands.BountyCommand;
@@ -237,6 +238,11 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         MenuCommand menuCmd = new MenuCommand(menuEditorManager);
         getCommand("menu").setExecutor(menuCmd);
         getCommand("menu").setTabCompleter(menuCmd);
+
+        // Admin command
+        AdminCommand adminCmd = new AdminCommand(this);
+        getCommand("sc").setExecutor(adminCmd);
+        getCommand("sc").setTabCompleter(adminCmd);
     }
 
     public static SurvivalCorePlugin getInstance() {

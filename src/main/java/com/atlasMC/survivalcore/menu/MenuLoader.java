@@ -99,6 +99,8 @@ public class MenuLoader {
     private void createDefaultMenus(File menusFolder) {
         createJobMenu(menusFolder);
         createShopMenu(menusFolder);
+        createEditorMainMenu(menusFolder);
+        createEditorSlotMenu(menusFolder);
     }
 
     private void createJobMenu(File menusFolder) {
@@ -130,6 +132,38 @@ public class MenuLoader {
 
         try {
             config.save(new File(menusFolder, "shop.yml"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createEditorMainMenu(File menusFolder) {
+        YamlConfiguration config = new YamlConfiguration();
+        config.set("title", "§6Editor - Principal");
+        config.set("size", 27);
+
+        config.set("items.0.material", "BOOK");
+        config.set("items.0.name", "§eEditar Items");
+        config.set("items.0.action-type", "NONE");
+
+        try {
+            config.save(new File(menusFolder, "editor-main.yml"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createEditorSlotMenu(File menusFolder) {
+        YamlConfiguration config = new YamlConfiguration();
+        config.set("title", "§6Editor - Editar Slot");
+        config.set("size", 27);
+
+        config.set("items.0.material", "PAPER");
+        config.set("items.0.name", "§eNuevo Item");
+        config.set("items.0.action-type", "NONE");
+
+        try {
+            config.save(new File(menusFolder, "editor-slot.yml"));
         } catch (Exception e) {
             e.printStackTrace();
         }

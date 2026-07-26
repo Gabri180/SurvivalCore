@@ -37,6 +37,10 @@ commands:
     description: Editor de menús in-game
     usage: /menu <edit|slot|material|name|action|save|cancel>
     aliases: [menued]
+  sc:
+    description: Comando de administración de SurvivalCore
+    usage: /sc <reload|gui|help>
+    permission: survivalcore.admin
 
 permissions:
   survivalcore.admin:
