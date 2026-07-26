@@ -50,13 +50,15 @@ public class MenuAction {
     public void execute(Player player, MenuManager menuManager) {
         switch (type) {
             case COMMAND:
-                player.performCommand(value);
+                String command = replacePlaceholders(value, player);
+                player.performCommand(command);
                 break;
             case OPEN_MENU:
                 menuManager.openMenu(player, value);
                 break;
             case MESSAGE:
-                player.sendMessage(value);
+                String message = replacePlaceholders(value, player);
+                player.sendMessage(message);
                 break;
             case CLOSE:
                 player.closeInventory();
@@ -65,5 +67,15 @@ public class MenuAction {
             default:
                 break;
         }
+    }
+
+    private String replacePlaceholders(String text, Player player) {
+        return text
+            .replace("%player%", player.getName())
+            .replace("%uuid%", player.getUniqueId().toString())
+            .replace("%world%", player.getWorld().getName())
+            .replace("%x%", String.valueOf((int) player.getLocation().getX()))
+            .replace("%y%", String.valueOf((int) player.getLocation().getY()))
+            .replace("%z%", String.valueOf((int) player.getLocation().getZ()));
     }
 }
