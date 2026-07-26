@@ -1,8 +1,12 @@
 package com.atlasMC.survivalcore.commands;
 
+import com.atlasMC.survivalcore.SurvivalCorePlugin;
 import com.atlasMC.survivalcore.api.IJobManager;
 import com.atlasMC.survivalcore.cache.PlayerCache;
 import com.atlasMC.survivalcore.enums.JobType;
+import com.atlasMC.survivalcore.menu.MenuAction;
+import com.atlasMC.survivalcore.menu.MenuData;
+import com.atlasMC.survivalcore.menu.MenuManager;
 import com.atlasMC.survivalcore.models.PlayerProfile;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -64,6 +68,14 @@ public class JobCommand implements CommandExecutor, TabExecutor {
     }
 
     private void openJobMenu(Player player) {
+        MenuManager menuManager = SurvivalCorePlugin.getInstance().getMenuManager();
+
+        MenuData menuData = menuManager.getMenu("jobs");
+        if (menuData != null) {
+            menuManager.openMenu(player, "jobs");
+            return;
+        }
+
         Inventory menu = org.bukkit.Bukkit.createInventory(null, 27, "§6Trabajos - Selecciona tu Trabajo");
 
         int slot = 0;

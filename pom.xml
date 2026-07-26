@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.atlasMC</groupId>
     <artifactId>SurvivalCore</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <packaging>jar</packaging>
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
@@ -35,7 +35,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>SurvivalCore-1.0.5</finalName>
+        <finalName>SurvivalCore-1.0.6</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

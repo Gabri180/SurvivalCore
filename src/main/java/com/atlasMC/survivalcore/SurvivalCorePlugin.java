@@ -55,6 +55,8 @@ import com.atlasMC.survivalcore.listeners.PlayerDataListener;
 import com.atlasMC.survivalcore.listeners.PvPArenaListener;
 import com.atlasMC.survivalcore.listeners.PvPKillstreakListener;
 import com.atlasMC.survivalcore.menu.ChatInputPrompt;
+import com.atlasMC.survivalcore.menu.MenuLoader;
+import com.atlasMC.survivalcore.menu.MenuManager;
 import com.atlasMC.survivalcore.prestige.PrestigeManager;
 import com.atlasMC.survivalcore.scheduler.SchedulerManager;
 import com.atlasMC.survivalcore.seasons.SeasonManager;
@@ -77,6 +79,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
     private EventAPI eventAPI;
     private SeasonManager seasonManager;
     private PrestigeManager prestigeManager;
+    private MenuManager menuManager;
 
     // Repositorios listos para Hauch (Jobs/Skills/Misiones)
     private JobRepository jobRepository;
@@ -148,6 +151,10 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         this.bossManager = new BossManagerImpl(bossRepository);
         this.auctionManager = new AuctionManagerImpl(auctionRepository, playerCache, economyAPI);
         this.bountyManager = new BountyManagerImpl(bountyRepository, playerCache, economyAPI);
+
+        this.menuManager = new MenuManager(this);
+        MenuLoader menuLoader = new MenuLoader(this, menuManager);
+        menuLoader.loadMenus();
 
         registerListeners();
         registerCommands();
@@ -253,6 +260,10 @@ public final class SurvivalCorePlugin extends JavaPlugin {
 
     public PrestigeManager getPrestigeManager() {
         return prestigeManager;
+    }
+
+    public MenuManager getMenuManager() {
+        return menuManager;
     }
 
     // ---- Repositorios (listos para conectar managers de Hauch/Dev3) ----
