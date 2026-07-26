@@ -24,8 +24,12 @@ public class MenuEditorManager {
 
         EditSession session = new EditSession(menuName, menuData);
         editSessions.put(player, session);
-        player.sendMessage("§aEdición iniciada para: " + menuName);
-        openEditorMenu(player);
+        player.sendMessage("§a╔════════════════════════════════╗");
+        player.sendMessage("§a║ §bEdición iniciada para: " + menuName);
+        player.sendMessage("§a║ §7Usa: /menu slot <número>");
+        player.sendMessage("§a║ §7Luego edita con: /menu material, name, action");
+        player.sendMessage("§a║ §7Guarda con: /menu save");
+        player.sendMessage("§a╚════════════════════════════════╝");
     }
 
     public void openEditorMenu(Player player) {
@@ -35,15 +39,22 @@ public class MenuEditorManager {
             return;
         }
 
-        session.showMainMenu(player, menuManager);
+        player.sendMessage("§e>>> Editor de Menú: " + session.getMenuName());
+        player.sendMessage("§7Slots disponibles: 0-" + (session.getMenuData().getSize() - 1));
     }
 
     public void selectSlot(Player player, int slot) {
         EditSession session = editSessions.get(player);
         if (session == null) return;
 
+        if (slot < 0 || slot >= session.getMenuData().getSize()) {
+            player.sendMessage("§cSlot inválido. Máximo: " + (session.getMenuData().getSize() - 1));
+            return;
+        }
+
         session.setSelectedSlot(slot);
-        session.showSlotEditorMenu(player, menuManager, slot);
+        player.sendMessage("§a✓ Slot seleccionado: " + slot);
+        player.sendMessage("§7Ahora usa: /menu material, /menu name, /menu action");
     }
 
     public void setMaterial(Player player, String materialName) {
@@ -136,14 +147,6 @@ public class MenuEditorManager {
             if (item == null) return;
 
             menuData.setItem(selectedSlot, item, action);
-        }
-
-        public void showMainMenu(Player player, MenuManager manager) {
-            manager.openMenu(player, "editor-main");
-        }
-
-        public void showSlotEditorMenu(Player player, MenuManager manager, int slot) {
-            manager.openMenu(player, "editor-slot");
         }
 
         public String getMenuName() {
