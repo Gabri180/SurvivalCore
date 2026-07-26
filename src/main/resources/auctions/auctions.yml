@@ -1,0 +1,5 @@
+# Subastas
+auctions:
+  duration-hours: 24        # duración de subasta
+  commission-percent: 5     # comisión al vendedor
+  min-bid-increment: 100    # mínimo incremento de oferta

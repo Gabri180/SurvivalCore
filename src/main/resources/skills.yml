@@ -1,0 +1,22 @@
+# Configuracion de skills - Hauch
+skills:
+  MINING:
+    display-name: "Mineria"
+    max-level: 100
+  COMBAT:
+    display-name: "Combate"
+    max-level: 100
+  FISHING:
+    display-name: "Pesca"
+    max-level: 100
+  FARMING:
+    display-name: "Agricultura"
+    max-level: 100
+
+unlocks:
+  MINING:
+    25: "diamond_pickaxe_efficiency"
+    50: "auto_smelt_charm"
+  COMBAT:
+    25: "extra_damage_charm"
+    50: "exclusive_sword_skin"

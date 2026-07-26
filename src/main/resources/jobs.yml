@@ -1,0 +1,27 @@
+# Configuracion de trabajos (Jobs) - Hauch
+# Cada trabajo define recompensas por accion y curva de experiencia.
+jobs:
+  MINER:
+    display-name: "Minero"
+    max-level: 100
+    exp-per-level-multiplier: 1.15
+  LUMBERJACK:
+    display-name: "Lenador"
+    max-level: 100
+    exp-per-level-multiplier: 1.15
+  FARMER:
+    display-name: "Granjero"
+    max-level: 100
+    exp-per-level-multiplier: 1.15
+  FISHERMAN:
+    display-name: "Pescador"
+    max-level: 100
+    exp-per-level-multiplier: 1.15
+  HUNTER:
+    display-name: "Cazador"
+    max-level: 100
+    exp-per-level-multiplier: 1.15
+
+settings:
+  max-active-jobs-per-player: 2
+  payout-interval-minutes: 60

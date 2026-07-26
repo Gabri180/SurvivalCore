@@ -1,0 +1,5 @@
+# Clanes
+clans:
+  creation-cost: 10000      # dinero para crear clan
+  max-members: 50           # máximo de miembros
+  max-clans-per-player: 1   # límite de clanes por jugador

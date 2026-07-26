@@ -1,0 +1,18 @@
+# Skills - Progresion por uso
+skills:
+  mining:
+    display: "Minería"
+    max-level: 100
+    exp-per-level: 1000
+  combat:
+    display: "Combate"
+    max-level: 100
+    exp-per-level: 1200
+  fishing:
+    display: "Pesca"
+    max-level: 100
+    exp-per-level: 800
+  farming:
+    display: "Agricultura"
+    max-level: 100
+    exp-per-level: 900

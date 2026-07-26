@@ -1,0 +1,67 @@
+prefix: "&8[&6AtlasMC&8] &r"
+
+general:
+  no-permission: "&cNo tienes permiso para hacer eso."
+  player-only: "&cEste comando solo puede ser usado por jugadores."
+  player-not-found: "&cJugador no encontrado."
+  invalid-usage: "&cUso incorrecto. Usa: &f{usage}"
+  reload-success: "&aConfiguracion recargada correctamente."
+
+economy:
+  balance: "&7Tu balance: &a{amount}{symbol}"
+  balance-other: "&7Balance de {player}: &a{amount}{symbol}"
+  not-enough-money: "&cNo tienes suficiente dinero."
+  received-money: "&aHas recibido &f{amount}{symbol}"
+  removed-money: "&cSe te ha descontado &f{amount}{symbol}"
+
+jobs:
+  joined: "&aTe has unido al trabajo &f{job}"
+  left: "&cHas abandonado el trabajo &f{job}"
+  already-in-job: "&cYa tienes ese trabajo."
+  level-up: "&6Tu trabajo &f{job} &6subio al nivel &f{level}"
+  max-jobs: "&cYa alcanzaste el maximo de trabajos activos."
+
+skills:
+  level-up: "&b¡Tu skill &f{skill} &bsubio al nivel &f{level}&b!"
+  unlocked-item: "&d¡Has desbloqueado &f{item}&d por tu nivel de &f{skill}&d!"
+
+missions:
+  completed: "&a¡Mision completada! &f{mission}"
+  progress: "&7Progreso de mision &f{mission}&7: {progress}/{target}"
+  new-mission: "&eNueva mision disponible: &f{mission}"
+
+pvp:
+  arena-join: "&aTe has unido a la arena &f{arena}"
+  arena-leave: "&cHas salido de la arena."
+  killstreak: "&c¡{player} &6esta en racha de &f{streak} &6muertes!"
+  bounty-set: "&eSe ha puesto una recompensa de &f{amount}{symbol} &esobre &f{player}"
+  bounty-claimed: "&a¡Has reclamado la recompensa de &f{amount}{symbol} &apor matar a &f{player}&a!"
+
+clans:
+  created: "&aClan &f{clan} &acreado correctamente."
+  invited: "&eHas sido invitado al clan &f{clan}"
+  war-declared: "&c¡El clan &f{clan} &cha declarado la guerra a &f{target}&c!"
+
+claims:
+  under-attack: "&c&l¡ALERTA! &cTu base esta siendo atacada por &f{attacker}&c!"
+  claim-broken: "&4¡Tu claim ha sido destruido! Tienes tiempo limitado antes de que se restaure la proteccion."
+  immune: "&7Este claim tiene inmunidad temporal tras un raideo reciente."
+  outside-window: "&cSolo se puede atacar entre las &f{start} &cy las &f{end}&c."
+  max-charges-reached: "&cYa alcanzaste el maximo de cargas de asedio por hoy."
+
+bosses:
+  spawned: "&4&l¡Un jefe semanal ha aparecido! &f{boss}"
+  defeated: "&6¡{player} &6ha derrotado a &f{boss}&6!"
+
+auctions:
+  listed: "&aHas publicado &f{item} &aen subasta por &f{price}{symbol}"
+  bid-placed: "&aHas ofertado &f{amount}{symbol} &apor &f{item}"
+  won: "&a¡Has ganado la subasta de &f{item}&a!"
+
+seasons:
+  ended: "&6La temporada &f{season} &6ha finalizado. ¡Revisa tus recompensas!"
+  rewards-claimed: "&aRecompensas de temporada reclamadas correctamente."
+
+prestige:
+  success: "&d&l¡Has prestigiado! &dAhora eres prestigio &f{level}"
+  requirements-not-met: "&cNecesitas alcanzar el rango maximo antes de prestigiar."

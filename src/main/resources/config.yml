@@ -1,0 +1,52 @@
+database:
+  host: localhost
+  port: 3306
+  database: survivalcore
+  user: root
+  password: ""
+  useSSL: false
+  pool:
+    maximum-pool-size: 20
+    minimum-idle: 5
+    connection-timeout-ms: 30000
+    idle-timeout-ms: 600000
+    max-lifetime-ms: 1800000
+
+server:
+  name: "AtlasMC Survival"
+  currency-symbol: "$"
+  premium-currency-symbol: "A$"
+
+worlds:
+  main:
+    name: "world"
+    pvp-enabled: true
+  resources:
+    name: "world_resources"
+    pvp-enabled: false
+    reset-interval: "7 days"
+  arena:
+    name: "arena_world"
+
+economy:
+  starting-money: 1000
+  starting-premium-money: 0
+  bank-interest: 0.05
+  bank-interest-interval-hours: 24
+
+prestige:
+  max-prestige: 10
+  required-rank-to-prestige: "MAX"
+
+seasons:
+  duration-days: 60
+  auto-rotate: true
+
+siege:
+  enabled: true
+  attack-window-start: "18:00"
+  attack-window-end: "23:00"
+  max-charges-per-attacker-per-day: 5
+  post-raid-immunity-hours: 48
+
+debug: false

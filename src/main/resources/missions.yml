@@ -1,0 +1,27 @@
+# Configuracion de misiones - Hauch
+missions:
+  daily-block-break:
+    type: BLOCK_BREAK
+    frequency: DAILY
+    difficulty: EASY
+    target: 100
+    reward-money: 200
+    reward-exp: 50
+  daily-fish:
+    type: FISH
+    frequency: DAILY
+    difficulty: EASY
+    target: 20
+    reward-money: 150
+    reward-exp: 40
+  weekly-boss-kill:
+    type: KILL_BOSS
+    frequency: WEEKLY
+    difficulty: HARD
+    target: 1
+    reward-money: 2000
+    reward-exp: 500
+
+settings:
+  max-active-missions: 5
+  refresh-hour-utc: 0

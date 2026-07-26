@@ -1,0 +1,8 @@
+# Temporadas
+seasons:
+  duration-days: 60         # duración de temporada
+  auto-rotate: true         # rotación automática
+  rewards:
+    top-1: 50000
+    top-2: 25000
+    top-3: 10000

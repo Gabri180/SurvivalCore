@@ -1,0 +1,14 @@
+# Misiones diarias
+missions:
+  mine_blocks:
+    type: "block_break"
+    target: 100
+    reward: 500
+  fish_catch:
+    type: "fish"
+    target: 20
+    reward: 300
+  harvest_crops:
+    type: "harvest"
+    target: 50
+    reward: 250

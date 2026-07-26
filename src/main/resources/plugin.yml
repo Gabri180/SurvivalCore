@@ -1,0 +1,43 @@
+name: SurvivalCore
+version: 1.0.5
+main: com.atlasMC.survivalcore.SurvivalCorePlugin
+api-version: '1.21'
+authors: [Gabriel, Hauch, Dev3]
+description: "Survival PvP Enterprise - AtlasMC"
+load: POSTWORLD
+
+commands:
+  job:
+    description: Gestiona tu trabajo actual
+    usage: /job <menu|set|info>
+    aliases: [jobs]
+  stats:
+    description: Muestra tus estadisticas de skills y progresion
+    usage: /stats [jugador]
+  arena:
+    description: Sistema de arenas PvP 1v1
+    usage: /arena
+    aliases: [arenas]
+  clan:
+    description: Sistema de clanes
+    usage: /clan
+    aliases: [clanes]
+  auction:
+    description: Casa de subastas
+    usage: /auction
+    aliases: [ah]
+  bounty:
+    description: Sistema de recompensas por cabeza
+    usage: /bounty
+    aliases: [recompensa]
+  menuedit:
+    description: Editor de menus (admin)
+    usage: /menuedit <shop>
+
+permissions:
+  survivalcore.admin:
+    description: Acceso administrativo total a SurvivalCore
+    default: op
+  survivalcore.player:
+    description: Acceso base de jugador a SurvivalCore
+    default: true

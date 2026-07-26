@@ -1,0 +1,18 @@
+# Configuracion de jefes semanales - Dev3
+bosses:
+  FROST_TITAN:
+    display-name: "Titan de Escarcha"
+    health: 500
+    spawn-day: SATURDAY
+    spawn-time: "20:00"
+    world: world_resources
+  MOLTEN_WYRM:
+    display-name: "Wyrm de Magma"
+    health: 750
+    spawn-day: SUNDAY
+    spawn-time: "20:00"
+    world: world_resources
+
+settings:
+  announce-spawn: true
+  rewards-broadcast: true

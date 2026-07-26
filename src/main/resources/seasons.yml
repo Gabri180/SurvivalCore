@@ -1,0 +1,18 @@
+# Configuracion de temporadas
+season:
+  duration-days: 60
+  auto-rotate: true
+
+rewards:
+  top-1:
+    money: 50000
+    prestige-bonus: 1
+  top-2:
+    money: 25000
+  top-3:
+    money: 10000
+
+pass:
+  free-tiers: 50
+  premium-tiers: 50
+  exp-per-tier: 1000

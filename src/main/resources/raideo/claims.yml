@@ -1,0 +1,8 @@
+# Sistema de claims (protección de bases)
+claims:
+  default-power: 1000        # resistencia inicial
+  siege-damage: 200          # daño por carga de asedio
+  attack-window: "20:00-23:00" # horario permitido para atacar
+  max-charges-per-day: 5     # máximo de cargas por atacante/día
+  post-raid-immunity: 48     # horas de inmunidad tras raideo exitoso
+  max-claims-per-player: 3   # límite de claims por jugador

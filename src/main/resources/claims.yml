@@ -1,0 +1,19 @@
+# Configuracion de claims y sistema de asedio - Dev3
+claims:
+  max-claims-per-player: 3
+  max-claim-size: 64
+  base-power: 1000
+
+siege:
+  charge-damage: 50
+  attack-window-start: "18:00"
+  attack-window-end: "23:00"
+  max-charges-per-attacker-per-day: 5
+  post-raid-immunity-hours: 48
+  vulnerable-window-minutes: 30
+
+siege-charge-sources:
+  - "weekly_boss_drop"
+  - "hard_mission_reward"
+  - "expensive_craft"
+  - "special_event"
