@@ -216,19 +216,19 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         getCommand("stats").setExecutor(statsCmd);
 
         // Dev3
-        ArenaCommand arenaCmd = new ArenaCommand(arenaManager, menuManager);
+        ArenaCommand arenaCmd = new ArenaCommand(arenaManager, economyAPI, playerCache, menuManager);
         getCommand("arena").setExecutor(arenaCmd);
         getCommand("arena").setTabCompleter(arenaCmd);
 
-        ClanCommand clanCmd = new ClanCommand(clanManager, clanWarManager, menuManager);
+        ClanCommand clanCmd = new ClanCommand(clanManager, clanWarManager, economyAPI, menuManager);
         getCommand("clan").setExecutor(clanCmd);
         getCommand("clan").setTabCompleter(clanCmd);
 
-        AuctionCommand auctionCmd = new AuctionCommand(auctionManager, menuManager);
+        AuctionCommand auctionCmd = new AuctionCommand(auctionManager, economyAPI, menuManager);
         getCommand("auction").setExecutor(auctionCmd);
         getCommand("auction").setTabCompleter(auctionCmd);
 
-        BountyCommand bountyCmd = new BountyCommand(bountyManager, menuManager);
+        BountyCommand bountyCmd = new BountyCommand(bountyManager, economyAPI, menuManager);
         getCommand("bounty").setExecutor(bountyCmd);
         getCommand("bounty").setTabCompleter(bountyCmd);
 
