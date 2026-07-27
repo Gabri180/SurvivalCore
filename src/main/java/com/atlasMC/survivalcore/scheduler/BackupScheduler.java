@@ -28,14 +28,18 @@ public class BackupScheduler {
     private final FileConfiguration config;
     private final PlayerCache playerCache;
     private final Path backupDir;
+    private final String mysqldumpPath;
+    private boolean mysqldumpAvailable = false;
 
     public BackupScheduler(JavaPlugin plugin, FileConfiguration config, PlayerCache playerCache) {
         this.plugin = plugin;
         this.config = config;
         this.playerCache = playerCache;
         this.backupDir = Paths.get(plugin.getDataFolder().getAbsolutePath(), "backups");
+        this.mysqldumpPath = config.getString("backup.mysqldump-path", "mysqldump");
 
         createBackupDirectory();
+        checkMysqldumpAvailability();
         startBackupSchedule();
         startCacheCleanup();
     }
@@ -49,11 +53,41 @@ public class BackupScheduler {
     }
 
     /**
-     * Ejecuta backup automático cada 2 horas (7200 ticks = 360 segundos).
+     * Verifica si mysqldump está disponible en el sistema.
+     */
+    private void checkMysqldumpAvailability() {
+        try {
+            ProcessBuilder pb = new ProcessBuilder(mysqldumpPath, "--version");
+            Process process = pb.start();
+            int exitCode = process.waitFor();
+            mysqldumpAvailable = (exitCode == 0);
+
+            if (mysqldumpAvailable) {
+                plugin.getLogger().info("✓ mysqldump encontrado en: " + mysqldumpPath);
+            } else {
+                plugin.getLogger().warning("✗ mysqldump no encontrado. Backups deshabilitados.");
+                plugin.getLogger().warning("  Configura 'backup.mysqldump-path' en config.yml");
+                plugin.getLogger().warning("  En macOS: /usr/local/bin/mysqldump");
+                plugin.getLogger().warning("  En Linux: /usr/bin/mysqldump o /bin/mysqldump");
+            }
+        } catch (Exception e) {
+            mysqldumpAvailable = false;
+            plugin.getLogger().warning("✗ Error al verificar mysqldump: " + e.getMessage());
+            plugin.getLogger().warning("  Configura la ruta correcta en backup.mysqldump-path");
+        }
+    }
+
+    /**
+     * Ejecuta backup automático cada 2 horas.
      */
     private void startBackupSchedule() {
         if (!config.getBoolean("backup.enabled", true)) {
-            plugin.getLogger().info("Backups automáticos deshabilitados.");
+            plugin.getLogger().info("ℹ Backups automáticos deshabilitados en config.yml");
+            return;
+        }
+
+        if (!mysqldumpAvailable) {
+            plugin.getLogger().warning("⚠ Backups deshabilitados: mysqldump no disponible");
             return;
         }
 
@@ -66,14 +100,14 @@ public class BackupScheduler {
     }
 
     /**
-     * Limpia caché cada 5 minutos (300 segundos).
+     * Limpia caché cada 5 minutos.
      */
     private void startCacheCleanup() {
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(
                 plugin,
                 () -> {
                     playerCache.invalidateExpired();
-                    plugin.getLogger().finer("Caché de jugadores limpiado (expirados removidos)");
+                    plugin.getLogger().finer("Caché de jugadores limpiado");
                 },
                 20L * 60 * 5,
                 20L * 60 * 5
@@ -84,6 +118,10 @@ public class BackupScheduler {
      * Ejecuta mysqldump de forma async.
      */
     private void performBackup() {
+        if (!mysqldumpAvailable) {
+            return;
+        }
+
         try {
             String filename = String.format("backup-%s.sql",
                     new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date()));
@@ -96,7 +134,7 @@ public class BackupScheduler {
             String password = config.getString("database.password", "");
 
             List<String> command = new ArrayList<>();
-            command.add("mysqldump");
+            command.add(mysqldumpPath);
             command.add("-h" + host);
             command.add("-P" + port);
             command.add("-u" + user);
@@ -105,6 +143,7 @@ public class BackupScheduler {
             }
             command.add("--single-transaction");
             command.add("--quick");
+            command.add("--lock-tables=false");
             command.add(database);
 
             ProcessBuilder pb = new ProcessBuilder(command);
@@ -115,7 +154,9 @@ public class BackupScheduler {
             int exitCode = process.waitFor();
 
             if (exitCode == 0) {
-                plugin.getLogger().info("✓ Backup completado: " + backupFile);
+                long fileSize = Files.size(backupFile) / 1024; // KB
+                plugin.getLogger().info("✓ Backup completado: " + backupFile +
+                        " (" + fileSize + " KB)");
                 rotateBackups();
             } else {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
@@ -128,12 +169,12 @@ public class BackupScheduler {
                 }
             }
         } catch (Exception e) {
-            plugin.getLogger().log(Level.SEVERE, "Error durante backup", e);
+            plugin.getLogger().log(Level.SEVERE, "Error durante backup: " + e.getMessage(), e);
         }
     }
 
     /**
-     * Mantiene solo los últimos 10 backups.
+     * Mantiene solo los últimos N backups.
      */
     private void rotateBackups() {
         try {
@@ -157,6 +198,10 @@ public class BackupScheduler {
      * Ejecuta backup manualmente (usado por comando).
      */
     public void performBackupNow() {
+        if (!mysqldumpAvailable) {
+            plugin.getLogger().warning("✗ Backup no disponible: mysqldump no encontrado");
+            return;
+        }
         performBackup();
     }
 }

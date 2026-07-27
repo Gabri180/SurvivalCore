@@ -108,6 +108,12 @@ backup:
   interval-minutes: 120
   max-backups: 10
   backup-path: "plugins/SurvivalCore/backups"
+  # Ruta a mysqldump. Ejemplos:
+  # macOS: /usr/local/bin/mysqldump
+  # Linux: /usr/bin/mysqldump
+  # Windows: C:/MySQL/bin/mysqldump.exe
+  # Dejar como "mysqldump" si está en el PATH
+  mysqldump-path: "mysqldump"
 
 # Notificaciones
 notifications:
