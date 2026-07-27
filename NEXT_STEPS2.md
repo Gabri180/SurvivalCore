@@ -1,14 +1,15 @@
-# SurvivalCore - Guía de Desarrollo v1.0.17+
+# SurvivalCore - Guía de Desarrollo v1.0.23+
 
-**IMPORTANTE: Actualiza SIEMPRE la versión antes de compilar**
+**⚠️ IMPORTANTE: SIEMPRE actualiza la versión ANTES de compilar**
 
 ---
 
-## 📌 CAMBIAR VERSIÓN (ANTES DE COMPILAR)
+## 📌 CAMBIAR VERSIÓN (PASO OBLIGATORIO ANTES DE COMPILAR)
 
 ### Paso 1: Actualizar archivos de versión
 ```bash
 # Editar estos 3 archivos:
+
 1. pom.xml:
    - <version>X.X.X</version>
    - <finalName>SurvivalCore-X.X.X</finalName>
@@ -18,6 +19,7 @@
 
 3. Este archivo (NEXT_STEPS2.md):
    - Cambiar "Versión Actual" al inicio
+   - Registrar cambios en la sección "IMPLEMENTADO EN vX.X.X"
 ```
 
 ### Paso 2: Compilar
@@ -25,19 +27,66 @@
 mvn clean package -DskipTests
 ```
 
-### Paso 3: Commit & Push
+### Paso 3: Verificar compilación
+```bash
+# Comprobar que SurvivalCore-X.X.X.jar existe:
+ls -lh target/SurvivalCore-*.jar
+```
+
+### Paso 4: Commit & Push
 ```bash
 git add -A
-git commit -m "Describe changes (vX.X.X)"
+git commit -m "Description of changes (vX.X.X)"
 git push origin main
 ```
 
 ---
 
-## 🎉 IMPLEMENTADO EN v1.0.17
+## 🎉 IMPLEMENTADO EN v1.0.23
+
+### Permisos Personalizados para Menús
+Ahora se pueden asignar permisos custom a menús sin validación estricta.
+
+**Comando actualizado:**
+```bash
+/custommenu permission <menuId> set <permiso>
+```
+
+**Ejemplos:**
+```bash
+/custommenu permission vipshop set vip.access
+/custommenu permission adminpanel set admin.panel
+/custommenu permission customshop set customshop.use
+```
+
+---
+
+## 🎉 IMPLEMENTADO EN v1.0.22
+
+### Auto-Save de Menús Personalizados
+Los menús ahora se guardan automáticamente después de cada comando de edición.
+
+**Características:**
+- Auto-guardar después de: item, title, size, bgcolor
+- Abrir menús sin haber guardado manualmente
+- Manual save sigue disponible como opción
+- Cargar menús guardados en modo edición
+
+**Flujo de trabajo:**
+```bash
+/custommenu create test              # Crea menú
+/custommenu item test 0 DIAMOND      # Auto-guarda
+/custommenu title test §6My Menu    # Auto-guarda
+/custommenu open test                # Abre sin guardar manualmente
+/custommenu save test                # Opcional (si quieres)
+```
+
+---
+
+## 🎉 IMPLEMENTADO EN v1.0.17+
 
 ### Sistema Completo de Menús Personalizados
-Un builder tipo **CommandPanels** que permite crear menús in-game sin código Java.
+Builder tipo **CommandPanels** que permite crear menús in-game sin código Java.
 
 #### 1. **CustomMenuBuilder** (Fluent API)
 ```java
@@ -52,9 +101,9 @@ CustomMenuBuilder builder = new CustomMenuBuilder("myMenu")
 ```
 
 **Métodos disponibles:**
-- `title(String)` - Cambiar título (soporta color codes)
+- `title(String)` - Cambiar título (soporta color codes §)
 - `rows(int)` - Tamaño 1-6 filas
-- `backgroundColor(String)` - Material para fondo (LIGHT_GRAY_STAINED_GLASS_PANE, etc)
+- `backgroundColor(String)` - Material para fondo
 - `fillBackground(boolean)` - Auto-llenar fondo vacío
 - `permission(String)` - Requerir permiso para acceder
 - `addItem(slot, material, name, action, lore)` - Agregar item
@@ -109,35 +158,37 @@ Control de acceso granular para menús.
 
 ---
 
-## 📋 COMANDOS IMPLEMENTADOS
+## 📋 TODOS LOS COMANDOS IMPLEMENTADOS
 
 ### /custommenu - Constructor de Menús (Admin)
 
 ```
 CREACIÓN:
-  /custommenu create <id>                    # Crear nuevo menú
-  /custommenu item <id> <slot> <material>    # Agregar item
-  /custommenu title <id> <título>            # Cambiar título
-  /custommenu size <id> <filas>              # Tamaño 1-6
-  /custommenu bgcolor <id> <material>        # Color fondo
-  /custommenu save <id>                      # Guardar menú
-  /custommenu cancel <id>                    # Cancelar edición
+  /custommenu create <id>                           # Crear nuevo menú
+  /custommenu item <id> <slot> <material>           # Agregar item
+  /custommenu title <id> <título>                   # Cambiar título
+  /custommenu size <id> <filas>                     # Tamaño 1-6
+  /custommenu bgcolor <id> <material>               # Color fondo
+  /custommenu save <id>                             # Guardar menú
+  /custommenu cancel <id>                           # Cancelar edición
 
 GESTIÓN:
-  /custommenu open <id>                      # Abrir menú
-  /custommenu list                           # Listar menús
+  /custommenu open <id>                             # Abrir menú
+  /custommenu list                                  # Listar menús
 
 ALIASES:
-  /custommenu command <id> set <cmd>         # Crear alias
-  /custommenu unalias <cmd>                  # Eliminar alias
-  /custommenu aliases                        # Listar aliases
+  /custommenu command <id> set <cmd>                # Crear alias
+  /custommenu unalias <cmd>                         # Eliminar alias
+  /custommenu aliases                               # Listar aliases
 
 PERMISOS:
-  /custommenu permission <id> set <perm>     # Asignar permiso
-  /custommenu permission <id> clear          # Remover permiso
+  /custommenu permission <id> set <permiso>         # Asignar permiso custom
+  /custommenu permission <id> clear                 # Remover permiso
 ```
 
 **Alias:** `/customm`, `/cmenu`
+
+**Permisos requeridos:** `survivalcore.admin`
 
 ---
 
@@ -195,7 +246,7 @@ PERMISOS:
 
 ---
 
-### /job - Sistema de Trabajos (Mejorado en v1.0.16)
+### /job - Sistema de Trabajos
 
 ```
 /job              # Abre menú interactivo
@@ -206,16 +257,16 @@ PERMISOS:
 
 **Alias:** `/jobs`
 
-**Material Codes:**
-- MINER → DIAMOND_PICKAXE
-- FISHERMAN → FISHING_ROD
-- LUMBERJACK → IRON_AXE
-- FARMER → WOODEN_HOE
-- HUNTER → BOW
+**Trabajos disponibles:**
+- MINER (Minero) → DIAMOND_PICKAXE
+- FISHERMAN (Pescador) → FISHING_ROD
+- LUMBERJACK (Leñador) → IRON_AXE
+- FARMER (Granjero) → WOODEN_HOE
+- HUNTER (Cazador) → BOW
 
 ---
 
-### /notificaciones - Gestión de Notificaciones (v1.0.16)
+### /notificaciones - Gestión de Notificaciones
 
 ```
 /notificaciones              # Abre menú de gestión
@@ -231,73 +282,175 @@ PERMISOS:
 
 ---
 
-### Arena/Clan/Auction/Bounty (v1.0.15 - Subcomandos)
+### /arena - Sistema PvP 1v1
 
 ```
-ARENA:
-  /arena join <id>    # Unirse (requiere dinero)
-  /arena leave        # Salir
-  /arena info <id>    # Ver info
-  /arena ranking      # Top 10
-
-CLAN:
-  /clan create <nombre>    # Crear ($10,000)
-  /clan invite <jugador>   # Invitar
-  /clan accept            # Aceptar
-  /clan leave             # Salir
-  /clan info              # Ver info
-  /clan members           # Listar miembros
-  /clan bank              # Ver tesorería
-
-AUCTION:
-  /auction sell <precio>   # Vender item
-  /auction list            # Ver subastas
-  /auction mylist          # Mis subastas
-  /auction bid <id> <qty>  # Pujar
-  /auction claim           # Reclamar
-
-BOUNTY:
-  /bounty create <player> <qty>   # Crear recompensa
-  /bounty list                    # Ver recompensas
-  /bounty mylist                  # Mis recompensas
-  /bounty history                 # Historial
+/arena join <id>    # Unirse (requiere dinero)
+/arena leave        # Salir
+/arena info <id>    # Ver info
+/arena ranking      # Top 10
 ```
+
+**Alias:** `/arenas`
+
+---
+
+### /clan - Sistema de Clanes
+
+```
+/clan create <nombre>    # Crear ($10,000)
+/clan invite <jugador>   # Invitar
+/clan accept            # Aceptar
+/clan leave             # Salir
+/clan info              # Ver info
+/clan members           # Listar miembros
+/clan bank              # Ver tesorería
+```
+
+**Alias:** `/clanes`
+
+---
+
+### /auction - Casa de Subastas
+
+```
+/auction sell <precio>   # Vender item
+/auction list            # Ver subastas
+/auction mylist          # Mis subastas
+/auction bid <id> <qty>  # Pujar
+/auction claim           # Reclamar
+```
+
+**Alias:** `/ah`
+
+---
+
+### /bounty - Sistema de Recompensas
+
+```
+/bounty create <player> <qty>   # Crear recompensa
+/bounty list                    # Ver recompensas
+/bounty mylist                  # Mis recompensas
+/bounty history                 # Historial
+```
+
+**Alias:** `/recompensa`
+
+---
+
+### /leaderboard - Ranking Global
+
+```
+/leaderboard arena                      # Top 10 arenas
+/leaderboard clan                       # Top 10 clanes
+/leaderboard skill <type>               # Top 10 de skill
+/leaderboard money                      # Top 10 ricos
+/leaderboard job <type>                 # Top 10 de job
+```
+
+**Alias:** `/lb`, `/ranking`
+
+---
+
+### /event - Eventos Especiales
+
+```
+/event info                    # Ver evento actual
+/event schedule <tipo> <mins>  # Programar evento
+/event list                    # Listar eventos
+```
+
+**Alias:** `/eventos`
+
+**Tipos de eventos:**
+- DOUBLE_XP (2x XP)
+- DOUBLE_MONEY (2x Dinero)
+
+---
+
+### /stats - Estadísticas
+
+```
+/stats              # Tus estadísticas
+/stats <jugador>    # Estadísticas de otro
+```
+
+---
+
+### /sc - Administración de SurvivalCore
+
+```
+/sc reload          # Recargar configuración
+/sc gui             # Panel de admin
+/sc help            # Ayuda
+/sc backup          # Ejecutar backup manual
+```
+
+**Permisos requeridos:** `survivalcore.admin`
 
 ---
 
 ## 🔐 PERMISOS IMPLEMENTADOS
 
+### Admin & Base
 ```yaml
-# Admin & Base
-survivalcore.admin           # Acceso total
-survivalcore.player          # Acceso base (default: true)
+survivalcore.admin              # Acceso administrativo total
+survivalcore.player             # Acceso base (default: true)
+survivalcore.event.admin        # Crear/gestionar eventos especiales
+```
 
-# Comandos
-survivalcore.custommenu.create    # Crear menús
-survivalcore.mission.*            # Comandos de misiones
-survivalcore.skill.*              # Comandos de skills
-survivalcore.job.set              # Cambiar job
+### Comandos
+```yaml
+survivalcore.custommenu.create      # Crear menús
+survivalcore.mission.*              # Comandos de misiones
+survivalcore.skill.*                # Comandos de skills
+survivalcore.job.set                # Cambiar job
+survivalcore.stats                  # Ver estadísticas
+```
 
-# Arena
-survivalcore.arena.join           # Unirse a arenas
-survivalcore.arena.info           # Ver info
+### Arena
+```yaml
+survivalcore.arena.join             # Unirse a arenas
+survivalcore.arena.info             # Ver info
+survivalcore.arena.ranking          # Ver ranking
+```
 
-# Clan
-survivalcore.clan.create          # Crear clan
-survivalcore.clan.invite          # Invitar
+### Clan
+```yaml
+survivalcore.clan.create            # Crear clan
+survivalcore.clan.invite            # Invitar
+survivalcore.clan.info              # Ver info
+```
 
-# Auction
-survivalcore.auction.sell         # Vender
-survivalcore.auction.bid          # Pujar
+### Auction
+```yaml
+survivalcore.auction.sell           # Vender
+survivalcore.auction.bid            # Pujar
+survivalcore.auction.list           # Listar subastas
+```
 
-# Bounty
-survivalcore.bounty.create        # Crear recompensa
-survivalcore.bounty.claim         # Reclamar
+### Bounty
+```yaml
+survivalcore.bounty.create          # Crear recompensa
+survivalcore.bounty.claim           # Reclamar
+survivalcore.bounty.list            # Listar recompensas
+```
 
-# Custom Menus
-survivalcore.vip.access           # Acceso a menús VIP
-survivalcore.admin.panel          # Panel de admin
-server.builder                     # Para builder tools
+### Menús Personalizados
+```yaml
+survivalcore.vip.access             # Acceso a menús VIP
+survivalcore.admin.panel            # Panel de admin
+server.builder                      # Para builder tools
+```
+
+### Custom (Dinámicos)
+```yaml
+# Puedes crear cualquier permiso custom:
+vip.access
+vip.shop
+admin.panel
+customshop.use
+# etc...
 ```
 
 ---
@@ -306,48 +459,58 @@ server.builder                     # Para builder tools
 
 ### Jugador
 ```
-%player%           # Nombre del jugador
-%uuid%             # UUID único
-%display_name%     # Nombre mostrado
-%game_mode%        # SURVIVAL, CREATIVE, etc
-%level%            # Nivel XP vanilla
-%exp%              # XP actual (0.0-1.0)
-%ping%             # Ping en ms
-%online_players%   # Jugadores conectados
-%max_players%      # Máximo de jugadores
+%player%            # Nombre del jugador
+%uuid%              # UUID único
+%display_name%      # Nombre mostrado
+%game_mode%         # SURVIVAL, CREATIVE, etc
+%level%             # Nivel XP vanilla
+%exp%               # XP actual (0.0-1.0)
+%ping%              # Ping en ms
+%online_players%    # Jugadores conectados
+%max_players%       # Máximo de jugadores
 ```
 
 ### Salud y Hambre
 ```
-%health%           # Vida actual
-%max_health%       # Vida máxima
-%hunger%           # Hambre (0-20)
-%saturation%       # Saturación (0.0-20.0)
+%health%            # Vida actual
+%max_health%        # Vida máxima
+%hunger%            # Hambre (0-20)
+%saturation%        # Saturación (0.0-20.0)
 ```
 
 ### Ubicación
 ```
-%world%            # Mundo actual
-%x% %y% %z%        # Coordenadas
-%yaw%              # Rotación horizontal
-%pitch%            # Rotación vertical
+%world%             # Mundo actual
+%x% %y% %z%         # Coordenadas
+%yaw%               # Rotación horizontal
+%pitch%             # Rotación vertical
 ```
 
 ### Inventario
 ```
-%held_item%        # Item en mano
-%off_hand%         # Item en mano secundaria
+%held_item%         # Item en mano
+%off_hand%          # Item en mano secundaria
 ```
 
 ### Tiempo
 ```
-%time%             # Milliseconds (unix)
-%timestamp%        # Segundos (unix)
+%time%              # Milliseconds (unix)
+%timestamp%         # Segundos (unix)
+```
+
+### Sistemas Especiales
+```
+%clan_name%         # Nombre del clan
+%clan_level%        # Nivel del clan
+%job_name%          # Trabajo actual
+%job_level%         # Nivel del trabajo
+%money%             # Dinero del jugador
+%arena_elo%         # ELO en arena
 ```
 
 ---
 
-## 🎨 PLACEHOLDERS EN MENÚS
+## 🎨 USAR PLACEHOLDERS EN MENÚS
 
 ```bash
 # En títulos de menú:
@@ -362,68 +525,55 @@ server.builder                     # Para builder tools
 
 ---
 
-## 📊 NOTIFICACIONES (v1.0.16)
+## 📊 ESTADÍSTICAS ACTUALES (v1.0.23)
 
-### Tipos de Notificaciones
-```
-Arena:   Join, Win, Loss
-Clan:    Creation, Invitations
-Auction: Bid Placed, Outbid, Won
-Bounty:  Created, Claimed, Warned
-Job:     XP Gain, Level Up
-```
-
-### Sonidos
-```
-ENTITY_PLAYER_LEVELUP      # Victorias
-ENTITY_EXPERIENCE_ORB_PICKUP  # Pujas
-BLOCK_ANVIL_LAND           # Superado
-ENTITY_WARDEN_HEARTBEAT    # Recompensas
-ENTITY_VILLAGER_YES        # Invitaciones
-```
-
-### Toggleables
-- Notifications por tipo (arena, clan, auction, bounty, job)
-- Sonidos globales
-- Títulos globales
-- Chat globales
+| Componente | Estado | Líneas |
+|-----------|--------|--------|
+| Comandos | ✅ | ~1600 |
+| Managers | ✅ | ~2100 |
+| Listeners | ✅ | ~850 |
+| Menús | ✅ | ~700 |
+| Notificaciones | ✅ | ~400 |
+| Misiones | ✅ | ~250 |
+| Skills | ✅ | ~200 |
+| **TOTAL** | **✅** | **~6100** |
 
 ---
 
-## 🎯 PRÓXIMO A IMPLEMENTAR (v1.0.18+)
+## 🚀 PRÓXIMO A IMPLEMENTAR (v1.0.24+)
 
-### Fase 1: Database & Optimizaciones
-- [ ] Caching asincrónico mejorado
-- [ ] Optimizar queries a BD
-- [ ] Agregar índices a tablas
+### Fase 1: Database & Optimizaciones (v1.0.24)
+- [ ] Caching asincrónico mejorado con PlayerCache
+- [ ] Optimizar queries frecuentes
+- [ ] Agregar índices a tablas BD
 - [ ] Backup automático de datos
 
-### Fase 2: Features Avanzadas
-- [ ] Eventos especiales del servidor
-- [ ] Double XP events
-- [ ] Seasonal content
-- [ ] Leaderboards globales
-- [ ] Rankings por skill/clan/arena
+### Fase 2: Eventos Especiales (v1.0.25)
+- [ ] EventManager para manejar eventos
+- [ ] DoubleXPEvent y DoubleMoneyEvent
+- [ ] Comando /event con subcomandos
+- [ ] Auto-notificaciones de eventos
 
-### Fase 3: Expansiones de Sistemas
-- [ ] Completar API de Misiones
-- [ ] Agregar bonificadores a Skills
-- [ ] Expandir sistema de Notificaciones
-- [ ] Crear comando `/settings` para preferencias
+### Fase 3: Leaderboards Mejorados (v1.0.26)
+- [ ] LeaderboardManager
+- [ ] Rankings por categoría (money, arena, clan, skill)
+- [ ] Menú interactivo con pagination
+- [ ] Top 10 actualizado cada 5 minutos
 
-### Fase 4: Documentación
-- [ ] Guía completa de API
-- [ ] Tutorial CustomMenuBuilder
-- [ ] Ejemplos de plugins que extienden SurvivalCore
+### Fase 4: Misiones Expandidas (v1.0.27)
+- [ ] MissionProgressListener mejorado
+- [ ] Auto-detección de progreso
+- [ ] Comando /mission claim
+- [ ] Auto-reseteo diario a 00:00
 
 ---
 
-## 📋 CHECKLIST ANTES DE COMPILAR (IMPORTANTE)
+## 📋 CHECKLIST ANTES DE COMPILAR
 
 ```bash
 ✓ Actualizar versión en pom.xml (2 lugares)
 ✓ Actualizar versión en plugin.yml
-✓ Actualizar NEXT_STEPS2.md con versión
+✓ Actualizar NEXT_STEPS2.md con versión y cambios
 ✓ Hacer cambios de código
 ✓ Compilar: mvn clean package -DskipTests
 ✓ Verificar SurvivalCore-X.X.X.jar existe
@@ -434,111 +584,64 @@ ENTITY_VILLAGER_YES        # Invitaciones
 
 ---
 
-## 📊 ESTADÍSTICAS ACTUALES (v1.0.17)
-
-| Componente | Estado | Líneas |
-|-----------|--------|--------|
-| Comandos | ✅ | ~1500 |
-| Managers | ✅ | ~2000 |
-| Listeners | ✅ | ~800 |
-| Menús | ✅ | ~600 |
-| Notificaciones | ✅ | ~400 |
-| Misiones | ✅ | ~200 |
-| Skills | ✅ | ~150 |
-| **TOTAL** | **✅** | **~5650** |
-
----
-
-## 🚀 CÓMO CONTINUAR
-
-### Para la próxima versión:
-1. Decide qué feature agregar (ver "Próximo a Implementar")
-2. **Copia el PROMPT para Claude Code** (abajo)
-3. Proporciona el prompt a Claude Code
-4. Deja que complete la tarea
-5. Verifica que compile sin errores
-6. Commit & Push
-
----
-
-## 📝 PROMPT PARA CLAUDE CODE
-
-Copia este prompt completo y proporciónselo a Claude Code:
-
-```
-Continúa el desarrollo de SurvivalCore v1.0.17 (Minecraft Paper 1.21.1 plugin).
-
-La tarea es implementar [SELECCIONA UNA]:
-
-OPCIÓN 1 - Database & Performance (v1.0.18):
-- Implementar caching asincrónico mejorado en PlayerCache
-- Optimizar queries más frecuentes (jugadores, arenas, clanes)
-- Agregar índices en tablas de BD (MySQL)
-- Crear backup automático cada 2 horas
-
-OPCIÓN 2 - Eventos Especiales (v1.0.18):
-- Crear EventManager para manejar eventos
-- Implementar DoubleXPEvent (multiplicador 2x)
-- Implementar DoubleMoneyEvent (multiplicador 2x)
-- Crear comando /event info para admins
-- Guardar estado de eventos en BD
-
-OPCIÓN 3 - Leaderboards Globales (v1.0.18):
-- Crear LeaderboardManager
-- /leaderboard arena <arena> - Top 10 por arena
-- /leaderboard clan - Top 10 clanes por poder
-- /leaderboard skill <skill> - Top 10 por skill
-- /leaderboard money - Top 10 jugadores ricos
-- Actualizar cada 5 minutos desde BD
-- Menú interactivo con pagination
-
-OPCIÓN 4 - Expandir Misiones (v1.0.18):
-- Implementar MissionProgressListener
-- Auto-completar misiones al cumplir objetivo
-- Sistema de recompensas (dinero + XP)
-- Comando /mission claim para reclamar recompensas
-- Mostrar progreso visual en chat
-- Resetear misiones diarias a las 00:00
-
-INSTRUCCIONES CRÍTICAS:
-1. SIEMPRE actualiza versión ANTES de compilar:
-   - pom.xml: <version>1.0.18</version>
-   - pom.xml: <finalName>SurvivalCore-1.0.18</finalName>
-   - plugin.yml: version: 1.0.18
-   - NEXT_STEPS2.md: Actualizar "Versión Actual"
-
-2. Lee WIKI.md para referencia de API
-
-3. Usa patrones del código existente:
-   - Managers implementan interfaces (IXxxManager)
-   - Listeners registrados en SurvivalCorePlugin
-   - Comandos heredan CommandExecutor + TabExecutor
-   - Menús usar MenuFactory + MenuManager
-
-4. Compilación:
-   mvn clean package -DskipTests
-
-5. Commit:
-   git add -A
-   git commit -m "Describe feature (v1.0.18)"
-   git push origin main
-
-Repositorio: https://github.com/Gabri180/SurvivalCore
-Branch: main
-```
-
----
-
 ## 📚 REFERENCIAS ÚTILES
 
 - **WIKI.md** - API completa y documentación
-- **NEXT_STEPS.md** - Estado de fases anteriores
-- **Plugin.yml** - Permisos y comandos registrados
+- **plugin.yml** - Permisos y comandos registrados
 - **SurvivalCorePlugin.java** - Punto de entrada
+- **config.yml** - Configuración del servidor
+- **menu-aliases.yml** - Aliases de menús
+
+---
+
+## 🔧 CONFIGURACIÓN (config.yml)
+
+Archivo: `plugins/SurvivalCore/config.yml`
+
+Secciones principales:
+- **database** - Conexión MySQL
+- **server** - Nombre y mensaje
+- **worlds** - Mundos configurables
+- **economy** - Sistema de dinero
+- **jobs** - Configuración de trabajos
+- **missions** - Configuración de misiones
+- **skills** - Configuración de skills
+- **arena** - Sistema PvP
+- **clans** - Sistema de clanes
+- **auction** - Casa de subastas
+- **cache** - Configuración de caché
+- **backup** - Backup automático
+- **events** - Eventos especiales
+- **notifications** - Notificaciones
+- **debug** - Logs y debugging
+
+---
+
+## 🎯 PRÓXIMAS TAREAS
+
+1. **Implementar Database & Optimizaciones (v1.0.24)**
+   - Mejorar PlayerCache con expiry tracking
+   - Agregar índices en BD
+   - Crear BackupScheduler
+
+2. **Implementar Eventos Especiales (v1.0.25)**
+   - EventManager completo
+   - Eventos DoubleXP y DoubleMoney
+   - Notificaciones automáticas
+
+3. **Mejorar Leaderboards (v1.0.26)**
+   - LeaderboardManager con caché smart
+   - Comando /leaderboard con pagination
+   - Rankings por múltiples categorías
+
+4. **Expandir Misiones (v1.0.27)**
+   - Auto-detección de progreso
+   - Comando /mission claim
+   - Reset automático diario
 
 ---
 
 **Última actualización:** 27 Julio 2026  
-**Versión Actual:** 1.0.22  
-**Siguiente:** 1.0.23  
-**Estado:** ✅ Completamente funcional y listo para expandir
+**Versión Actual:** 1.0.23  
+**Estado:** ✅ Completamente funcional con auto-save de menús  
+**Siguiente versión:** 1.0.24 (Database & Optimizaciones)
