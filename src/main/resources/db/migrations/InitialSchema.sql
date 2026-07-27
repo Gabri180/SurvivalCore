@@ -49,6 +49,8 @@ CREATE TABLE IF NOT EXISTS player_mission_progress (
     progress INT NOT NULL DEFAULT 0,
     completed BOOLEAN NOT NULL DEFAULT FALSE,
     completed_at DATETIME NULL,
+    claimed BOOLEAN NOT NULL DEFAULT FALSE,
+    claimed_at DATETIME NULL,
     PRIMARY KEY (player_id, mission_id),
     CONSTRAINT fk_progress_player FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE,
     CONSTRAINT fk_progress_mission FOREIGN KEY (mission_id) REFERENCES missions(id) ON DELETE CASCADE
