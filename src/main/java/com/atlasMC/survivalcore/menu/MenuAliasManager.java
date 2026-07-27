@@ -27,11 +27,13 @@ public class MenuAliasManager {
         loadAliases();
     }
 
+    /**
+     * Registra un alias para un menú (puede estar en edición o guardado).
+     * Si está en edición, el alias funcionará una vez que se guarde el menú.
+     */
     public void registerAlias(String commandName, String menuId) {
-        if (menuManager.getMenu(menuId) == null) {
-            throw new IllegalArgumentException("Menú no encontrado: " + menuId);
-        }
-
+        // Permitir crear alias para menús guardados o en edición
+        // Se validará cuando el menú se intente abrir
         aliases.put(commandName.toLowerCase(), menuId);
         registerCommand(commandName, menuId);
         saveAliases();
