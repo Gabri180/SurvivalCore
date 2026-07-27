@@ -28,7 +28,7 @@ public class MenuEditorListener implements Listener {
         }
 
         String title = event.getView().getTitle();
-        if (!title.contains("Menú Editor") && !title.contains("Items de:") && !title.contains("Info Item")) {
+        if (!title.contains("Menu Editor") && !title.contains("Items de:") && !title.contains("Info Item")) {
             return;
         }
 
@@ -59,10 +59,13 @@ public class MenuEditorListener implements Listener {
         }
 
         // Menú de selección de menús
-        if (title.contains("Selecciona Menú")) {
-            if (itemName.startsWith("§e")) {
-                String menuId = itemName.substring(2);
-                editor.openItemList(menuId);
+        if (title.contains("Menu Editor")) {
+            if (itemName.startsWith("§6") && !itemName.contains("Ayuda")) {
+                // Extraer el ID del menú del nombre (formato: §6§lID)
+                String menuId = itemName.replaceAll("§[0-9a-f]", "").replaceAll("§l", "").trim();
+                if (!menuId.isEmpty()) {
+                    editor.openItemList(menuId);
+                }
             }
             return;
         }
