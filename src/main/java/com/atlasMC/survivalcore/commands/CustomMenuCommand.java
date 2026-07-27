@@ -199,11 +199,16 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
 
         try {
             int slot = Integer.parseInt(slotStr);
+            if (slot < 0 || slot >= builder.customBuilder.rows * 9) {
+                player.sendMessage("§cSlot debe estar entre 0 y " + (builder.customBuilder.rows * 9 - 1));
+                return;
+            }
+
             Material mat = Material.valueOf(material.toUpperCase());
 
             String displayName = args.length > 4 ? String.join(" ", java.util.Arrays.copyOfRange(args, 4, args.length)) : "§bItem";
 
-            builder.customBuilder.addItem(slot, mat, displayName, "COMMAND", "");
+            builder.customBuilder.addItem(slot, mat, displayName, com.atlasMC.survivalcore.menu.MenuAction.none());
             player.sendMessage(String.format("§a✓ Item agregado en slot %d", slot));
             autoSaveMenu(menuId);
         } catch (NumberFormatException e) {
@@ -281,29 +286,49 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
     }
 
     private void openMenu(Player player, String menuId) {
-        try {
+        // Primero intentar abrir menú guardado
+        com.atlasMC.survivalcore.menu.MenuData savedMenu = menuManager.getMenu(menuId);
+        if (savedMenu != null) {
             menuManager.openMenu(player, menuId);
-        } catch (Exception e) {
-            // Intentar abrir menú en edición si no existe guardado
-            MenuBuilder builder = builders.get(menuId);
-            if (builder != null) {
-                com.atlasMC.survivalcore.menu.MenuData menu = builder.customBuilder.build();
-                menuManager.openMenu(player, menuId);
-                player.sendMessage("§7Abriendo menú en edición (no guardado aún)");
-            } else {
-                player.sendMessage("§cMenú no encontrado: " + menuId);
-            }
+            return;
         }
+
+        // Si no existe guardado, intentar desde builders (en edición)
+        MenuBuilder builder = builders.get(menuId);
+        if (builder != null) {
+            com.atlasMC.survivalcore.menu.MenuData menu = builder.customBuilder.build();
+            String tempMenuId = "_temp_" + menuId + "_" + System.currentTimeMillis();
+            menuManager.registerMenu(tempMenuId, menu);
+            menuManager.openMenu(player, tempMenuId);
+            player.sendMessage("§7Abriendo menú en edición (no guardado aún)");
+            return;
+        }
+
+        player.sendMessage("§cMenú no encontrado: " + menuId);
     }
 
     private void listMenus(Player player) {
         player.sendMessage("§6=== Menús Disponibles ===");
-        if (builders.isEmpty()) {
-            player.sendMessage("§7No hay menús en edición.");
-        } else {
-            builders.forEach((id, builder) ->
-                player.sendMessage(String.format("§e• %s §7(%d filas)", id, builder.customBuilder.rows))
+
+        // Menús guardados
+        Map<String, com.atlasMC.survivalcore.menu.MenuData> savedMenus = menuManager.getAllMenus();
+        if (!savedMenus.isEmpty()) {
+            player.sendMessage("§a📦 Menús Guardados:");
+            savedMenus.forEach((id, menu) ->
+                player.sendMessage(String.format("§e  • %s §7(%d items)", id, menu.getSize()))
             );
+        }
+
+        // Menús en edición
+        if (!builders.isEmpty()) {
+            player.sendMessage("§e✏️ Menús en Edición:");
+            builders.forEach((id, builder) ->
+                player.sendMessage(String.format("§e  • %s §7(%d filas)", id, builder.customBuilder.rows))
+            );
+        }
+
+        if (savedMenus.isEmpty() && builders.isEmpty()) {
+            player.sendMessage("§7No hay menús creados.");
         }
     }
 
