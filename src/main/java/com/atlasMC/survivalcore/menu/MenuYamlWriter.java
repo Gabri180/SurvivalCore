@@ -17,6 +17,11 @@ public class MenuYamlWriter {
     }
 
     public void saveMenu(MenuData menuData, String fileName) {
+        // No guardar menús temporales del editor
+        if (fileName.startsWith("_")) {
+            return;
+        }
+
         File menusFolder = new File(plugin.getDataFolder(), "menus");
         if (!menusFolder.exists()) {
             menusFolder.mkdirs();

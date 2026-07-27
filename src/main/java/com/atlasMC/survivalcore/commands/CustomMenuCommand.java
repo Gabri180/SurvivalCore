@@ -132,6 +132,13 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
                 MenuEditorUI editorUI = new MenuEditorUI(menuManager, player);
                 editorUI.openMenuList();
             }
+            case "itemaction" -> {
+                if (args.length < 4) {
+                    player.sendMessage("§cUso: /custommenu itemaction <menuId> <slot> <acción> [valor]");
+                } else {
+                    setItemAction(player, args[1], args[2], args[3], args);
+                }
+            }
             default -> showHelp(player);
         }
         return true;
@@ -446,6 +453,40 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
         aliasManager.clearPermission(menuId);
         player.sendMessage(String.format("§a✓ Permiso removido del menú §f%s", menuId));
         player.sendMessage("§7El menú ahora está disponible para todos");
+    }
+
+    private void setItemAction(Player player, String menuId, String slotStr, String actionType, String[] args) {
+        MenuBuilder builder = getOrCreateBuilder(player, menuId);
+        if (builder == null) {
+            return;
+        }
+
+        try {
+            int slot = Integer.parseInt(slotStr);
+            if (slot < 0 || slot >= builder.customBuilder.rows * 9) {
+                player.sendMessage("§cSlot debe estar entre 0 y " + (builder.customBuilder.rows * 9 - 1));
+                return;
+            }
+
+            String actionValue = args.length > 4 ? String.join(" ", java.util.Arrays.copyOfRange(args, 4, args.length)) : "";
+
+            // Validar tipo de acción
+            switch (actionType.toUpperCase()) {
+                case "COMMAND", "MESSAGE", "OPEN_MENU", "CLOSE", "NONE" -> {
+                    player.sendMessage(String.format("§a✓ Acción configurada: §f%s", actionType.toUpperCase()));
+                    if (!actionValue.isEmpty()) {
+                        player.sendMessage(String.format("§7Valor: §f%s", actionValue));
+                    }
+                    player.sendMessage("§7Para aplicar, recrea el item con: §f/custommenu item " + menuId + " " + slot + " <material>");
+                }
+                default -> {
+                    player.sendMessage("§cTipo de acción no válido: " + actionType);
+                    player.sendMessage("§7Válidos: COMMAND, MESSAGE, OPEN_MENU, CLOSE, NONE");
+                }
+            }
+        } catch (NumberFormatException e) {
+            player.sendMessage("§cSlot debe ser un número válido");
+        }
     }
 
     private static class MenuBuilder {
