@@ -9,9 +9,7 @@ import com.atlasMC.survivalcore.models.ClanMember;
 import com.atlasMC.survivalcore.models.PlayerProfile;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ClanManagerImpl implements IClanManager {
 
@@ -84,5 +82,90 @@ public class ClanManagerImpl implements IClanManager {
                 .filter(c -> c.hasMember(profile.getPlayerId()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public void addClanMoney(long clanId, long amount) {
+        Clan clan = clansCache.get(clanId);
+        if (clan != null) {
+            clan.addMoney(amount);
+            clanRepository.saveClan(clan, null);
+        }
+    }
+
+    @Override
+    public void removeClanMoney(long clanId, long amount) {
+        Clan clan = clansCache.get(clanId);
+        if (clan != null) {
+            clan.removeMoney(amount);
+            clanRepository.saveClan(clan, null);
+        }
+    }
+
+    @Override
+    public long getClanMoney(long clanId) {
+        Clan clan = clansCache.get(clanId);
+        return clan != null ? clan.getMoney() : 0;
+    }
+
+    @Override
+    public void setPlayerRole(long clanId, UUID playerUuid, ClanRole role) {
+        PlayerProfile profile = playerCache.get(playerUuid);
+        if (profile == null) return;
+        Clan clan = clansCache.get(clanId);
+        if (clan == null) return;
+        clan.getMembers().stream()
+                .filter(m -> m.getPlayerId() == profile.getPlayerId())
+                .findFirst()
+                .ifPresent(m -> m.setRole(role));
+    }
+
+    @Override
+    public ClanRole getPlayerRole(long clanId, UUID playerUuid) {
+        PlayerProfile profile = playerCache.get(playerUuid);
+        if (profile == null) return null;
+        Clan clan = clansCache.get(clanId);
+        if (clan == null) return null;
+        return clan.getMembers().stream()
+                .filter(m -> m.getPlayerId() == profile.getPlayerId())
+                .map(ClanMember::getRole)
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public void createAlliance(long clan1Id, long clan2Id) {
+        Clan clan1 = clansCache.get(clan1Id);
+        Clan clan2 = clansCache.get(clan2Id);
+        if (clan1 != null && clan2 != null) {
+            clan1.addAlly(clan2Id);
+            clan2.addAlly(clan1Id);
+        }
+    }
+
+    @Override
+    public void breakAlliance(long clan1Id, long clan2Id) {
+        Clan clan1 = clansCache.get(clan1Id);
+        Clan clan2 = clansCache.get(clan2Id);
+        if (clan1 != null && clan2 != null) {
+            clan1.removeAlly(clan2Id);
+            clan2.removeAlly(clan1Id);
+        }
+    }
+
+    @Override
+    public Collection<Long> getAlliedClans(long clanId) {
+        Clan clan = clansCache.get(clanId);
+        return clan != null ? new ArrayList<>(clan.getAlliedClans()) : new ArrayList<>();
+    }
+
+    @Override
+    public Collection<Clan> getAllClans() {
+        return new ArrayList<>(clansCache.values());
+    }
+
+    @Override
+    public Clan getClanById(long clanId) {
+        return clansCache.get(clanId);
     }
 }

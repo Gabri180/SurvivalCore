@@ -4,12 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-/**
- * Dev3 - modelo puro, sin persistencia. Se conecta a BD manana.
- */
 public class Clan {
 
     private long id;
@@ -23,6 +19,8 @@ public class Clan {
 
     @NotNull
     private List<ClanMember> members = new ArrayList<>();
+    @NotNull
+    private List<Long> alliedClans = new ArrayList<>();
 
     public Clan() {
     }
@@ -49,6 +47,8 @@ public class Clan {
 
     public long getMoney() { return money; }
     public void setMoney(long money) { this.money = money; }
+    public void addMoney(long amount) { this.money += amount; }
+    public void removeMoney(long amount) { this.money = Math.max(0, this.money - amount); }
 
     public int getPower() { return power; }
     public void setPower(int power) { this.power = power; }
@@ -61,8 +61,22 @@ public class Clan {
     public List<ClanMember> getMembers() { return members; }
     public void setMembers(@NotNull List<ClanMember> members) { this.members = members; }
 
+    @NotNull
+    public List<Long> getAlliedClans() { return alliedClans; }
+    public void setAlliedClans(@NotNull List<Long> alliedClans) { this.alliedClans = alliedClans; }
+    public void addAlly(long clanId) {
+        if (!alliedClans.contains(clanId)) {
+            alliedClans.add(clanId);
+        }
+    }
+    public void removeAlly(long clanId) { alliedClans.remove(clanId); }
+
     public boolean hasMember(long playerId) {
         return members.stream().anyMatch(m -> m.getPlayerId() == playerId);
+    }
+
+    public boolean isAlly(long clanId) {
+        return alliedClans.contains(clanId);
     }
 
     public static Builder builder() {
@@ -77,6 +91,7 @@ public class Clan {
         private int power;
         private Instant createdAt;
         private List<ClanMember> members = new ArrayList<>();
+        private List<Long> alliedClans = new ArrayList<>();
 
         public Builder id(long id) { this.id = id; return this; }
         public Builder name(String name) { this.name = name; return this; }
@@ -85,6 +100,7 @@ public class Clan {
         public Builder power(int power) { this.power = power; return this; }
         public Builder createdAt(Instant createdAt) { this.createdAt = createdAt; return this; }
         public Builder members(List<ClanMember> members) { this.members = members; return this; }
+        public Builder alliedClans(List<Long> alliedClans) { this.alliedClans = alliedClans; return this; }
 
         public Clan build() {
             Clan obj = new Clan();
@@ -95,6 +111,7 @@ public class Clan {
             obj.power = this.power;
             obj.createdAt = this.createdAt;
             obj.members = this.members;
+            obj.alliedClans = this.alliedClans;
             return obj;
         }
     }

@@ -8,10 +8,7 @@ import com.atlasMC.survivalcore.models.Bounty;
 import com.atlasMC.survivalcore.models.PlayerProfile;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class BountyManagerImpl implements IBountyManager {
 
@@ -19,6 +16,8 @@ public class BountyManagerImpl implements IBountyManager {
     private final PlayerCache playerCache;
     private final EconomyAPI economyAPI;
     private final Map<Long, Bounty> bountiesCache = new HashMap<>();
+    private final Map<UUID, Integer> playerKillstreaks = new HashMap<>();
+    private final Map<UUID, Long> playerBountyEarnings = new HashMap<>();
 
     public BountyManagerImpl(BountyRepository bountyRepository, PlayerCache playerCache, EconomyAPI economyAPI) {
         this.bountyRepository = bountyRepository;
@@ -58,12 +57,13 @@ public class BountyManagerImpl implements IBountyManager {
         if (killer == null) return;
 
         economyAPI.addBalance(killerUuid, bounty.getReward());
+        playerBountyEarnings.put(killerUuid, playerBountyEarnings.getOrDefault(killerUuid, 0L) + bounty.getReward());
         bountyRepository.claimBounty(bountyId, killer.getPlayerId());
         bountiesCache.remove(bountyId);
     }
 
     @Override
-    public List<Bounty> getActiveBounties() {
+    public Collection<Bounty> getActiveBounties() {
         return bountiesCache.values().stream()
                 .filter(b -> !b.isClaimed())
                 .toList();
@@ -71,9 +71,42 @@ public class BountyManagerImpl implements IBountyManager {
 
     @Override
     public void incrementKillstreak(UUID playerUuid) {
+        playerKillstreaks.put(playerUuid, playerKillstreaks.getOrDefault(playerUuid, 0) + 1);
+    }
+
+    @Override
+    public Bounty getBounty(long bountyId) {
+        return bountiesCache.get(bountyId);
+    }
+
+    @Override
+    public Collection<Bounty> getBountiesOnPlayer(UUID targetUuid) {
+        return bountiesCache.values().stream()
+                .filter(b -> b.getTargetUuid().equals(targetUuid) && !b.isClaimed())
+                .toList();
+    }
+
+    @Override
+    public Collection<Bounty> getBountiesCreatedBy(UUID playerUuid) {
         PlayerProfile profile = playerCache.get(playerUuid);
-        if (profile != null) {
-        // playerCache.update(profile);
-        }
+        if (profile == null) return new ArrayList<>();
+        return bountiesCache.values().stream()
+                .filter(b -> b.getCreatedBy() == profile.getPlayerId())
+                .toList();
+    }
+
+    @Override
+    public int getPlayerKillstreak(UUID playerUuid) {
+        return playerKillstreaks.getOrDefault(playerUuid, 0);
+    }
+
+    @Override
+    public void resetKillstreak(UUID playerUuid) {
+        playerKillstreaks.remove(playerUuid);
+    }
+
+    @Override
+    public long getTotalBountyReward(UUID playerUuid) {
+        return playerBountyEarnings.getOrDefault(playerUuid, 0L);
     }
 }
