@@ -101,6 +101,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
     private MenuManager menuManager;
     private MenuEditorManager menuEditorManager;
     private MenuAliasManager menuAliasManager;
+    private MenuYamlWriter menuYamlWriter;
     private BackupScheduler backupScheduler;
     private EventManager eventManager;
     private LeaderboardManager leaderboardManager;
@@ -189,8 +190,8 @@ public final class SurvivalCorePlugin extends JavaPlugin {
 
         this.menuAliasManager = new MenuAliasManager(menuManager, this);
 
-        MenuYamlWriter yamlWriter = new MenuYamlWriter(this);
-        this.menuEditorManager = new MenuEditorManager(menuManager, yamlWriter);
+        this.menuYamlWriter = new MenuYamlWriter(this);
+        this.menuEditorManager = new MenuEditorManager(menuManager, menuYamlWriter);
 
         this.backupScheduler = new BackupScheduler(this, getConfig(), playerCache);
 
@@ -275,7 +276,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         getCommand("skill").setExecutor(skillCmd);
         getCommand("skill").setTabCompleter(skillCmd);
 
-        CustomMenuCommand customMenuCmd = new CustomMenuCommand(menuManager, menuAliasManager);
+        CustomMenuCommand customMenuCmd = new CustomMenuCommand(menuManager, menuAliasManager, menuYamlWriter);
         getCommand("custommenu").setExecutor(customMenuCmd);
         getCommand("custommenu").setTabCompleter(customMenuCmd);
 

@@ -4,6 +4,7 @@ import com.atlasMC.survivalcore.menu.CustomMenuBuilder;
 import com.atlasMC.survivalcore.menu.MenuManager;
 import com.atlasMC.survivalcore.menu.MenuAliasManager;
 import com.atlasMC.survivalcore.menu.MenuEditorUI;
+import com.atlasMC.survivalcore.menu.MenuYamlWriter;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,11 +21,13 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
 
     private final MenuManager menuManager;
     private final MenuAliasManager aliasManager;
+    private final MenuYamlWriter yamlWriter;
     private final Map<String, MenuBuilder> builders = new HashMap<>();
 
-    public CustomMenuCommand(MenuManager menuManager, MenuAliasManager aliasManager) {
+    public CustomMenuCommand(MenuManager menuManager, MenuAliasManager aliasManager, MenuYamlWriter yamlWriter) {
         this.menuManager = menuManager;
         this.aliasManager = aliasManager;
+        this.yamlWriter = yamlWriter;
     }
 
     @Override
@@ -188,6 +191,7 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
         if (builder != null) {
             com.atlasMC.survivalcore.menu.MenuData menu = builder.customBuilder.build();
             menuManager.registerMenu(menuId, menu);
+            yamlWriter.saveMenu(menu, menuId);
         }
     }
 
@@ -274,6 +278,7 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
 
         com.atlasMC.survivalcore.menu.MenuData menu = builder.customBuilder.build();
         menuManager.registerMenu(menuId, menu);
+        yamlWriter.saveMenu(menu, menuId);
         player.sendMessage(String.format("§a✓ Menú guardado: %s", menuId));
     }
 
