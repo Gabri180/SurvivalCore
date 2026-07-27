@@ -153,13 +153,14 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         this.notificationManager = new NotificationManager();
         this.seasonManager = new SeasonManager(databaseManager);
         this.prestigeManager = new PrestigeManager(playerCache, databaseManager);
-        this.eventManager = new EventManager(this, eventRepository);
-        this.leaderboardManager = new LeaderboardManager(this, databaseManager, playerCache);
 
         this.jobRepository = new JobRepository(databaseManager);
         this.skillRepository = new SkillRepository(databaseManager);
         this.missionRepository = new MissionRepository(databaseManager);
         this.eventRepository = new EventRepository(databaseManager);
+
+        this.eventManager = new EventManager(this, eventRepository);
+        this.leaderboardManager = new LeaderboardManager(this, databaseManager, playerCache);
 
         this.clanRepository = new ClanRepository(databaseManager);
         this.claimRepository = new ClaimRepository(databaseManager);

@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Comando /leaderboard para ver rankings globales.
@@ -18,6 +17,7 @@ import java.util.UUID;
  */
 public class LeaderboardCommand implements CommandExecutor, TabExecutor {
 
+    private static final int DEFAULT_LIMIT = 10;
     private final LeaderboardManager leaderboardManager;
 
     public LeaderboardCommand(LeaderboardManager leaderboardManager) {
@@ -47,28 +47,31 @@ public class LeaderboardCommand implements CommandExecutor, TabExecutor {
     }
 
     private void showMoneyLeaderboard(Player player) {
-        leaderboardManager.getMoneyLeaderboard(entries -> {
+        leaderboardManager.getMoneyLeaderboard(DEFAULT_LIMIT, entries -> {
             player.sendMessage("§6═══ TOP 10 Jugadores Ricos ═══");
             for (LeaderboardEntry entry : entries) {
                 player.sendMessage(entry.toString());
             }
-            leaderboardManager.getPlayerMoneyRank(player.getUniqueId(), rank ->
+            leaderboardManager.getPlayerRank(player.getUniqueId(), "money", rank ->
                     player.sendMessage(String.format("§7Tu posición: §b#%d", rank))
             );
         });
     }
 
     private void showArenaLeaderboard(Player player) {
-        leaderboardManager.getArenaLeaderboard(entries -> {
+        leaderboardManager.getArenaLeaderboard(DEFAULT_LIMIT, entries -> {
             player.sendMessage("§6═══ TOP 10 Arenas (ELO) ═══");
             for (LeaderboardEntry entry : entries) {
                 player.sendMessage(entry.toString());
             }
+            leaderboardManager.getPlayerRank(player.getUniqueId(), "arena", rank ->
+                    player.sendMessage(String.format("§7Tu posición: §b#%d", rank))
+            );
         });
     }
 
     private void showClanLeaderboard(Player player) {
-        leaderboardManager.getClanLeaderboard(entries -> {
+        leaderboardManager.getClanLeaderboard(DEFAULT_LIMIT, entries -> {
             player.sendMessage("§6═══ TOP 10 Clanes (Poder) ═══");
             for (LeaderboardEntry entry : entries) {
                 player.sendMessage(entry.toString());
