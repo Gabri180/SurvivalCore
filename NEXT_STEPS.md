@@ -7,25 +7,70 @@
 3. plugin.yml:           version: X.X.X
 ```
 
-**Versión Actual: 1.0.15**  
-**Próxima: 1.0.16**
+**Versión Actual: 1.0.16**  
+**Próxima: 1.0.17**
 
 ---
 
-## 🎯 FASE ACTUAL (1.0.16) - HIGH PRIORITY
+## 🎯 FASE ACTUAL (1.0.17) - MEDIUM PRIORITY
 
-### 1. Job Menu Interactivo - IMPORTANTE
-**Estado:** ⚠️ Base lista | Impacto: Alto
+### 1. Sistema de Misiones Completo
+- [ ] Expandir `IMissionManager` con más métodos
+- [ ] `/mission` comando interactivo
+- [ ] Cargar misiones desde `missions.yml`
+- [ ] Progreso de misiones diarias/semanales
+- [ ] Rewards al completar
+- [ ] Menú con pagination de misiones activas
 
-- [ ] Crear `/job menu` o `/job` (abre menú de jobs)
-- [ ] Clickeable: Mostrar job actual con color
-- [ ] Ver stats: Nivel, XP, ganancias del día
-- [ ] Click en job para cambiar
-- [ ] Upgrade de job con dinero (si existe sistema)
+**Tipos de misiones:**
+- [ ] Kill missions (matar X mobs específicos)
+- [ ] Collect missions (recolectar X items)
+- [ ] Travel missions (ir a X ubicación)
+- [ ] Craft missions (craftear X items)
 
-**Archivos a crear/modificar:**
-- `JobCommand.java` - Mejorar con menú
-- `MenuFactory.addJobMenu()` - Menú dinámico de jobs
+---
+
+## ✅ COMPLETADO (1.0.16)
+
+### Job Menu Interactivo
+**Estado:** ✅ Implementado | Impacto: Alto
+
+- [x] Menú interactivo de jobs con `/job menu`
+- [x] Material-coded items para cada job:
+  - [x] DIAMOND_PICKAXE para Miner
+  - [x] FISHING_ROD para Fisherman
+  - [x] IRON_AXE para Lumberjack
+  - [x] WOODEN_HOE para Farmer
+  - [x] BOW para Hunter
+- [x] Ver stats completos: Nivel, XP, nombre del job
+- [x] Click en job para cambiar
+- [x] Menú integrado con MenuFactory
+- [x] Slot de "Mi Trabajo" para ver info rápida
+
+### Sistema de Notificaciones Completo
+**Estado:** ✅ Implementado | Impacto: Medio
+
+- [x] NotificationManager - Hub centralizado para todos los eventos
+- [x] Notificaciones por tipo de evento:
+  - [x] Arena (join, win, loss)
+  - [x] Clan (creation, invitations)
+  - [x] Auction (bid placed, outbid, won)
+  - [x] Bounty (created, claimed, on player)
+  - [x] Job (XP gain, level up)
+- [x] Chat messages formateados con [Notificación] prefix
+- [x] Sonidos contextuales por evento:
+  - [x] ENTITY_PLAYER_LEVELUP para victorias
+  - [x] ENTITY_EXPERIENCE_ORB_PICKUP para subastas
+  - [x] BLOCK_ANVIL_LAND para pujas superadas
+  - [x] ENTITY_WARDEN_HEARTBEAT para recompensas
+- [x] Títulos/subtítulos en eventos importantes
+- [x] `/notificaciones` comando con menú interactivo
+- [x] NotificationPreferences por jugador:
+  - [x] Toggle individual por tipo (arena, clan, auction, bounty, job)
+  - [x] Toggles globales (sonidos, títulos, chat)
+  - [x] Valores por defecto (todo activado)
+- [x] Alias de comando: `/notif`, `/notifs`
+- [x] Subcomandos: toggle, status, menú
 
 ---
 
@@ -190,7 +235,7 @@ git reset --hard origin/main
 
 ---
 
-## 📊 ESTADO ACTUAL (1.0.15)
+## 📊 ESTADO ACTUAL (1.0.16)
 
 | Módulo | Estado | % |
 |--------|--------|-----|
@@ -198,9 +243,9 @@ git reset --hard origin/main
 | Managers (Arena/Clan/Auction/Bounty) | ✅ | 100% |
 | Job Listeners | ✅ | 100% |
 | Comandos Menú | ✅ | 100% |
-| **Subcomandos Dev3** | ✅ | 100% |
-| **Job Menu** | ❌ | 0% |
-| **Notificaciones** | ❌ | 0% |
+| Subcomandos Dev3 | ✅ | 100% |
+| **Job Menu Interactivo** | ✅ | 100% |
+| **Sistema de Notificaciones** | ✅ | 100% |
 | Misiones | ⚠️ | 20% |
 | Menu Avanzado | ❌ | 0% |
 | Skills | ⚠️ | 20% |
