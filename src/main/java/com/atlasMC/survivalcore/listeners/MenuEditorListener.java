@@ -45,6 +45,19 @@ public class MenuEditorListener implements Listener {
     }
 
     private void handleEditorClick(Player player, MenuEditorUI editor, String itemName, String title) {
+        // Botón Volver (aparece en todos los menús)
+        if (itemName.contains("Volver")) {
+            if (title.contains("Items de:")) {
+                editor.openMenuList();
+            } else if (title.contains("Info Item")) {
+                String menuId = extractMenuIdFromTitle(title);
+                if (menuId != null) {
+                    editor.openItemList(menuId);
+                }
+            }
+            return;
+        }
+
         // Menú de selección de menús
         if (title.contains("Selecciona Menú")) {
             if (itemName.startsWith("§e")) {
@@ -56,11 +69,6 @@ public class MenuEditorListener implements Listener {
 
         // Menú de items
         if (title.contains("Items de:")) {
-            if (itemName.contains("Atrás")) {
-                editor.openMenuList();
-                return;
-            }
-
             String menuId = extractMenuIdFromTitle(title);
             if (menuId != null && itemName.startsWith("§b")) {
                 // Extraer el slot del nombre del item
