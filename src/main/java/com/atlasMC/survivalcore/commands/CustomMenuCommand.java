@@ -3,6 +3,7 @@ package com.atlasMC.survivalcore.commands;
 import com.atlasMC.survivalcore.menu.CustomMenuBuilder;
 import com.atlasMC.survivalcore.menu.MenuManager;
 import com.atlasMC.survivalcore.menu.MenuAliasManager;
+import com.atlasMC.survivalcore.menu.MenuEditorUI;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -124,6 +125,10 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
                     handlePermission(player, args[1], args[2], args);
                 }
             }
+            case "editor" -> {
+                MenuEditorUI editorUI = new MenuEditorUI(menuManager, player);
+                editorUI.openMenuList();
+            }
             default -> showHelp(player);
         }
         return true;
@@ -140,6 +145,7 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
         player.sendMessage("§e/custommenu save <id> §7- Guardar menú");
         player.sendMessage("§e/custommenu cancel <id> §7- Cancelar edición");
         player.sendMessage("§e/custommenu open <id> §7- Abrir menú");
+        player.sendMessage("§e/custommenu editor §7- Abrir editor visual de menús");
         player.sendMessage("§7§m                                   ");
         player.sendMessage("§e/custommenu command <id> set <cmd> §7- Crear alias");
         player.sendMessage("§e/custommenu unalias <cmd> §7- Eliminar alias");

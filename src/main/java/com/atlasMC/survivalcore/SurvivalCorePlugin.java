@@ -60,6 +60,7 @@ import com.atlasMC.survivalcore.listeners.JobBlockBreakListener;
 import com.atlasMC.survivalcore.listeners.JobFishingListener;
 import com.atlasMC.survivalcore.listeners.JobHarvestListener;
 import com.atlasMC.survivalcore.listeners.JobKillListener;
+import com.atlasMC.survivalcore.listeners.MenuEditorListener;
 import com.atlasMC.survivalcore.listeners.MissionProgressListener;
 import com.atlasMC.survivalcore.listeners.PlayerDataListener;
 import com.atlasMC.survivalcore.listeners.PvPArenaListener;
@@ -233,6 +234,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
 
         // Menu editor
         pluginManager.registerEvents(new ChatInputPrompt(this), this);
+        pluginManager.registerEvents(new MenuEditorListener(menuManager), this);
     }
 
     private void registerCommands() {
