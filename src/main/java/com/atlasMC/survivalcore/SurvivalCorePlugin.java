@@ -28,10 +28,13 @@ import com.atlasMC.survivalcore.commands.ArenaCommand;
 import com.atlasMC.survivalcore.commands.AuctionCommand;
 import com.atlasMC.survivalcore.commands.BountyCommand;
 import com.atlasMC.survivalcore.commands.ClanCommand;
+import com.atlasMC.survivalcore.commands.CustomMenuCommand;
 import com.atlasMC.survivalcore.commands.JobCommand;
 import com.atlasMC.survivalcore.commands.MenuCommand;
 import com.atlasMC.survivalcore.commands.MenuEditCommand;
+import com.atlasMC.survivalcore.commands.MissionCommand;
 import com.atlasMC.survivalcore.commands.NotificationsCommand;
+import com.atlasMC.survivalcore.commands.SkillCommand;
 import com.atlasMC.survivalcore.commands.StatsCommand;
 import com.atlasMC.survivalcore.config.ConfigManager;
 import com.atlasMC.survivalcore.db.ArenaRepository;
@@ -239,6 +242,18 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         NotificationsCommand notifCmd = new NotificationsCommand(notificationManager, menuManager);
         getCommand("notificaciones").setExecutor(notifCmd);
         getCommand("notificaciones").setTabCompleter(notifCmd);
+
+        MissionCommand missionCmd = new MissionCommand(missionManager, menuManager);
+        getCommand("mission").setExecutor(missionCmd);
+        getCommand("mission").setTabCompleter(missionCmd);
+
+        SkillCommand skillCmd = new SkillCommand(skillManager, menuManager);
+        getCommand("skill").setExecutor(skillCmd);
+        getCommand("skill").setTabCompleter(skillCmd);
+
+        CustomMenuCommand customMenuCmd = new CustomMenuCommand(menuManager);
+        getCommand("custommenu").setExecutor(customMenuCmd);
+        getCommand("custommenu").setTabCompleter(customMenuCmd);
 
         // Menú editor
         getCommand("menuedit").setExecutor(new MenuEditCommand(this));

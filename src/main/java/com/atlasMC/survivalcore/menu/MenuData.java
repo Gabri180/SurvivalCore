@@ -15,6 +15,7 @@ public class MenuData {
     private final MenuAction[] actions;
     private final ItemStack[] items;
     private final Map<Integer, List<String>> lores = new HashMap<>();
+    private final Map<String, Object> metadata = new HashMap<>();
 
     public MenuData(String name, String title, int size) {
         this.name = name;
@@ -95,5 +96,27 @@ public class MenuData {
 
     public int getSize() {
         return size;
+    }
+
+    public void setMetadata(String key, Object value) {
+        metadata.put(key, value);
+    }
+
+    public Object getMetadata(String key) {
+        return metadata.get(key);
+    }
+
+    public String getMetadataString(String key) {
+        Object value = metadata.get(key);
+        return value != null ? value.toString() : null;
+    }
+
+    public Boolean getMetadataBoolean(String key) {
+        Object value = metadata.get(key);
+        return value instanceof Boolean ? (Boolean) value : null;
+    }
+
+    public boolean hasMetadata(String key) {
+        return metadata.containsKey(key);
     }
 }

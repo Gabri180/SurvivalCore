@@ -1,5 +1,5 @@
 name: SurvivalCore
-version: 1.0.16
+version: 1.0.17
 main: com.atlasMC.survivalcore.SurvivalCorePlugin
 api-version: '1.21'
 authors: [Gabriel, Hauch, Dev3]
@@ -34,6 +34,19 @@ commands:
     description: Gestiona tus preferencias de notificaciones
     usage: /notificaciones <menu|toggle|status>
     aliases: [notif, notifs]
+  mission:
+    description: Sistema de misiones diarias
+    usage: /mission <menu|list|info|progress>
+    aliases: [missions]
+  skill:
+    description: Árbol de skills y experiencia
+    usage: /skill <menu|list|info|stats>
+    aliases: [skills]
+  custommenu:
+    description: Constructor de menús personalizados
+    usage: /custommenu <create|item|title|size|bgcolor|save|cancel|open|list>
+    aliases: [customm, cmenu]
+    permission: survivalcore.admin
   menuedit:
     description: Editor de menus (admin)
     usage: /menuedit <shop>
