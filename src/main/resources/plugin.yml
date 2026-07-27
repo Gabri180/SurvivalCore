@@ -1,5 +1,5 @@
 name: SurvivalCore
-version: 1.0.11
+version: 1.0.12
 main: com.atlasMC.survivalcore.SurvivalCorePlugin
 api-version: '1.21'
 authors: [Gabriel, Hauch, Dev3]

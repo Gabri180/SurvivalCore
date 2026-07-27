@@ -192,7 +192,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         pluginManager.registerEvents(new JobBlockBreakListener(jobManager), this);
         pluginManager.registerEvents(new JobFishingListener(jobManager), this);
         pluginManager.registerEvents(new JobHarvestListener(jobManager, playerCache), this);
-        pluginManager.registerEvents(new JobKillListener(jobManager), this);
+        pluginManager.registerEvents(new JobKillListener(jobManager, bountyManager), this);
         pluginManager.registerEvents(new MissionProgressListener(missionManager), this);
 
         // Dev3: PvP / Clanes / Raideo / Jefes
