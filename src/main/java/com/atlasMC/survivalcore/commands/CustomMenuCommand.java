@@ -396,24 +396,20 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
             return;
         }
 
-        if (!isValidPermission(permission)) {
-            player.sendMessage("§cPermiso inválido. Usa formato: plugin.category.permission");
+        if (permission == null || permission.trim().isEmpty()) {
+            player.sendMessage("§cPermiso no puede estar vacío.");
             return;
         }
 
-        aliasManager.setPermission(menuId, permission);
-        player.sendMessage(String.format("§a✓ Permiso asignado: §f%s\n§7Menú §f%s §7requiere §f%s",
-            permission, menuId, permission));
+        aliasManager.setPermission(menuId, permission.trim());
+        player.sendMessage(String.format("§a✓ Permiso asignado: §f%s", permission.trim()));
+        player.sendMessage(String.format("§7Menú §f%s §7requiere ahora §f%s", menuId, permission.trim()));
     }
 
     private void clearPermission(Player player, String menuId) {
         aliasManager.clearPermission(menuId);
         player.sendMessage(String.format("§a✓ Permiso removido del menú §f%s", menuId));
         player.sendMessage("§7El menú ahora está disponible para todos");
-    }
-
-    private boolean isValidPermission(String permission) {
-        return permission.matches("^[a-zA-Z0-9._-]+$") && permission.length() >= 3;
     }
 
     private static class MenuBuilder {
