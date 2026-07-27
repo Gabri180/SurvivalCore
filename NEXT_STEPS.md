@@ -7,26 +7,107 @@
 3. plugin.yml:           version: X.X.X
 ```
 
-**Versión Actual: 1.0.16**  
-**Próxima: 1.0.17**
+**Versión Actual: 1.0.17**  
+**Próxima: 1.0.18**
 
 ---
 
-## 🎯 FASE ACTUAL (1.0.17) - MEDIUM PRIORITY
+## 🎯 FASE ACTUAL (1.0.18) - LOW PRIORITY
 
-### 1. Sistema de Misiones Completo
-- [ ] Expandir `IMissionManager` con más métodos
-- [ ] `/mission` comando interactivo
-- [ ] Cargar misiones desde `missions.yml`
-- [ ] Progreso de misiones diarias/semanales
-- [ ] Rewards al completar
-- [ ] Menú con pagination de misiones activas
+### 1. Database & Optimizaciones
+- [ ] Caching asincrónico mejorado
+- [ ] Optimizar queries a BD
+- [ ] Agregar índices a tablas
+- [ ] Backup automático de datos
 
-**Tipos de misiones:**
-- [ ] Kill missions (matar X mobs específicos)
-- [ ] Collect missions (recolectar X items)
-- [ ] Travel missions (ir a X ubicación)
-- [ ] Craft missions (craftear X items)
+### 2. Features Avanzadas
+- [ ] Eventos especiales del servidor
+- [ ] Double XP events
+- [ ] Seasonal content
+- [ ] Leaderboards globales
+- [ ] Rankings por skill/clan/arena
+
+### 3. Documentación Avanzada
+- [ ] Guía de CustomMenuBuilder
+- [ ] Tutorial de Misiones
+- [ ] Documentación de Skills
+- [ ] Ejemplos de Plugins que extienden SurvivalCore
+
+---
+
+## ✅ COMPLETADO (1.0.17)
+
+### Sistema de Misiones Completo
+**Estado:** ✅ Implementado | Impacto: Alto
+
+- [x] Mission class con tipos completos:
+  - [x] Kill missions (matar X mobs)
+  - [x] Collect missions (recolectar X items)
+  - [x] Travel missions (ir a X ubicación)
+  - [x] Craft missions (craftear X items)
+  - [x] Mine missions (minar bloques)
+  - [x] Fish missions (pescar items)
+- [x] Sistema de frecuencia (Daily, Weekly, Monthly, Permanent)
+- [x] Progreso con barra visual en porcentaje
+- [x] `/mission` comando interactivo
+- [x] Menú de misiones con categorías
+- [x] MissionCommand con subcomandos
+
+### Sistema de Skills Completo
+**Estado:** ✅ Implementado | Impacto: Alto
+
+- [x] Skill class con categorías:
+  - [x] Combat (Combate)
+  - [x] Mining (Minería)
+  - [x] Foraging (Recolección)
+  - [x] Fishing (Pesca)
+  - [x] Farming (Granjería)
+  - [x] Crafting (Artesanía)
+- [x] Sistema de niveles con XP exponencial
+- [x] Cálculo de porcentaje al siguiente nivel
+- [x] `/skill` comando interactivo
+- [x] Skill tree menu visual
+- [x] Integración de bonus (placeholder)
+- [x] SkillCommand con subcomandos
+
+### Constructor de Menús Personalizados (CustomMenuBuilder)
+**Estado:** ✅ Implementado | Impacto: Alto
+
+**CustomMenuBuilder:**
+- [x] Fluent API para crear menús
+- [x] Material-coded items (selección automática)
+- [x] Personalización de color de fondo
+- [x] Auto-relleno de fondo
+- [x] Control de acceso por permisos
+- [x] Sistema de metadatos avanzado
+- [x] Métodos helper (addButton, addCloseButton, addBackButton, addSpacer)
+
+**PaginatedMenu:**
+- [x] Soporte para menús grandes con pagination
+- [x] Cálculo automático de páginas
+- [x] Botones de navegación (anterior/siguiente)
+- [x] Configuración de items por página
+- [x] Tracking de página actual
+- [x] Builder pattern para creación fácil
+- [x] Fila de navegación automática
+
+**CustomMenuCommand (Similar a CommandPanels):**
+- [x] `/custommenu create <id>` - Crear nuevo menú
+- [x] `/custommenu item <id> <slot> <material>` - Agregar items
+- [x] `/custommenu title <id> <título>` - Cambiar título
+- [x] `/custommenu size <id> <filas>` - Redimensionar (1-6)
+- [x] `/custommenu bgcolor <id> <material>` - Color de fondo
+- [x] `/custommenu save <id>` - Guardar menú
+- [x] `/custommenu cancel <id>` - Cancelar edición
+- [x] `/custommenu open <id>` - Abrir menú
+- [x] `/custommenu list` - Listar menús
+- [x] Tab completion para todos los comandos
+
+**MenuData Enhancement:**
+- [x] Sistema de metadatos (key-value pairs)
+- [x] Métodos setMetadata/getMetadata
+- [x] Getters type-safe (String, Boolean)
+- [x] Verificación de existencia hasMetadata()
 
 ---
 
@@ -235,7 +316,7 @@ git reset --hard origin/main
 
 ---
 
-## 📊 ESTADO ACTUAL (1.0.16)
+## 📊 ESTADO ACTUAL (1.0.17)
 
 | Módulo | Estado | % |
 |--------|--------|-----|
@@ -244,11 +325,13 @@ git reset --hard origin/main
 | Job Listeners | ✅ | 100% |
 | Comandos Menú | ✅ | 100% |
 | Subcomandos Dev3 | ✅ | 100% |
-| **Job Menu Interactivo** | ✅ | 100% |
-| **Sistema de Notificaciones** | ✅ | 100% |
-| Misiones | ⚠️ | 20% |
-| Menu Avanzado | ❌ | 0% |
-| Skills | ⚠️ | 20% |
+| Job Menu Interactivo | ✅ | 100% |
+| Sistema de Notificaciones | ✅ | 100% |
+| **Sistema de Misiones** | ✅ | 100% |
+| **Sistema de Skills** | ✅ | 100% |
+| **CustomMenuBuilder** | ✅ | 100% |
+| **PaginatedMenu** | ✅ | 100% |
+| **CustomMenuCommand** | ✅ | 100% |
 
 ---
 
