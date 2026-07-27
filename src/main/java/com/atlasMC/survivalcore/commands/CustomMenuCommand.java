@@ -160,10 +160,34 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
         player.sendMessage(String.format("§a✓ Menú creado: %s\n§7Usa los comandos para personalizarlo", menuId));
     }
 
-    private void addItem(Player player, String menuId, String slotStr, String material, String[] args) {
+    private MenuBuilder getOrCreateBuilder(Player player, String menuId) {
         MenuBuilder builder = builders.get(menuId);
         if (builder == null) {
+            // Si no existe en edición pero existe guardado, cargarlo
+            com.atlasMC.survivalcore.menu.MenuData menuData = menuManager.getMenu(menuId);
+            if (menuData != null) {
+                builder = new MenuBuilder(menuId);
+                builders.put(menuId, builder);
+                player.sendMessage("§7Menú guardado cargado en edición.");
+                return builder;
+            }
             player.sendMessage("§cMenú no encontrado. Crea uno con: /custommenu create " + menuId);
+            return null;
+        }
+        return builder;
+    }
+
+    private void autoSaveMenu(String menuId) {
+        MenuBuilder builder = builders.get(menuId);
+        if (builder != null) {
+            com.atlasMC.survivalcore.menu.MenuData menu = builder.customBuilder.build();
+            menuManager.registerMenu(menuId, menu);
+        }
+    }
+
+    private void addItem(Player player, String menuId, String slotStr, String material, String[] args) {
+        MenuBuilder builder = getOrCreateBuilder(player, menuId);
+        if (builder == null) {
             return;
         }
 
@@ -175,6 +199,7 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
 
             builder.customBuilder.addItem(slot, mat, displayName, "COMMAND", "");
             player.sendMessage(String.format("§a✓ Item agregado en slot %d", slot));
+            autoSaveMenu(menuId);
         } catch (NumberFormatException e) {
             player.sendMessage("§cSlot debe ser un número válido");
         } catch (IllegalArgumentException e) {
@@ -183,20 +208,19 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
     }
 
     private void setTitle(Player player, String menuId, String title) {
-        MenuBuilder builder = builders.get(menuId);
+        MenuBuilder builder = getOrCreateBuilder(player, menuId);
         if (builder == null) {
-            player.sendMessage("§cMenú no encontrado.");
             return;
         }
 
         builder.customBuilder.title(title);
         player.sendMessage(String.format("§a✓ Título actualizado: %s", title));
+        autoSaveMenu(menuId);
     }
 
     private void setSize(Player player, String menuId, String rowsStr) {
-        MenuBuilder builder = builders.get(menuId);
+        MenuBuilder builder = getOrCreateBuilder(player, menuId);
         if (builder == null) {
-            player.sendMessage("§cMenú no encontrado.");
             return;
         }
 
@@ -208,15 +232,15 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
             }
             builder.customBuilder.rows(rows);
             player.sendMessage(String.format("§a✓ Tamaño actualizado: %d filas", rows));
+            autoSaveMenu(menuId);
         } catch (NumberFormatException e) {
             player.sendMessage("§cDebe ser un número entre 1 y 6");
         }
     }
 
     private void setBackgroundColor(Player player, String menuId, String material) {
-        MenuBuilder builder = builders.get(menuId);
+        MenuBuilder builder = getOrCreateBuilder(player, menuId);
         if (builder == null) {
-            player.sendMessage("§cMenú no encontrado.");
             return;
         }
 
@@ -224,6 +248,7 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
             Material.valueOf(material.toUpperCase());
             builder.customBuilder.backgroundColor(material.toUpperCase());
             player.sendMessage(String.format("§a✓ Color de fondo actualizado: %s", material));
+            autoSaveMenu(menuId);
         } catch (IllegalArgumentException e) {
             player.sendMessage("§cMaterial no válido: " + material);
         }
@@ -250,7 +275,19 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
     }
 
     private void openMenu(Player player, String menuId) {
-        menuManager.openMenu(player, menuId);
+        try {
+            menuManager.openMenu(player, menuId);
+        } catch (Exception e) {
+            // Intentar abrir menú en edición si no existe guardado
+            MenuBuilder builder = builders.get(menuId);
+            if (builder != null) {
+                com.atlasMC.survivalcore.menu.MenuData menu = builder.customBuilder.build();
+                menuManager.openMenu(player, menuId);
+                player.sendMessage("§7Abriendo menú en edición (no guardado aún)");
+            } else {
+                player.sendMessage("§cMenú no encontrado: " + menuId);
+            }
+        }
     }
 
     private void listMenus(Player player) {
