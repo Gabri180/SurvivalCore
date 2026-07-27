@@ -7,53 +7,14 @@
 3. plugin.yml:           version: X.X.X
 ```
 
-**Versión Actual: 1.0.14**  
-**Próxima: 1.0.15**
+**Versión Actual: 1.0.15**  
+**Próxima: 1.0.16**
 
 ---
 
-## 🎯 FASE ACTUAL (1.0.15) - HIGH PRIORITY
+## 🎯 FASE ACTUAL (1.0.16) - HIGH PRIORITY
 
-### 1. Subcomandos Dev3 - CRÍTICO
-**Estado:** ❌ No implementado | Impacto: Máximo
-
-**Arena Subcomandos:**
-- [ ] `/arena join <id>` - Unirse a arena (restar dinero, trackear en ArenaManager)
-- [ ] `/arena leave` - Salir de arena (descontar participante)
-- [ ] `/arena info <id>` - Ver info de arena (jugadores, entrada, premio)
-- [ ] `/arena ranking` - Ver top 10 del ranking
-
-**Clan Subcomandos:**
-- [ ] `/clan create <nombre>` - Crear clan (deducir dinero, crear propietario)
-- [ ] `/clan invite <jugador>` - Invitar a clan (validar miembro)
-- [ ] `/clan accept` - Aceptar invitación
-- [ ] `/clan leave` - Salir del clan
-- [ ] `/clan info` - Ver info del clan (dinero, miembros, alianzas)
-- [ ] `/clan bank` - Ver tesorería
-- [ ] `/clan members` - Listar miembros con roles
-
-**Auction Subcomandos:**
-- [ ] `/auction sell <precio>` - Vender item en mano
-- [ ] `/auction list` - Ver subastas activas (con menú paginated)
-- [ ] `/auction mylist` - Ver mis subastas
-- [ ] `/auction bid <id> <cantidad>` - Pujar en subasta
-- [ ] `/auction claim` - Reclamar items ganados
-
-**Bounty Subcomandos:**
-- [ ] `/bounty create <jugador> <cantidad>` - Crear recompensa
-- [ ] `/bounty list` - Ver recompensas activas (con menú paginated)
-- [ ] `/bounty mylist` - Ver mis recompensas creadas
-- [ ] `/bounty history` - Ver recompensas pagadas
-
-**Archivos a modificar:**
-- `ArenaCommand.java` - Agregar handler de subcomandos
-- `ClanCommand.java` - Agregar handler de subcomandos
-- `AuctionCommand.java` - Agregar handler de subcomandos
-- `BountyCommand.java` - Agregar handler de subcomandos
-
----
-
-### 2. Job Menu Interactivo - IMPORTANTE
+### 1. Job Menu Interactivo - IMPORTANTE
 **Estado:** ⚠️ Base lista | Impacto: Alto
 
 - [ ] Crear `/job menu` o `/job` (abre menú de jobs)
@@ -68,7 +29,48 @@
 
 ---
 
-### 3. Notificaciones y Feedback - IMPORTANTE
+## ✅ COMPLETADO (1.0.15)
+
+### Subcomandos Dev3
+**Estado:** ✅ Implementado | Impacto: Máximo
+
+**Arena Subcomandos:**
+- [x] `/arena join <id>` - Unirse a arena (restar dinero, trackear en ArenaManager)
+- [x] `/arena leave` - Salir de arena (descontar participante)
+- [x] `/arena info <id>` - Ver info de arena (jugadores, entrada, premio)
+- [x] `/arena ranking` - Ver top 10 del ranking (placeholder para futuro)
+
+**Clan Subcomandos:**
+- [x] `/clan create <nombre>` - Crear clan (deducir dinero, crear propietario)
+- [x] `/clan invite <jugador>` - Invitar a clan (validar miembro)
+- [x] `/clan accept` - Aceptar invitación (placeholder para futuro)
+- [x] `/clan leave` - Salir del clan
+- [x] `/clan info` - Ver info del clan (dinero, miembros, alianzas)
+- [x] `/clan bank` - Ver tesorería
+- [x] `/clan members` - Listar miembros con roles
+
+**Auction Subcomandos:**
+- [x] `/auction sell <precio>` - Vender item en mano
+- [x] `/auction list` - Ver subastas activas
+- [x] `/auction mylist` - Ver mis subastas
+- [x] `/auction bid <id> <cantidad>` - Pujar en subasta
+- [x] `/auction claim` - Reclamar items ganados (placeholder para futuro)
+
+**Bounty Subcomandos:**
+- [x] `/bounty create <jugador> <cantidad>` - Crear recompensa
+- [x] `/bounty list` - Ver recompensas activas
+- [x] `/bounty mylist` - Ver mis recompensas creadas
+- [x] `/bounty history` - Ver recompensas pagadas (placeholder para futuro)
+
+**Archivos a modificar:**
+- `ArenaCommand.java` - Agregar handler de subcomandos
+- `ClanCommand.java` - Agregar handler de subcomandos
+- `AuctionCommand.java` - Agregar handler de subcomandos
+- `BountyCommand.java` - Agregar handler de subcomandos
+
+---
+
+### 2. Notificaciones y Feedback - IMPORTANTE
 **Estado:** ❌ No implementado | Impacto: Medio
 
 - [ ] Notificar cuando suben puja en auction
@@ -188,7 +190,7 @@ git reset --hard origin/main
 
 ---
 
-## 📊 ESTADO ACTUAL (1.0.14)
+## 📊 ESTADO ACTUAL (1.0.15)
 
 | Módulo | Estado | % |
 |--------|--------|-----|
@@ -196,7 +198,7 @@ git reset --hard origin/main
 | Managers (Arena/Clan/Auction/Bounty) | ✅ | 100% |
 | Job Listeners | ✅ | 100% |
 | Comandos Menú | ✅ | 100% |
-| **Subcomandos Dev3** | ❌ | 0% |
+| **Subcomandos Dev3** | ✅ | 100% |
 | **Job Menu** | ❌ | 0% |
 | **Notificaciones** | ❌ | 0% |
 | Misiones | ⚠️ | 20% |
