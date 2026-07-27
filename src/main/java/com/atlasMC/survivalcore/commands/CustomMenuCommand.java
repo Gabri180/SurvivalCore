@@ -401,8 +401,8 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return List.of("create", "item", "title", "size", "bgcolor", "save", "cancel", "open",
-                          "command", "unalias", "aliases", "list", "permission");
+            return List.of("create", "item", "itemaction", "title", "size", "bgcolor", "save", "cancel", "open",
+                          "command", "unalias", "aliases", "list", "permission", "editor");
         }
         if (args.length == 2) {
             List<String> menuIds = new ArrayList<>(builders.keySet());
@@ -410,11 +410,24 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
             menuIds.addAll(menuManager.getAllMenus().keySet());
             return menuIds;
         }
-        if (args.length == 3 && args[0].equalsIgnoreCase("command")) {
-            return List.of("set");
+        if (args.length == 3) {
+            if (args[0].equalsIgnoreCase("command")) {
+                return List.of("set");
+            }
+            if (args[0].equalsIgnoreCase("permission")) {
+                return List.of("set", "clear");
+            }
+            if (args[0].equalsIgnoreCase("itemaction")) {
+                // Tab-complete para slot (mostrar números 0-26)
+                List<String> slots = new ArrayList<>();
+                for (int i = 0; i < 27; i++) {
+                    slots.add(String.valueOf(i));
+                }
+                return slots;
+            }
         }
-        if (args.length == 3 && args[0].equalsIgnoreCase("permission")) {
-            return List.of("set", "clear");
+        if (args.length == 4 && args[0].equalsIgnoreCase("itemaction")) {
+            return List.of("COMMAND", "MESSAGE", "OPEN_MENU", "CLOSE", "NONE");
         }
         return List.of();
     }
