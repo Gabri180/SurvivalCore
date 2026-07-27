@@ -42,6 +42,34 @@ git push origin main
 
 ---
 
+## 🎉 IMPLEMENTADO EN v1.0.24
+
+### Editor Visual de Menús
+Menú interactivo completo para browsear y editar menús sin comandos.
+
+**Comando:** `/custommenu editor`
+
+**Características:**
+- Listar todos los menús creados visualmente
+- Clickear menú para ver todos sus items
+- Clickear item para ver detalles completos
+- Información de: nombre, material, tipo de acción, valor
+- Sugerencias de comandos de edición en chat
+- Navegación atrás en todos los niveles
+
+**Flujo:**
+1. `/custommenu editor` - Abre lista de menús
+2. Clickea un menú - Ver sus items
+3. Clickea un item - Ver información y opciones de edición
+4. Botón "Atrás" - Volver a pantalla anterior
+
+**Menús visuales creados:**
+- **Selecciona Menú**: Lista todos los menús (items con BOOK)
+- **Items de [menuId]**: Lista items del menú seleccionado
+- **Info Item (Slot N)**: Detalles del item con opciones
+
+---
+
 ## 🎉 IMPLEMENTADO EN v1.0.23
 
 ### Permisos Personalizados para Menús
@@ -525,18 +553,19 @@ customshop.use
 
 ---
 
-## 📊 ESTADÍSTICAS ACTUALES (v1.0.23)
+## 📊 ESTADÍSTICAS ACTUALES (v1.0.24)
 
 | Componente | Estado | Líneas |
 |-----------|--------|--------|
-| Comandos | ✅ | ~1600 |
-| Managers | ✅ | ~2100 |
-| Listeners | ✅ | ~850 |
-| Menús | ✅ | ~700 |
+| Comandos | ✅ | ~1650 |
+| Managers | ✅ | ~2150 |
+| Listeners | ✅ | ~950 |
+| Menús | ✅ | ~900 |
+| Editor Visual | ✅ | ~350 |
 | Notificaciones | ✅ | ~400 |
 | Misiones | ✅ | ~250 |
 | Skills | ✅ | ~200 |
-| **TOTAL** | **✅** | **~6100** |
+| **TOTAL** | **✅** | **~6850** |
 
 ---
 
@@ -642,6 +671,6 @@ Secciones principales:
 ---
 
 **Última actualización:** 27 Julio 2026  
-**Versión Actual:** 1.0.23  
-**Estado:** ✅ Completamente funcional con auto-save de menús  
-**Siguiente versión:** 1.0.24 (Database & Optimizaciones)
+**Versión Actual:** 1.0.24  
+**Estado:** ✅ Editor visual de menús completamente funcional  
+**Siguiente versión:** 1.0.25 (Database & Optimizaciones)
