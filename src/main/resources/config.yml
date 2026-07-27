@@ -49,4 +49,11 @@ siege:
   max-charges-per-attacker-per-day: 5
   post-raid-immunity-hours: 48
 
+cache:
+  expiry-minutes: 30
+
+backup:
+  enabled: true
+  interval-minutes: 120
+
 debug: false

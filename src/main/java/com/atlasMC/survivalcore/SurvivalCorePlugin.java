@@ -26,6 +26,7 @@ import com.atlasMC.survivalcore.cache.PlayerCache;
 import com.atlasMC.survivalcore.commands.AdminCommand;
 import com.atlasMC.survivalcore.commands.ArenaCommand;
 import com.atlasMC.survivalcore.commands.AuctionCommand;
+import com.atlasMC.survivalcore.commands.BackupCommand;
 import com.atlasMC.survivalcore.commands.BountyCommand;
 import com.atlasMC.survivalcore.commands.ClanCommand;
 import com.atlasMC.survivalcore.commands.CustomMenuCommand;
@@ -68,6 +69,7 @@ import com.atlasMC.survivalcore.menu.MenuManager;
 import com.atlasMC.survivalcore.menu.MenuYamlWriter;
 import com.atlasMC.survivalcore.notifications.NotificationManager;
 import com.atlasMC.survivalcore.prestige.PrestigeManager;
+import com.atlasMC.survivalcore.scheduler.BackupScheduler;
 import com.atlasMC.survivalcore.scheduler.SchedulerManager;
 import com.atlasMC.survivalcore.seasons.SeasonManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -93,6 +95,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
     private MenuManager menuManager;
     private MenuEditorManager menuEditorManager;
     private MenuAliasManager menuAliasManager;
+    private BackupScheduler backupScheduler;
 
     // Repositorios listos para Hauch (Jobs/Skills/Misiones)
     private JobRepository jobRepository;
@@ -135,7 +138,8 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         databaseManager.initializeTables();
 
         this.playerRepository = new PlayerRepository(databaseManager);
-        this.playerCache = new PlayerCache(playerRepository);
+        long cacheExpiryMs = getConfig().getLong("cache.expiry-minutes", 30) * 60 * 1000;
+        this.playerCache = new PlayerCache(playerRepository, cacheExpiryMs);
         this.eventAPI = new EventAPI();
         this.economyAPI = new EconomyAPI(playerCache, databaseManager);
         this.notificationManager = new NotificationManager();
@@ -174,6 +178,8 @@ public final class SurvivalCorePlugin extends JavaPlugin {
 
         MenuYamlWriter yamlWriter = new MenuYamlWriter(this);
         this.menuEditorManager = new MenuEditorManager(menuManager, yamlWriter);
+
+        this.backupScheduler = new BackupScheduler(this, getConfig(), playerCache);
 
         registerListeners();
         registerCommands();
@@ -320,6 +326,10 @@ public final class SurvivalCorePlugin extends JavaPlugin {
 
     public MenuAliasManager getMenuAliasManager() {
         return menuAliasManager;
+    }
+
+    public BackupScheduler getBackupScheduler() {
+        return backupScheduler;
     }
 
     // ---- Repositorios (listos para conectar managers de Hauch/Dev3) ----

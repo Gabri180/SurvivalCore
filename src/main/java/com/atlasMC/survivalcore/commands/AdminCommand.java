@@ -36,6 +36,7 @@ public class AdminCommand implements CommandExecutor, TabExecutor {
         switch (args[0].toLowerCase()) {
             case "reload" -> reloadPlugin(sender);
             case "gui" -> handleGuiCommand(sender, args);
+            case "backup" -> backupDatabase(sender);
             case "help" -> showHelp(sender);
             default -> showHelp(sender);
         }
@@ -51,6 +52,12 @@ public class AdminCommand implements CommandExecutor, TabExecutor {
         } catch (Exception e) {
             sender.sendMessage("§c✗ Error al recargar: " + e.getMessage());
         }
+    }
+
+    private void backupDatabase(CommandSender sender) {
+        sender.sendMessage("§e⏳ Ejecutando backup de base de datos...");
+        plugin.getBackupScheduler().performBackupNow();
+        sender.sendMessage("§a✓ Backup iniciado (se completará en segundo plano)");
     }
 
     private void handleGuiCommand(CommandSender sender, String[] args) {
@@ -105,6 +112,7 @@ public class AdminCommand implements CommandExecutor, TabExecutor {
     private void showHelp(CommandSender sender) {
         sender.sendMessage("§6=== Comandos de Admin (SurvivalCore) ===");
         sender.sendMessage("§e/sc reload §7- Recargar el plugin");
+        sender.sendMessage("§e/sc backup §7- Ejecutar backup de BD");
         sender.sendMessage("§e/sc gui edit <menu> §7- Editar menú");
         sender.sendMessage("§e/sc gui set command <menu> <id> <cmd> §7- Establecer comando rápido");
         sender.sendMessage("§e/sc help §7- Ver esta ayuda");
@@ -125,6 +133,7 @@ public class AdminCommand implements CommandExecutor, TabExecutor {
 
         if (args.length == 1) {
             completions.add("reload");
+            completions.add("backup");
             completions.add("gui");
             completions.add("help");
         } else if (args.length == 2 && args[0].equalsIgnoreCase("gui")) {

@@ -198,3 +198,10 @@ CREATE TABLE IF NOT EXISTS clan_wars (
     CONSTRAINT fk_war_defender FOREIGN KEY (defending_clan_id) REFERENCES clans(id) ON DELETE CASCADE,
     INDEX idx_clan_wars_active (active)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- v1.0.18: Optimizaciones de índices para queries frecuentes
+ALTER TABLE clans ADD INDEX idx_clans_owner_id (owner_id);
+ALTER TABLE clan_members ADD INDEX idx_clan_members_player_id (player_id);
+ALTER TABLE auctions ADD INDEX idx_auctions_end_time (end_time);
+ALTER TABLE siege_charges ADD INDEX idx_siege_charges_claim_id (claim_id);
+ALTER TABLE bounties ADD INDEX idx_bounties_target_uuid (target_uuid);
