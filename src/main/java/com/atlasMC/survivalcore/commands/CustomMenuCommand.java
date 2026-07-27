@@ -322,19 +322,19 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
             return List.of("create", "item", "title", "size", "bgcolor", "save", "cancel", "open",
-                          "command", "unalias", "aliases", "list");
+                          "command", "unalias", "aliases", "list", "permission");
         }
         if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("command")) {
-                List<String> menuIds = new ArrayList<>(builders.keySet());
-                return menuIds;
-            }
             List<String> menuIds = new ArrayList<>(builders.keySet());
-            menuIds.addAll(List.of("myMenu", "shopMenu", "rankingsMenu"));
+            // Agregar menús guardados
+            menuIds.addAll(menuManager.getAllMenus().keySet());
             return menuIds;
         }
         if (args.length == 3 && args[0].equalsIgnoreCase("command")) {
             return List.of("set");
+        }
+        if (args.length == 3 && args[0].equalsIgnoreCase("permission")) {
+            return List.of("set", "clear");
         }
         return List.of();
     }
