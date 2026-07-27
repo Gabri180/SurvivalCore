@@ -58,6 +58,11 @@ commands:
     description: Comando de administración de SurvivalCore
     usage: /sc <reload|gui|help>
     permission: survivalcore.admin
+  event:
+    description: Gestiona eventos especiales del servidor
+    usage: /event <info|list|schedule>
+    aliases: [eventos]
+    permission: survivalcore.event.admin
 
 permissions:
   survivalcore.admin:
@@ -66,3 +71,6 @@ permissions:
   survivalcore.player:
     description: Acceso base de jugador a SurvivalCore
     default: true
+  survivalcore.event.admin:
+    description: Crear y gestionar eventos especiales
+    default: op

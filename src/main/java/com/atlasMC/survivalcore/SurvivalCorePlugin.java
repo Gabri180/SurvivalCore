@@ -30,6 +30,7 @@ import com.atlasMC.survivalcore.commands.BackupCommand;
 import com.atlasMC.survivalcore.commands.BountyCommand;
 import com.atlasMC.survivalcore.commands.ClanCommand;
 import com.atlasMC.survivalcore.commands.CustomMenuCommand;
+import com.atlasMC.survivalcore.commands.EventCommand;
 import com.atlasMC.survivalcore.commands.JobCommand;
 import com.atlasMC.survivalcore.commands.MenuCommand;
 import com.atlasMC.survivalcore.commands.MenuEditCommand;
@@ -46,6 +47,7 @@ import com.atlasMC.survivalcore.db.ClaimRepository;
 import com.atlasMC.survivalcore.db.ClanRepository;
 import com.atlasMC.survivalcore.db.ClanWarRepository;
 import com.atlasMC.survivalcore.db.DatabaseManager;
+import com.atlasMC.survivalcore.db.EventRepository;
 import com.atlasMC.survivalcore.db.JobRepository;
 import com.atlasMC.survivalcore.db.MissionRepository;
 import com.atlasMC.survivalcore.db.PlayerRepository;
@@ -67,6 +69,7 @@ import com.atlasMC.survivalcore.menu.MenuEditorManager;
 import com.atlasMC.survivalcore.menu.MenuLoader;
 import com.atlasMC.survivalcore.menu.MenuManager;
 import com.atlasMC.survivalcore.menu.MenuYamlWriter;
+import com.atlasMC.survivalcore.events.EventManager;
 import com.atlasMC.survivalcore.notifications.NotificationManager;
 import com.atlasMC.survivalcore.prestige.PrestigeManager;
 import com.atlasMC.survivalcore.scheduler.BackupScheduler;
@@ -96,11 +99,13 @@ public final class SurvivalCorePlugin extends JavaPlugin {
     private MenuEditorManager menuEditorManager;
     private MenuAliasManager menuAliasManager;
     private BackupScheduler backupScheduler;
+    private EventManager eventManager;
 
     // Repositorios listos para Hauch (Jobs/Skills/Misiones)
     private JobRepository jobRepository;
     private SkillRepository skillRepository;
     private MissionRepository missionRepository;
+    private EventRepository eventRepository;
 
     // Repositorios listos para Dev3 (Clanes/Raideo)
     private ClanRepository clanRepository;
@@ -145,10 +150,12 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         this.notificationManager = new NotificationManager();
         this.seasonManager = new SeasonManager(databaseManager);
         this.prestigeManager = new PrestigeManager(playerCache, databaseManager);
+        this.eventManager = new EventManager(this, eventRepository);
 
         this.jobRepository = new JobRepository(databaseManager);
         this.skillRepository = new SkillRepository(databaseManager);
         this.missionRepository = new MissionRepository(databaseManager);
+        this.eventRepository = new EventRepository(databaseManager);
 
         this.clanRepository = new ClanRepository(databaseManager);
         this.claimRepository = new ClaimRepository(databaseManager);
@@ -276,6 +283,11 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         AdminCommand adminCmd = new AdminCommand(this);
         getCommand("sc").setExecutor(adminCmd);
         getCommand("sc").setTabCompleter(adminCmd);
+
+        // v1.0.19: Eventos
+        EventCommand eventCmd = new EventCommand(eventManager);
+        getCommand("event").setExecutor(eventCmd);
+        getCommand("event").setTabCompleter(eventCmd);
     }
 
     public static SurvivalCorePlugin getInstance() {
@@ -330,6 +342,10 @@ public final class SurvivalCorePlugin extends JavaPlugin {
 
     public BackupScheduler getBackupScheduler() {
         return backupScheduler;
+    }
+
+    public EventManager getEventManager() {
+        return eventManager;
     }
 
     // ---- Repositorios (listos para conectar managers de Hauch/Dev3) ----
