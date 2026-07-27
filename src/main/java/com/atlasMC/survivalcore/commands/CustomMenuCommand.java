@@ -2,6 +2,7 @@ package com.atlasMC.survivalcore.commands;
 
 import com.atlasMC.survivalcore.menu.CustomMenuBuilder;
 import com.atlasMC.survivalcore.menu.MenuManager;
+import com.atlasMC.survivalcore.menu.MenuAliasManager;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,10 +18,12 @@ import java.util.Map;
 public class CustomMenuCommand implements CommandExecutor, TabExecutor {
 
     private final MenuManager menuManager;
+    private final MenuAliasManager aliasManager;
     private final Map<String, MenuBuilder> builders = new HashMap<>();
 
-    public CustomMenuCommand(MenuManager menuManager) {
+    public CustomMenuCommand(MenuManager menuManager, MenuAliasManager aliasManager) {
         this.menuManager = menuManager;
+        this.aliasManager = aliasManager;
     }
 
     @Override
@@ -98,6 +101,21 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
                 }
             }
             case "list" -> listMenus(player);
+            case "command" -> {
+                if (args.length < 4) {
+                    player.sendMessage("§cUso: /custommenu command <menuId> set <comando>");
+                } else {
+                    commandAlias(player, args[1], args[2], args[3]);
+                }
+            }
+            case "unalias" -> {
+                if (args.length < 2) {
+                    player.sendMessage("§cUso: /custommenu unalias <comando>");
+                } else {
+                    removeAlias(player, args[1]);
+                }
+            }
+            case "aliases" -> listAliases(player);
             default -> showHelp(player);
         }
         return true;
@@ -105,6 +123,7 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
 
     private void showHelp(Player player) {
         player.sendMessage("§6═══ Custom Menu Builder ═══");
+        player.sendMessage("§7§m                                   ");
         player.sendMessage("§e/custommenu create <id> §7- Crear nuevo menú");
         player.sendMessage("§e/custommenu item <id> <slot> <material> §7- Agregar item");
         player.sendMessage("§e/custommenu title <id> <título> §7- Cambiar título");
@@ -113,6 +132,10 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
         player.sendMessage("§e/custommenu save <id> §7- Guardar menú");
         player.sendMessage("§e/custommenu cancel <id> §7- Cancelar edición");
         player.sendMessage("§e/custommenu open <id> §7- Abrir menú");
+        player.sendMessage("§7§m                                   ");
+        player.sendMessage("§e/custommenu command <id> set <cmd> §7- Crear alias");
+        player.sendMessage("§e/custommenu unalias <cmd> §7- Eliminar alias");
+        player.sendMessage("§e/custommenu aliases §7- Listar aliases");
         player.sendMessage("§e/custommenu list §7- Listar menús");
     }
 
@@ -231,15 +254,76 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
         }
     }
 
+    private void commandAlias(Player player, String menuId, String action, String commandName) {
+        if (!action.equalsIgnoreCase("set")) {
+            player.sendMessage("§cUso: /custommenu command <menuId> set <comando>");
+            return;
+        }
+
+        if (menuManager.getMenu(menuId) == null) {
+            player.sendMessage("§cMenú no encontrado: " + menuId);
+            return;
+        }
+
+        if (!isValidCommandName(commandName)) {
+            player.sendMessage("§cNombre de comando inválido. Solo letras, números y guiones.");
+            return;
+        }
+
+        try {
+            aliasManager.registerAlias(commandName, menuId);
+            player.sendMessage(String.format("§a✓ Alias creado: §f/%s §7→ Abre §f%s", commandName, menuId));
+            player.sendMessage("§7Los jugadores ahora pueden usar §f/" + commandName + " §7para abrir el menú");
+        } catch (IllegalArgumentException e) {
+            player.sendMessage("§c" + e.getMessage());
+        }
+    }
+
+    private void removeAlias(Player player, String commandName) {
+        String menuId = aliasManager.getMenuForAlias(commandName);
+        if (menuId == null) {
+            player.sendMessage("§cAlias no encontrado: " + commandName);
+            return;
+        }
+
+        aliasManager.removeAlias(commandName);
+        player.sendMessage(String.format("§c✗ Alias eliminado: §f/%s", commandName));
+    }
+
+    private void listAliases(Player player) {
+        Map<String, String> aliases = aliasManager.getAllAliases();
+        if (aliases.isEmpty()) {
+            player.sendMessage("§7No hay aliases configurados.");
+            return;
+        }
+
+        player.sendMessage("§6=== Aliases de Menús ===");
+        aliases.forEach((cmd, menuId) ->
+            player.sendMessage(String.format("§e• /%-15s §7→ §f%s", cmd, menuId))
+        );
+    }
+
+    private boolean isValidCommandName(String name) {
+        return name.matches("^[a-zA-Z0-9_-]+$") && name.length() >= 2 && name.length() <= 20;
+    }
+
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return List.of("create", "item", "title", "size", "bgcolor", "save", "cancel", "open", "list");
+            return List.of("create", "item", "title", "size", "bgcolor", "save", "cancel", "open",
+                          "command", "unalias", "aliases", "list");
         }
         if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("command")) {
+                List<String> menuIds = new ArrayList<>(builders.keySet());
+                return menuIds;
+            }
             List<String> menuIds = new ArrayList<>(builders.keySet());
             menuIds.addAll(List.of("myMenu", "shopMenu", "rankingsMenu"));
             return menuIds;
+        }
+        if (args.length == 3 && args[0].equalsIgnoreCase("command")) {
+            return List.of("set");
         }
         return List.of();
     }

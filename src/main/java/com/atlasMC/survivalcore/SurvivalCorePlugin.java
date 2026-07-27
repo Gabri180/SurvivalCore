@@ -61,6 +61,7 @@ import com.atlasMC.survivalcore.listeners.PlayerDataListener;
 import com.atlasMC.survivalcore.listeners.PvPArenaListener;
 import com.atlasMC.survivalcore.listeners.PvPKillstreakListener;
 import com.atlasMC.survivalcore.menu.ChatInputPrompt;
+import com.atlasMC.survivalcore.menu.MenuAliasManager;
 import com.atlasMC.survivalcore.menu.MenuEditorManager;
 import com.atlasMC.survivalcore.menu.MenuLoader;
 import com.atlasMC.survivalcore.menu.MenuManager;
@@ -91,6 +92,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
     private PrestigeManager prestigeManager;
     private MenuManager menuManager;
     private MenuEditorManager menuEditorManager;
+    private MenuAliasManager menuAliasManager;
 
     // Repositorios listos para Hauch (Jobs/Skills/Misiones)
     private JobRepository jobRepository;
@@ -167,6 +169,8 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         this.menuManager = new MenuManager(this);
         MenuLoader menuLoader = new MenuLoader(this, menuManager);
         menuLoader.loadMenus();
+
+        this.menuAliasManager = new MenuAliasManager(menuManager, this);
 
         MenuYamlWriter yamlWriter = new MenuYamlWriter(this);
         this.menuEditorManager = new MenuEditorManager(menuManager, yamlWriter);
@@ -251,7 +255,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         getCommand("skill").setExecutor(skillCmd);
         getCommand("skill").setTabCompleter(skillCmd);
 
-        CustomMenuCommand customMenuCmd = new CustomMenuCommand(menuManager);
+        CustomMenuCommand customMenuCmd = new CustomMenuCommand(menuManager, menuAliasManager);
         getCommand("custommenu").setExecutor(customMenuCmd);
         getCommand("custommenu").setTabCompleter(customMenuCmd);
 
@@ -312,6 +316,10 @@ public final class SurvivalCorePlugin extends JavaPlugin {
 
     public MenuEditorManager getMenuEditorManager() {
         return menuEditorManager;
+    }
+
+    public MenuAliasManager getMenuAliasManager() {
+        return menuAliasManager;
     }
 
     // ---- Repositorios (listos para conectar managers de Hauch/Dev3) ----
