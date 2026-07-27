@@ -31,6 +31,7 @@ import com.atlasMC.survivalcore.commands.ClanCommand;
 import com.atlasMC.survivalcore.commands.JobCommand;
 import com.atlasMC.survivalcore.commands.MenuCommand;
 import com.atlasMC.survivalcore.commands.MenuEditCommand;
+import com.atlasMC.survivalcore.commands.NotificationsCommand;
 import com.atlasMC.survivalcore.commands.StatsCommand;
 import com.atlasMC.survivalcore.config.ConfigManager;
 import com.atlasMC.survivalcore.db.ArenaRepository;
@@ -61,6 +62,7 @@ import com.atlasMC.survivalcore.menu.MenuEditorManager;
 import com.atlasMC.survivalcore.menu.MenuLoader;
 import com.atlasMC.survivalcore.menu.MenuManager;
 import com.atlasMC.survivalcore.menu.MenuYamlWriter;
+import com.atlasMC.survivalcore.notifications.NotificationManager;
 import com.atlasMC.survivalcore.prestige.PrestigeManager;
 import com.atlasMC.survivalcore.scheduler.SchedulerManager;
 import com.atlasMC.survivalcore.seasons.SeasonManager;
@@ -81,6 +83,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
     private PlayerCache playerCache;
     private EconomyAPI economyAPI;
     private EventAPI eventAPI;
+    private NotificationManager notificationManager;
     private SeasonManager seasonManager;
     private PrestigeManager prestigeManager;
     private MenuManager menuManager;
@@ -130,6 +133,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         this.playerCache = new PlayerCache(playerRepository);
         this.eventAPI = new EventAPI();
         this.economyAPI = new EconomyAPI(playerCache, databaseManager);
+        this.notificationManager = new NotificationManager();
         this.seasonManager = new SeasonManager(databaseManager);
         this.prestigeManager = new PrestigeManager(playerCache, databaseManager);
 
@@ -232,6 +236,10 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         getCommand("bounty").setExecutor(bountyCmd);
         getCommand("bounty").setTabCompleter(bountyCmd);
 
+        NotificationsCommand notifCmd = new NotificationsCommand(notificationManager, menuManager);
+        getCommand("notificaciones").setExecutor(notifCmd);
+        getCommand("notificaciones").setTabCompleter(notifCmd);
+
         // Menú editor
         getCommand("menuedit").setExecutor(new MenuEditCommand(this));
 
@@ -257,6 +265,10 @@ public final class SurvivalCorePlugin extends JavaPlugin {
 
     public EventAPI getEventAPI() {
         return eventAPI;
+    }
+
+    public NotificationManager getNotificationManager() {
+        return notificationManager;
     }
 
     public DatabaseManager getDatabaseManager() {

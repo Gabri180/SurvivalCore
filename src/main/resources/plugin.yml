@@ -1,5 +1,5 @@
 name: SurvivalCore
-version: 1.0.15
+version: 1.0.16
 main: com.atlasMC.survivalcore.SurvivalCorePlugin
 api-version: '1.21'
 authors: [Gabriel, Hauch, Dev3]
@@ -30,6 +30,10 @@ commands:
     description: Sistema de recompensas por cabeza
     usage: /bounty
     aliases: [recompensa]
+  notificaciones:
+    description: Gestiona tus preferencias de notificaciones
+    usage: /notificaciones <menu|toggle|status>
+    aliases: [notif, notifs]
   menuedit:
     description: Editor de menus (admin)
     usage: /menuedit <shop>
