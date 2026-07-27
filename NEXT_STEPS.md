@@ -1,227 +1,210 @@
 # SurvivalCore - Próximos Pasos
 
-**⚠️ IMPORTANTE: Actualiza la versión en pom.xml, finalName y plugin.yml cada vez que hagas cambios**
-
-```bash
-# Versión actual: 1.0.9
-# Siguiente: 1.0.10
-# Cambios necesarios:
-# 1. pom.xml: <version>1.0.X</version>
-# 2. pom.xml: <finalName>SurvivalCore-1.0.X</finalName>
-# 3. plugin.yml: version: 1.0.X
+**⚠️ CRÍTICO: Actualiza versión en estos 3 archivos ANTES de compilar:**
+```
+1. pom.xml:              <version>X.X.X</version>
+2. pom.xml:              <finalName>SurvivalCore-X.X.X</finalName>
+3. plugin.yml:           version: X.X.X
 ```
 
+**Versión Actual: 1.0.14**  
+**Próxima: 1.0.15**
+
 ---
 
-## 🎯 Fase 1: Implementar Click Listeners para Menús (HIGH PRIORITY)
+## 🎯 FASE ACTUAL (1.0.15) - HIGH PRIORITY
 
-### Menu Click Actions
-- [ ] Implementar `MenuClickListener` para interceptar clicks en items del menú
-- [ ] Ejecutar acciones al clickear items (COMMAND, OPEN_MENU, MESSAGE, CLOSE)
-- [ ] Soporte para prevenir que los items se muevan/droppeen del menú
-- [ ] Feedback visual al jugador cuando clickea un item
+### 1. Subcomandos Dev3 - CRÍTICO
+**Estado:** ❌ No implementado | Impacto: Máximo
+
+**Arena Subcomandos:**
+- [ ] `/arena join <id>` - Unirse a arena (restar dinero, trackear en ArenaManager)
+- [ ] `/arena leave` - Salir de arena (descontar participante)
+- [ ] `/arena info <id>` - Ver info de arena (jugadores, entrada, premio)
+- [ ] `/arena ranking` - Ver top 10 del ranking
+
+**Clan Subcomandos:**
+- [ ] `/clan create <nombre>` - Crear clan (deducir dinero, crear propietario)
+- [ ] `/clan invite <jugador>` - Invitar a clan (validar miembro)
+- [ ] `/clan accept` - Aceptar invitación
+- [ ] `/clan leave` - Salir del clan
+- [ ] `/clan info` - Ver info del clan (dinero, miembros, alianzas)
+- [ ] `/clan bank` - Ver tesorería
+- [ ] `/clan members` - Listar miembros con roles
+
+**Auction Subcomandos:**
+- [ ] `/auction sell <precio>` - Vender item en mano
+- [ ] `/auction list` - Ver subastas activas (con menú paginated)
+- [ ] `/auction mylist` - Ver mis subastas
+- [ ] `/auction bid <id> <cantidad>` - Pujar en subasta
+- [ ] `/auction claim` - Reclamar items ganados
+
+**Bounty Subcomandos:**
+- [ ] `/bounty create <jugador> <cantidad>` - Crear recompensa
+- [ ] `/bounty list` - Ver recompensas activas (con menú paginated)
+- [ ] `/bounty mylist` - Ver mis recompensas creadas
+- [ ] `/bounty history` - Ver recompensas pagadas
+
+**Archivos a modificar:**
+- `ArenaCommand.java` - Agregar handler de subcomandos
+- `ClanCommand.java` - Agregar handler de subcomandos
+- `AuctionCommand.java` - Agregar handler de subcomandos
+- `BountyCommand.java` - Agregar handler de subcomandos
+
+---
+
+### 2. Job Menu Interactivo - IMPORTANTE
+**Estado:** ⚠️ Base lista | Impacto: Alto
+
+- [ ] Crear `/job menu` o `/job` (abre menú de jobs)
+- [ ] Clickeable: Mostrar job actual con color
+- [ ] Ver stats: Nivel, XP, ganancias del día
+- [ ] Click en job para cambiar
+- [ ] Upgrade de job con dinero (si existe sistema)
+
+**Archivos a crear/modificar:**
+- `JobCommand.java` - Mejorar con menú
+- `MenuFactory.addJobMenu()` - Menú dinámico de jobs
+
+---
+
+### 3. Notificaciones y Feedback - IMPORTANTE
+**Estado:** ❌ No implementado | Impacto: Medio
+
+- [ ] Notificar cuando suben puja en auction
+- [ ] Notificar cuando crean bounty sobre ti
+- [ ] Chat messages al ganar XP de jobs
+- [ ] Sonidos en eventos (victoria arena, nueva puja)
+- [ ] Títulos/subtítulos en eventos importantes
 
 **Archivos a crear:**
-- Mejorar `MenuClickListener.java` para ejecutar acciones reales
-- Crear `MenuItemClickEvent.java` para eventos personalizados
+- `NotificationManager.java` - Centralizar notificaciones
+- Integrar en listeners de eventos
 
 ---
 
-## 🎯 Fase 2: Implementar Lógica de Dev3 (HIGH PRIORITY)
+## 🎯 FASE 2 (1.0.16) - MEDIUM PRIORITY
 
-### Arena System
-- [ ] Implementar join/leave arena con `ArenaManagerImpl`
-- [ ] Sistema de puntuación 1v1
-- [ ] Rewards al ganar/perder
-- [ ] Mostrar ranking de arena
+### 1. Sistema de Misiones Completo
+- [ ] Expandir `IMissionManager` con más métodos
+- [ ] `/mission` comando interactivo
+- [ ] Cargar misiones desde `missions.yml`
+- [ ] Progreso de misiones diarias/semanales
+- [ ] Rewards al completar
+- [ ] Menú con pagination de misiones activas
 
-### Clan System
-- [ ] Crear clan con `/clan create <nombre>`
-- [ ] Invitar jugadores a clan
-- [ ] Sistema de roles (Admin, Moderador, Miembro)
-- [ ] Dinero compartido del clan
-- [ ] Alianzas entre clanes
-
-### Auction System
-- [ ] Listar items para subasta
-- [ ] Sistema de pujas
-- [ ] Notificaciones cuando suben tu puja
-- [ ] Recolectar items ganados
-
-### Bounty System
-- [ ] Crear recompensa por cabeza
-- [ ] Listar recompensas activas
-- [ ] Reclamar recompensas
-- [ ] Historial de recompensas pagadas
-
----
-
-## 🎯 Fase 3: Mejorar Sistema de Jobs (MEDIUM PRIORITY)
-
-### Job Listeners Faltantes
-- [ ] `JobBlockBreakListener` - Experiencia al romper bloques (MINER)
-- [ ] `JobFishingListener` - Experiencia al pescar (FISHERMAN)
-- [ ] `JobKillListener` - Experiencia al matar mobs (WARRIOR)
-- [ ] Implementar sistema de recompensas por nivel
-
-### Job Menu Interactivo
-- [ ] Click en item → seleccionar job
-- [ ] Ver info del job (nivel, exp, ganancias)
-- [ ] Upgrade de job con dinero
-
----
-
-## 🎯 Fase 4: Sistema de Misiones (MEDIUM PRIORITY)
-
-### Missions Implementation
-- [ ] Cargar misiones desde YAML
-- [ ] Sistema de progreso de misiones
-- [ ] Misiones diarias/semanales
-- [ ] Rewards al completar misiones
-- [ ] `/mission` comando para ver misiones activas
-
-### Mission Types
-- [ ] Kill missions (matar X mobs)
+**Tipos de misiones:**
+- [ ] Kill missions (matar X mobs específicos)
 - [ ] Collect missions (recolectar X items)
 - [ ] Travel missions (ir a X ubicación)
 - [ ] Craft missions (craftear X items)
 
 ---
 
-## 🎯 Fase 5: Sistema de Skills (MEDIUM PRIORITY)
+### 2. Menu Avanzado - Pagination y Efectos
+- [ ] Pagination para menús con 10+ items
+- [ ] Botones anterior/siguiente
+- [ ] Items animados (material que cambia)
+- [ ] Efectos de partículas al clickear
+- [ ] Menus con búsqueda/filtros
 
-### Skill Trees
+**Archivos a crear:**
+- `PaginatedMenu.java` - Sistema de pagination
+- `AnimatedMenuItem.java` - Items con animación
+
+---
+
+## 🎯 FASE 3 (1.0.17) - MEDIUM PRIORITY
+
+### Sistema de Skills Completo
 - [ ] Implementar `SkillManagerImpl` totalmente
-- [ ] Subir skills al realizar acciones
-- [ ] Bonificadores de permisos basados en skills
-- [ ] Sistema de perks/habilidades especiales
-
-### Integración con Jobs
-- [ ] Skills relacionadas a cada job
-- [ ] Multiplicador de XP por skill level
+- [ ] Skill trees con múltiples paths
+- [ ] Bonificadores de stats basados en skills
+- [ ] Perks/habilidades especiales
+- [ ] `/skills` menú interactivo
+- [ ] Subir skills al realizar acciones relacionadas
 
 ---
 
-## 🎯 Fase 6: GUI Avanzada (LOW PRIORITY)
+## 🎯 FASE 4 (1.0.18+) - LOW PRIORITY
 
-### Mejoras de Menú
-- [ ] Pagination para menús con muchos items
-- [ ] Botones de navegación (siguiente/anterior)
-- [ ] Items animados/cambiantes
-- [ ] Efectos visuales al clickear
-
-### Nuevos Menús
-- [ ] Menú de tienda principal
-- [ ] Menú de perks/habilidades
-- [ ] Menú de achievements
-- [ ] Menú de statisticas completo
-
----
-
-## 🎯 Fase 7: Database & Persistencia (LOW PRIORITY)
-
-### Optimizaciones
-- [ ] Implementar caching asincrónico
-- [ ] Optimizar queries a base de datos
-- [ ] Agregar índices a tablas importantes
+### Database & Optimizaciones
+- [ ] Caching asincrónico mejorado
+- [ ] Optimizar queries a BD
+- [ ] Agregar índices a tablas
 - [ ] Backup automático de datos
 
-### Nuevas Tablas
-- [ ] `player_achievements` - Logros desbloqueados
-- [ ] `player_trades` - Historial de intercambios
-- [ ] `server_events` - Eventos importantes del servidor
-
----
-
-## 🎯 Fase 8: Features Avanzadas (LOW PRIORITY)
-
-### Sistema de Eventos
-- [ ] Eventos diarios especiales
+### Features Avanzadas
+- [ ] Eventos especiales del servidor
 - [ ] Double XP events
 - [ ] Seasonal content
-- [ ] Holiday specials
+- [ ] Leaderboards globales
+- [ ] Rankings por skill/clan/arena
 
-### Economy
-- [ ] Banco para guardar dinero
-- [ ] Préstamos entre jugadores
-- [ ] Inversiones
-- [ ] Impuestos para clanes
-
-### Ranking
-- [ ] Leaderboard global de XP
-- [ ] Ranking por skill
-- [ ] Ranking de clanes
-- [ ] Rewards de final de temporada
+### Documentación
+- [ ] Actualizar README
+- [ ] Guía completa de comandos
+- [ ] Wiki del plugin
+- [ ] Ejemplos de configuración
 
 ---
 
-## 📝 Checklist de Testing
-
-Antes de cada release:
-- [ ] Compilar sin errores (`mvn clean package`)
-- [ ] Probar todos los comandos de menú
-- [ ] Verificar que los placeholders funcionan
-- [ ] Probar click en items del menú
-- [ ] Revisar que los cambios persisten en YAML
-- [ ] Verificar que no hay memory leaks
-- [ ] Probar con múltiples jugadores
-- [ ] Revisar logs en consola
-
----
-
-## 🔧 Comandos Útiles
+## 📋 CHECKLIST ANTES DE PUSH
 
 ```bash
-# Actualizar versión (SIEMPRE HACER ESTO)
-# Editar: pom.xml (2 lugares), plugin.yml
-
-# Compilar
+# 1. Actualizar versión (SIEMPRE)
+# 2. Compilar sin errores
 mvn clean package -DskipTests
 
-# Ver commits pendientes
-git log --oneline origin/main..HEAD
+# 3. Verificar cambios
+git status
 
-# Pushear a GitHub
-git add -A && git commit -m "mensaje" && git push origin main
+# 4. Hacer commit descriptivo
+git add -A
+git commit -m "Feature description (vX.X.X)"
 
-# Ver menús registrados
-/sc gui edit [TAB]
-
-# Editar menú
-/menu edit jobs
-/menu slot 0
-/menu material DIAMOND
-/menu name §eMINER
-/menu lore §7Experiencia minera
-/menu action COMMAND job set MINER
-/menu save
+# 5. Pushear
+git push origin main
 ```
 
 ---
 
-## 📋 Notas Importantes
+## 🔧 ÚTILES
 
-1. **Versionado**: Siempre incrementar versión en los 3 lugares
-2. **Commits**: Hacer commits pequeños y descriptivos
-3. **Testing**: Probar cambios en servidor antes de pushear
-4. **Placeholders**: Agregar nuevos placeholders conforme se necesiten
-5. **Documentación**: Actualizar MENUS.md, MENU_EDITOR.md con nuevas características
+**Compilar:**
+```bash
+mvn clean package -DskipTests
+```
+
+**Ver commits pendientes:**
+```bash
+git log --oneline origin/main..HEAD
+```
+
+**Resetear a última versión:**
+```bash
+git reset --hard origin/main
+```
 
 ---
 
-## 🎯 Prioridad Actual
+## 📊 ESTADO ACTUAL (1.0.14)
 
-1. **HIGH**: Implementar click listeners para menús (impacto máximo)
-2. **HIGH**: Completar Dev3 logic (arena, clanes, auction, bounty)
-3. **MEDIUM**: Job listeners y misiones
-4. **LOW**: GUI avanzada y features secundarias
+| Módulo | Estado | % |
+|--------|--------|-----|
+| Click Listeners | ✅ | 100% |
+| Managers (Arena/Clan/Auction/Bounty) | ✅ | 100% |
+| Job Listeners | ✅ | 100% |
+| Comandos Menú | ✅ | 100% |
+| **Subcomandos Dev3** | ❌ | 0% |
+| **Job Menu** | ❌ | 0% |
+| **Notificaciones** | ❌ | 0% |
+| Misiones | ⚠️ | 20% |
+| Menu Avanzado | ❌ | 0% |
+| Skills | ⚠️ | 20% |
 
 ---
 
-## 📞 Contacto
+## 🎯 PRÓXIMO PASO
 
-Para continuar el desarrollo:
-- Repository: https://github.com/Gabri180/SurvivalCore
-- Latest Version: 1.0.9
-- Minecraft: Paper 1.21.1
-- Java: 16+
+**Ver PROMPT.md para instrucciones para Claude Code**
