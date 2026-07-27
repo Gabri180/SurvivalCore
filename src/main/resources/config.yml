@@ -104,7 +104,7 @@ cache:
 
 # Backup
 backup:
-  enabled: true
+  enabled: false
   interval-minutes: 120
   max-backups: 10
   backup-path: "plugins/SurvivalCore/backups"
