@@ -116,6 +116,14 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
                 }
             }
             case "aliases" -> listAliases(player);
+            case "permission" -> {
+                if (args.length < 3) {
+                    player.sendMessage("§cUso: /custommenu permission <menuId> set <permiso>");
+                    player.sendMessage("§cUso: /custommenu permission <menuId> clear");
+                } else {
+                    handlePermission(player, args[1], args[2], args);
+                }
+            }
             default -> showHelp(player);
         }
         return true;
@@ -135,6 +143,8 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
         player.sendMessage("§7§m                                   ");
         player.sendMessage("§e/custommenu command <id> set <cmd> §7- Crear alias");
         player.sendMessage("§e/custommenu unalias <cmd> §7- Eliminar alias");
+        player.sendMessage("§e/custommenu permission <id> set <perm> §7- Setear permiso");
+        player.sendMessage("§e/custommenu permission <id> clear §7- Remover permiso");
         player.sendMessage("§e/custommenu aliases §7- Listar aliases");
         player.sendMessage("§e/custommenu list §7- Listar menús");
     }
@@ -326,6 +336,46 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
             return List.of("set");
         }
         return List.of();
+    }
+
+    private void handlePermission(Player player, String menuId, String action, String[] args) {
+        if (action.equalsIgnoreCase("clear")) {
+            clearPermission(player, menuId);
+        } else if (action.equalsIgnoreCase("set")) {
+            if (args.length < 4) {
+                player.sendMessage("§cUso: /custommenu permission <menuId> set <permiso>");
+                return;
+            }
+            setPermission(player, menuId, args[3]);
+        } else {
+            player.sendMessage("§cAcción desconocida: " + action);
+        }
+    }
+
+    private void setPermission(Player player, String menuId, String permission) {
+        if (menuManager.getMenu(menuId) == null && !builders.containsKey(menuId)) {
+            player.sendMessage("§cMenú no encontrado: " + menuId);
+            return;
+        }
+
+        if (!isValidPermission(permission)) {
+            player.sendMessage("§cPermiso inválido. Usa formato: plugin.category.permission");
+            return;
+        }
+
+        aliasManager.setPermission(menuId, permission);
+        player.sendMessage(String.format("§a✓ Permiso asignado: §f%s\n§7Menú §f%s §7requiere §f%s",
+            permission, menuId, permission));
+    }
+
+    private void clearPermission(Player player, String menuId) {
+        aliasManager.clearPermission(menuId);
+        player.sendMessage(String.format("§a✓ Permiso removido del menú §f%s", menuId));
+        player.sendMessage("§7El menú ahora está disponible para todos");
+    }
+
+    private boolean isValidPermission(String permission) {
+        return permission.matches("^[a-zA-Z0-9._-]+$") && permission.length() >= 3;
     }
 
     private static class MenuBuilder {

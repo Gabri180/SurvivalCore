@@ -17,6 +17,7 @@ public class MenuAliasManager {
     private final MenuManager menuManager;
     private final Plugin plugin;
     private final Map<String, String> aliases = new HashMap<>();
+    private final Map<String, String> permissions = new HashMap<>();
     private final File aliasesFile;
 
     public MenuAliasManager(MenuManager menuManager, Plugin plugin) {
@@ -49,6 +50,24 @@ public class MenuAliasManager {
         return new HashMap<>(aliases);
     }
 
+    public void setPermission(String menuId, String permission) {
+        permissions.put(menuId.toLowerCase(), permission);
+        saveAliases();
+    }
+
+    public void clearPermission(String menuId) {
+        permissions.remove(menuId.toLowerCase());
+        saveAliases();
+    }
+
+    public String getPermission(String menuId) {
+        return permissions.get(menuId.toLowerCase());
+    }
+
+    public Map<String, String> getAllPermissions() {
+        return new HashMap<>(permissions);
+    }
+
     private void registerCommand(String commandName, String menuId) {
         try {
             CommandMap commandMap = Bukkit.getCommandMap();
@@ -69,17 +88,27 @@ public class MenuAliasManager {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.trim().isEmpty() || line.startsWith("#")) continue;
-                String[] parts = line.split(":");
-                if (parts.length == 2) {
-                    String commandName = parts[0].trim();
-                    String menuId = parts[1].trim();
-                    if (menuManager.getMenu(menuId) != null) {
-                        aliases.put(commandName.toLowerCase(), menuId);
-                        registerCommand(commandName, menuId);
+
+                if (line.startsWith("PERM:")) {
+                    String[] parts = line.substring(5).split("=");
+                    if (parts.length == 2) {
+                        String menuId = parts[0].trim();
+                        String permission = parts[1].trim();
+                        permissions.put(menuId.toLowerCase(), permission);
+                    }
+                } else {
+                    String[] parts = line.split(":");
+                    if (parts.length == 2) {
+                        String commandName = parts[0].trim();
+                        String menuId = parts[1].trim();
+                        if (menuManager.getMenu(menuId) != null) {
+                            aliases.put(commandName.toLowerCase(), menuId);
+                            registerCommand(commandName, menuId);
+                        }
                     }
                 }
             }
-            plugin.getLogger().info("Cargados " + aliases.size() + " aliases de menú");
+            plugin.getLogger().info("Cargados " + aliases.size() + " aliases y " + permissions.size() + " permisos");
         } catch (IOException e) {
             plugin.getLogger().warning("Error loading menu aliases");
             e.printStackTrace();
@@ -94,11 +123,21 @@ public class MenuAliasManager {
 
             try (PrintWriter writer = new PrintWriter(new FileWriter(aliasesFile))) {
                 writer.println("# Aliases de menús personalizados");
-                writer.println("# Formato: comando:menuId");
+                writer.println("# Formato alias: comando:menuId");
+                writer.println("# Formato permisos: PERM:menuId=permiso");
                 writer.println();
 
+                writer.println("# === ALIASES ===");
                 for (Map.Entry<String, String> entry : aliases.entrySet()) {
                     writer.println(entry.getKey() + ":" + entry.getValue());
+                }
+
+                if (!permissions.isEmpty()) {
+                    writer.println();
+                    writer.println("# === PERMISOS ===");
+                    for (Map.Entry<String, String> entry : permissions.entrySet()) {
+                        writer.println("PERM:" + entry.getKey() + "=" + entry.getValue());
+                    }
                 }
             }
         } catch (IOException e) {
@@ -107,7 +146,7 @@ public class MenuAliasManager {
         }
     }
 
-    public static class MenuOpenCommand extends Command {
+    public class MenuOpenCommand extends Command {
         private final MenuManager menuManager;
         private final String menuId;
 
@@ -124,6 +163,15 @@ public class MenuAliasManager {
             if (!(sender instanceof Player player)) {
                 sender.sendMessage("Este comando solo puede ser usado por jugadores.");
                 return true;
+            }
+
+            // Verificar permisos
+            String permission = MenuAliasManager.this.getPermission(menuId);
+            if (permission != null && !permission.isEmpty()) {
+                if (!player.hasPermission(permission)) {
+                    player.sendMessage("§cNo tienes permiso para acceder a este menú.");
+                    return true;
+                }
             }
 
             try {
