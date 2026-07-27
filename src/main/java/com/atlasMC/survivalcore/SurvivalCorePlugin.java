@@ -32,6 +32,7 @@ import com.atlasMC.survivalcore.commands.ClanCommand;
 import com.atlasMC.survivalcore.commands.CustomMenuCommand;
 import com.atlasMC.survivalcore.commands.EventCommand;
 import com.atlasMC.survivalcore.commands.JobCommand;
+import com.atlasMC.survivalcore.commands.LeaderboardCommand;
 import com.atlasMC.survivalcore.commands.MenuCommand;
 import com.atlasMC.survivalcore.commands.MenuEditCommand;
 import com.atlasMC.survivalcore.commands.MissionCommand;
@@ -63,6 +64,7 @@ import com.atlasMC.survivalcore.listeners.MissionProgressListener;
 import com.atlasMC.survivalcore.listeners.PlayerDataListener;
 import com.atlasMC.survivalcore.listeners.PvPArenaListener;
 import com.atlasMC.survivalcore.listeners.PvPKillstreakListener;
+import com.atlasMC.survivalcore.managers.LeaderboardManager;
 import com.atlasMC.survivalcore.menu.ChatInputPrompt;
 import com.atlasMC.survivalcore.menu.MenuAliasManager;
 import com.atlasMC.survivalcore.menu.MenuEditorManager;
@@ -100,6 +102,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
     private MenuAliasManager menuAliasManager;
     private BackupScheduler backupScheduler;
     private EventManager eventManager;
+    private LeaderboardManager leaderboardManager;
 
     // Repositorios listos para Hauch (Jobs/Skills/Misiones)
     private JobRepository jobRepository;
@@ -151,6 +154,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         this.seasonManager = new SeasonManager(databaseManager);
         this.prestigeManager = new PrestigeManager(playerCache, databaseManager);
         this.eventManager = new EventManager(this, eventRepository);
+        this.leaderboardManager = new LeaderboardManager(this, databaseManager, playerCache);
 
         this.jobRepository = new JobRepository(databaseManager);
         this.skillRepository = new SkillRepository(databaseManager);
@@ -288,6 +292,11 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         EventCommand eventCmd = new EventCommand(eventManager);
         getCommand("event").setExecutor(eventCmd);
         getCommand("event").setTabCompleter(eventCmd);
+
+        // v1.0.20: Leaderboards
+        LeaderboardCommand leaderboardCmd = new LeaderboardCommand(leaderboardManager);
+        getCommand("leaderboard").setExecutor(leaderboardCmd);
+        getCommand("leaderboard").setTabCompleter(leaderboardCmd);
     }
 
     public static SurvivalCorePlugin getInstance() {
@@ -346,6 +355,10 @@ public final class SurvivalCorePlugin extends JavaPlugin {
 
     public EventManager getEventManager() {
         return eventManager;
+    }
+
+    public LeaderboardManager getLeaderboardManager() {
+        return leaderboardManager;
     }
 
     // ---- Repositorios (listos para conectar managers de Hauch/Dev3) ----

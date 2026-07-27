@@ -539,6 +539,6 @@ Branch: main
 ---
 
 **Última actualización:** 27 Julio 2026  
-**Versión Actual:** 1.0.19  
-**Siguiente:** 1.0.20  
+**Versión Actual:** 1.0.20  
+**Siguiente:** 1.0.21  
 **Estado:** ✅ Completamente funcional y listo para expandir

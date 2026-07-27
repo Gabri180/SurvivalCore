@@ -1,5 +1,5 @@
 name: SurvivalCore
-version: 1.0.19
+version: 1.0.20
 main: com.atlasMC.survivalcore.SurvivalCorePlugin
 api-version: '1.21'
 authors: [Gabriel, Hauch, Dev3]
@@ -63,6 +63,10 @@ commands:
     usage: /event <info|list|schedule>
     aliases: [eventos]
     permission: survivalcore.event.admin
+  leaderboard:
+    description: Ver rankings globales
+    usage: /leaderboard <money|arena|clan>
+    aliases: [lb, ranking]
 
 permissions:
   survivalcore.admin:
