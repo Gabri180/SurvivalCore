@@ -2,6 +2,8 @@ package com.atlasMC.survivalcore.commands;
 
 import com.atlasMC.survivalcore.SurvivalCorePlugin;
 import com.atlasMC.survivalcore.menu.MenuEditorManager;
+import com.atlasMC.survivalcore.menu.MenuManager;
+import com.atlasMC.survivalcore.menu.MenuEditorUI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,9 +16,11 @@ import java.util.List;
 public class MenuCommand implements CommandExecutor, TabExecutor {
 
     private final MenuEditorManager editorManager;
+    private final MenuManager menuManager;
 
-    public MenuCommand(MenuEditorManager editorManager) {
+    public MenuCommand(MenuEditorManager editorManager, MenuManager menuManager) {
         this.editorManager = editorManager;
+        this.menuManager = menuManager;
     }
 
     @Override
@@ -93,6 +97,10 @@ public class MenuCommand implements CommandExecutor, TabExecutor {
             case "clearlore" -> editorManager.clearItemLore(player);
             case "save" -> editorManager.saveMenu(player);
             case "cancel" -> editorManager.cancelEdit(player);
+            case "editor" -> {
+                MenuEditorUI editorUI = new MenuEditorUI(menuManager, player);
+                editorUI.openMenuList();
+            }
             case "help" -> showHelp(player);
             default -> showHelp(player);
         }

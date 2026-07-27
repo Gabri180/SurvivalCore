@@ -282,7 +282,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         // Menú editor
         getCommand("menuedit").setExecutor(new MenuEditCommand(this));
 
-        MenuCommand menuCmd = new MenuCommand(menuEditorManager);
+        MenuCommand menuCmd = new MenuCommand(menuEditorManager, menuManager);
         getCommand("menu").setExecutor(menuCmd);
         getCommand("menu").setTabCompleter(menuCmd);
 
