@@ -2,64 +2,62 @@ package com.atlasMC.survivalcore.commands;
 
 import com.atlasMC.survivalcore.api.IClanManager;
 import com.atlasMC.survivalcore.api.IClanWarManager;
+import com.atlasMC.survivalcore.menu.MenuAction;
+import com.atlasMC.survivalcore.menu.MenuData;
+import com.atlasMC.survivalcore.menu.MenuFactory;
+import com.atlasMC.survivalcore.menu.MenuManager;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ClanCommand implements CommandExecutor, TabExecutor {
 
     private final IClanManager clanManager;
     private final IClanWarManager clanWarManager;
+    private final MenuManager menuManager;
 
-    public ClanCommand(IClanManager clanManager, IClanWarManager clanWarManager) {
+    public ClanCommand(IClanManager clanManager, IClanWarManager clanWarManager, MenuManager menuManager) {
         this.clanManager = clanManager;
         this.clanWarManager = clanWarManager;
+        this.menuManager = menuManager;
+        createClanMenu();
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("Este comando solo puede ser usado por jugadores.");
             return true;
         }
 
-        Player player = (Player) sender;
-        openClanMenu(player);
+        menuManager.openMenu(player, "clans");
         return true;
     }
 
-    private void openClanMenu(Player player) {
-        Inventory menu = org.bukkit.Bukkit.createInventory(null, 27, "§6Clanes");
+    private void createClanMenu() {
+        MenuData menu = MenuFactory.createMenu("clans", "§6Clanes", 27);
 
-        addItem(menu, 0, Material.SHIELD, "§eCrear Clan", "§7Click para crear");
-        addItem(menu, 1, Material.BOOK, "§eMi Clan", "§7Ver información");
-        addItem(menu, 2, Material.BLAZE_POWDER, "§eGuerras", "§7Ver guerras activas");
+        MenuFactory.addMenuSlot(menu, 0, Material.SHIELD, "§eCrear Clan",
+                MenuAction.command("clan create"), "§7Click para crear");
 
-        player.openInventory(menu);
-    }
+        MenuFactory.addMenuSlot(menu, 1, Material.BOOK, "§eMi Clan",
+                MenuAction.command("clan info"), "§7Ver información");
 
-    private void addItem(Inventory inv, int slot, Material material, String... lore) {
-        ItemStack item = new ItemStack(material);
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            if (lore.length > 0) meta.setDisplayName(lore[0]);
-            List<String> loreList = new ArrayList<>();
-            for (int i = 1; i < lore.length; i++) {
-                loreList.add(lore[i]);
-            }
-            meta.setLore(loreList);
-            item.setItemMeta(meta);
-        }
-        inv.setItem(slot, item);
+        MenuFactory.addMenuSlot(menu, 2, Material.BLAZE_POWDER, "§eGuerras",
+                MenuAction.command("clan wars"), "§7Ver guerras activas");
+
+        MenuFactory.addMenuSlot(menu, 3, Material.PLAYER_HEAD, "§eMiembros",
+                MenuAction.command("clan members"), "§7Ver miembros");
+
+        MenuFactory.addMenuSlot(menu, 4, Material.EMERALD_BLOCK, "§eTesorería",
+                MenuAction.command("clan bank"), "§7Ver dinero del clan");
+
+        menuManager.registerMenu("clans", menu);
     }
 
     @Override

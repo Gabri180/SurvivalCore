@@ -1,62 +1,56 @@
 package com.atlasMC.survivalcore.commands;
 
 import com.atlasMC.survivalcore.api.IAuctionManager;
+import com.atlasMC.survivalcore.menu.MenuData;
+import com.atlasMC.survivalcore.menu.MenuFactory;
+import com.atlasMC.survivalcore.menu.MenuManager;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AuctionCommand implements CommandExecutor, TabExecutor {
 
     private final IAuctionManager auctionManager;
+    private final MenuManager menuManager;
 
-    public AuctionCommand(IAuctionManager auctionManager) {
+    public AuctionCommand(IAuctionManager auctionManager, MenuManager menuManager) {
         this.auctionManager = auctionManager;
+        this.menuManager = menuManager;
+        createAuctionMenu();
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("Este comando solo puede ser usado por jugadores.");
             return true;
         }
 
-        Player player = (Player) sender;
-        openAuctionMenu(player);
+        menuManager.openMenu(player, "auction");
         return true;
     }
 
-    private void openAuctionMenu(Player player) {
-        Inventory menu = org.bukkit.Bukkit.createInventory(null, 27, "§6Casa de Subastas");
+    private void createAuctionMenu() {
+        MenuData menu = MenuFactory.createMenu("auction", "§6Casa de Subastas", 27);
 
-        addItem(menu, 0, Material.DIAMOND, "§eSubastas Activas", "§7Ver todas");
-        addItem(menu, 1, Material.EMERALD, "§eMis Subastas", "§7Click para ver");
-        addItem(menu, 2, Material.GOLD_INGOT, "§eMis Pujas", "§7Ver historial");
+        MenuFactory.addMenuSlot(menu, 0, Material.DIAMOND, "§eSubastas Activas",
+                "auction list", "§7Ver todas las subastas");
 
-        player.openInventory(menu);
-    }
+        MenuFactory.addMenuSlot(menu, 1, Material.EMERALD, "§eMis Subastas",
+                "auction mylist", "§7Click para ver");
 
-    private void addItem(Inventory inv, int slot, Material material, String... lore) {
-        ItemStack item = new ItemStack(material);
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            if (lore.length > 0) meta.setDisplayName(lore[0]);
-            List<String> loreList = new ArrayList<>();
-            for (int i = 1; i < lore.length; i++) {
-                loreList.add(lore[i]);
-            }
-            meta.setLore(loreList);
-            item.setItemMeta(meta);
-        }
-        inv.setItem(slot, item);
+        MenuFactory.addMenuSlot(menu, 2, Material.GOLD_INGOT, "§eMis Pujas",
+                "auction bids", "§7Ver historial");
+
+        MenuFactory.addMenuSlot(menu, 3, Material.ENDER_PEARL, "§eVender Item",
+                "auction sell", "§7Poner item a la venta");
+
+        menuManager.registerMenu("auction", menu);
     }
 
     @Override

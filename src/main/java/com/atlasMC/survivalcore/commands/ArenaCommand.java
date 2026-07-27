@@ -1,62 +1,63 @@
 package com.atlasMC.survivalcore.commands;
 
 import com.atlasMC.survivalcore.api.IArenaManager;
+import com.atlasMC.survivalcore.menu.MenuAction;
+import com.atlasMC.survivalcore.menu.MenuData;
+import com.atlasMC.survivalcore.menu.MenuFactory;
+import com.atlasMC.survivalcore.menu.MenuManager;
+import com.atlasMC.survivalcore.models.Arena;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ArenaCommand implements CommandExecutor, TabExecutor {
 
     private final IArenaManager arenaManager;
+    private final MenuManager menuManager;
 
-    public ArenaCommand(IArenaManager arenaManager) {
+    public ArenaCommand(IArenaManager arenaManager, MenuManager menuManager) {
         this.arenaManager = arenaManager;
+        this.menuManager = menuManager;
+        createArenaMenu();
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("Este comando solo puede ser usado por jugadores.");
             return true;
         }
 
-        Player player = (Player) sender;
-        openArenaMenu(player);
+        menuManager.openMenu(player, "arenas");
         return true;
     }
 
-    private void openArenaMenu(Player player) {
-        Inventory menu = org.bukkit.Bukkit.createInventory(null, 27, "§6Arenas PvP");
+    private void createArenaMenu() {
+        MenuData menu = MenuFactory.createMenu("arenas", "§6Arenas PvP", 27);
 
-        addItem(menu, 0, Material.DIAMOND_SWORD, "§eArena Principal", "§7Click para unirse", "§7Jugadores: §b0/20");
-        addItem(menu, 1, Material.IRON_SWORD, "§eArena Secundaria", "§7Click para unirse", "§7Jugadores: §b0/20");
-        addItem(menu, 2, Material.GOLDEN_SWORD, "§eLava Arena", "§7Click para unirse", "§7Jugadores: §b0/20");
+        int slot = 0;
+        for (Arena arena : arenaManager.getAllArenas()) {
+            int players = arena.getParticipants().size();
+            int maxPlayers = arena.getMaxPlayers();
+            String lore1 = "§7Click para unirse";
+            String lore2 = String.format("§7Jugadores: §b%d/%d", players, maxPlayers);
+            String lore3 = String.format("§7Entrada: §6$%d", arena.getEntryFee());
+            String lore4 = String.format("§7Premio: §a$%d", arena.getWinReward());
 
-        player.openInventory(menu);
-    }
+            MenuAction action = MenuAction.command("arena join " + arena.getId());
+            MenuFactory.addMenuSlot(menu, slot, Material.DIAMOND_SWORD, "§e" + arena.getName(),
+                    action, lore1, lore2, lore3, lore4);
 
-    private void addItem(Inventory inv, int slot, Material material, String... lore) {
-        ItemStack item = new ItemStack(material);
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            if (lore.length > 0) meta.setDisplayName(lore[0]);
-            List<String> loreList = new ArrayList<>();
-            for (int i = 1; i < lore.length; i++) {
-                loreList.add(lore[i]);
-            }
-            meta.setLore(loreList);
-            item.setItemMeta(meta);
+            slot++;
+            if (slot >= 9) break;
         }
-        inv.setItem(slot, item);
+
+        menuManager.registerMenu("arenas", menu);
     }
 
     @Override
