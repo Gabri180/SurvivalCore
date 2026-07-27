@@ -483,20 +483,28 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
 
             String actionValue = args.length > 4 ? String.join(" ", java.util.Arrays.copyOfRange(args, 4, args.length)) : "";
 
-            // Validar tipo de acción
+            // Crear acción según el tipo
+            com.atlasMC.survivalcore.menu.MenuAction action = null;
             switch (actionType.toUpperCase()) {
-                case "COMMAND", "MESSAGE", "OPEN_MENU", "CLOSE", "NONE" -> {
-                    player.sendMessage(String.format("§a✓ Acción configurada: §f%s", actionType.toUpperCase()));
-                    if (!actionValue.isEmpty()) {
-                        player.sendMessage(String.format("§7Valor: §f%s", actionValue));
-                    }
-                    player.sendMessage("§7Para aplicar, recrea el item con: §f/custommenu item " + menuId + " " + slot + " <material>");
-                }
+                case "COMMAND" -> action = com.atlasMC.survivalcore.menu.MenuAction.command(actionValue);
+                case "MESSAGE" -> action = com.atlasMC.survivalcore.menu.MenuAction.message(actionValue);
+                case "OPEN_MENU" -> action = com.atlasMC.survivalcore.menu.MenuAction.openMenu(actionValue);
+                case "CLOSE" -> action = com.atlasMC.survivalcore.menu.MenuAction.close();
+                case "NONE" -> action = com.atlasMC.survivalcore.menu.MenuAction.none();
                 default -> {
                     player.sendMessage("§cTipo de acción no válido: " + actionType);
                     player.sendMessage("§7Válidos: COMMAND, MESSAGE, OPEN_MENU, CLOSE, NONE");
+                    return;
                 }
             }
+
+            // Actualizar la acción del item
+            builder.customBuilder.updateItemAction(slot, action);
+            player.sendMessage(String.format("§a✓ Acción actualizada: §f%s", actionType.toUpperCase()));
+            if (!actionValue.isEmpty()) {
+                player.sendMessage(String.format("§7Valor: §f%s", actionValue));
+            }
+            autoSaveMenu(menuId);
         } catch (NumberFormatException e) {
             player.sendMessage("§cSlot debe ser un número válido");
         }

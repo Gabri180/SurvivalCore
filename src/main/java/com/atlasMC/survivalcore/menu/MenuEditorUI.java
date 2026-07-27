@@ -24,25 +24,32 @@ public class MenuEditorUI {
         Map<String, MenuData> allMenus = menuManager.getAllMenus();
 
         if (allMenus.isEmpty()) {
-            player.sendMessage("§cNo hay menús creados.");
+            player.sendMessage("§c§l✗ No hay menús creados");
+            player.sendMessage("§7Crea uno con: §f/custommenu create <id>");
             return;
         }
 
         CustomMenuBuilder builder = new CustomMenuBuilder("_editor_list_" + System.currentTimeMillis())
-            .title("§6Menú Editor - Selecciona Menú")
+            .title("§6§l⚙ Menu Editor - Selecciona Menú")
             .rows(6)
-            .backgroundColor("GRAY_STAINED_GLASS_PANE")
+            .backgroundColor("DARK_GRAY_STAINED_GLASS_PANE")
             .fillBackground(true);
 
-        int slot = 0;
+        int slot = 1;
+        int menuCount = 0;
         for (String menuId : allMenus.keySet()) {
-            if (slot >= 45) break;
+            if (menuCount >= 21) break;
 
             MenuData menu = allMenus.get(menuId);
             ItemStack item = createMenuItem(menuId, menu);
-            builder.addItem(slot, item.getType(), item.getItemMeta().getDisplayName(), "EDITOR_SELECT:" + menuId, "");
+            builder.addItem(slot, item.getType(), item.getItemMeta().getDisplayName(), com.atlasMC.survivalcore.menu.MenuAction.none());
             slot += 2;
+            menuCount++;
         }
+
+        // Agregar botones útiles
+        builder.addButton(45, "§e§l❓ Ayuda", "MESSAGE", "§6Crea menú: §f/custommenu create <id>§7 | §6Edita: §f/custommenu item/itemaction", "");
+        builder.addCloseButton(53);
 
         MenuData editorMenu = builder.build();
         String editorMenuId = "_editor_list_" + player.getName();

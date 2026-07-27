@@ -77,6 +77,16 @@ public class CustomMenuBuilder {
         return this;
     }
 
+    public CustomMenuBuilder updateItemAction(int slot, MenuAction action) {
+        for (CustomMenuItem item : items) {
+            if (item.slot == slot) {
+                item.action = action;
+                return this;
+            }
+        }
+        return this;
+    }
+
     public CustomMenuBuilder addButton(int slot, String displayName, String actionType,
                                         String actionValue, String... lore) {
         return addItem(slot, Material.DIAMOND_BLOCK, displayName, actionType, actionValue, lore);
