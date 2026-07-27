@@ -1,27 +1,74 @@
-# Configuracion de misiones - Hauch
+# ============================================================
+# SurvivalCore - Configuración de Misiones
+# ============================================================
+
+# Definición de misiones
 missions:
   daily-block-break:
+    display-name: "§6Excavador Diario"
     type: BLOCK_BREAK
     frequency: DAILY
     difficulty: EASY
     target: 100
     reward-money: 200
     reward-exp: 50
+    description: "Rompe 100 bloques"
+
   daily-fish:
+    display-name: "§bPescador Diario"
     type: FISH
     frequency: DAILY
     difficulty: EASY
     target: 20
     reward-money: 150
     reward-exp: 40
+    description: "Pesca 20 peces"
+
+  daily-mob-kill:
+    display-name: "§cCazador de Mobs"
+    type: KILL_MOB
+    frequency: DAILY
+    difficulty: MEDIUM
+    target: 50
+    reward-money: 300
+    reward-exp: 100
+    description: "Mata 50 mobs"
+
   weekly-boss-kill:
+    display-name: "§4Asesino de Jefes"
     type: KILL_BOSS
     frequency: WEEKLY
     difficulty: HARD
     target: 1
     reward-money: 2000
     reward-exp: 500
+    description: "Mata 1 jefe semanal"
 
+  weekly-arena-wins:
+    display-name: "§dCampeón de Arena"
+    type: ARENA_WINS
+    frequency: WEEKLY
+    difficulty: HARD
+    target: 5
+    reward-money: 1500
+    reward-exp: 400
+    description: "Gana 5 batallas en arena"
+
+  monthly-prestige:
+    display-name: "§5Prestigiador"
+    type: PRESTIGE
+    frequency: MONTHLY
+    difficulty: EXTREME
+    target: 1
+    reward-money: 10000
+    reward-exp: 5000
+    description: "Alcanza prestige"
+
+# Configuración global
 settings:
   max-active-missions: 5
   refresh-hour-utc: 0
+  enable-auto-reset: true
+  enable-progress-tracking: true
+  show-progress-bar: true
+  claim-rewards-on-complete: false

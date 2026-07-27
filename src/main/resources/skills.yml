@@ -1,22 +1,73 @@
-# Configuracion de skills - Hauch
+# ============================================================
+# SurvivalCore - Configuración de Skills
+# ============================================================
+
+# Definición de skills
 skills:
   MINING:
-    display-name: "Mineria"
+    display-name: "§8Minería"
+    description: "Mejora tu velocidad y eficiencia extrayendo minerales"
+    icon: "DIAMOND_PICKAXE"
+    color: "§8"
     max-level: 100
-  COMBAT:
-    display-name: "Combate"
-    max-level: 100
-  FISHING:
-    display-name: "Pesca"
-    max-level: 100
-  FARMING:
-    display-name: "Agricultura"
-    max-level: 100
+    exp-multiplier: 1.15
 
-unlocks:
-  MINING:
-    25: "diamond_pickaxe_efficiency"
-    50: "auto_smelt_charm"
   COMBAT:
-    25: "extra_damage_charm"
-    50: "exclusive_sword_skin"
+    display-name: "§cCombate"
+    description: "Aumenta tu poder en batalla"
+    icon: "DIAMOND_SWORD"
+    color: "§c"
+    max-level: 100
+    exp-multiplier: 1.15
+
+  FISHING:
+    display-name: "§bPesca"
+    description: "Mejora tus habilidades de pesca"
+    icon: "FISHING_ROD"
+    color: "§b"
+    max-level: 100
+    exp-multiplier: 1.15
+
+  FARMING:
+    display-name: "§6Agricultura"
+    description: "Cultiva más eficientemente"
+    icon: "WOODEN_HOE"
+    color: "§6"
+    max-level: 100
+    exp-multiplier: 1.15
+
+  FORAGING:
+    display-name: "§2Recolección"
+    description: "Recolecta recursos naturales"
+    icon: "IRON_AXE"
+    color: "§2"
+    max-level: 100
+    exp-multiplier: 1.15
+
+  CRAFTING:
+    display-name: "§dArtesanía"
+    description: "Mejora tus recetas de crafteo"
+    icon: "CRAFTING_TABLE"
+    color: "§d"
+    max-level: 100
+    exp-multiplier: 1.15
+
+# Bonificaciones por nivel
+bonuses:
+  MINING:
+    10: "speed_increase"
+    25: "ore_fortune"
+    50: "auto_smelt"
+    75: "double_drops"
+  COMBAT:
+    10: "damage_boost"
+    25: "critical_strike"
+    50: "lifesteal"
+    75: "berserk_mode"
+
+# Configuración global
+settings:
+  enable-skill-bonuses: true
+  enable-level-notifications: true
+  enable-achievement-unlocks: true
+  exponential-growth: 1.1

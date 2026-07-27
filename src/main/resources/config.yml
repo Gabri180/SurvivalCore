@@ -1,3 +1,8 @@
+# ============================================================
+# SurvivalCore v1.0.21 - Configuración Principal
+# ============================================================
+
+# Base de Datos
 database:
   host: localhost
   port: 3306
@@ -12,48 +17,130 @@ database:
     idle-timeout-ms: 600000
     max-lifetime-ms: 1800000
 
+# Servidor
 server:
   name: "AtlasMC Survival"
   currency-symbol: "$"
   premium-currency-symbol: "A$"
+  language: "es"
 
+# Mundos
 worlds:
   main:
     name: "world"
     pvp-enabled: true
+    environment: "NORMAL"
   resources:
     name: "world_resources"
     pvp-enabled: false
     reset-interval: "7 days"
+    environment: "NORMAL"
   arena:
     name: "arena_world"
+    pvp-enabled: true
+    environment: "NORMAL"
+  nether:
+    name: "world_nether"
+    pvp-enabled: true
+    environment: "NETHER"
+  end:
+    name: "world_the_end"
+    pvp-enabled: true
+    environment: "THE_END"
 
+# Economía
 economy:
   starting-money: 1000
   starting-premium-money: 0
   bank-interest: 0.05
   bank-interest-interval-hours: 24
+  max-player-balance: 9999999999
+  transaction-log-enabled: true
 
+# Prestigio
 prestige:
   max-prestige: 10
   required-rank-to-prestige: "MAX"
+  prestige-rewards:
+    money: 100000
+    reset-skills: true
+    reset-jobs: true
 
+# Temporadas
 seasons:
   duration-days: 60
   auto-rotate: true
+  start-month: 1
+  start-day: 1
 
+# Raideo y Sieges
 siege:
   enabled: true
   attack-window-start: "18:00"
   attack-window-end: "23:00"
   max-charges-per-attacker-per-day: 5
   post-raid-immunity-hours: 48
+  claim-min-size: 10
+  claim-max-size: 100
 
+# Clanes
+clans:
+  creation-cost: 10000
+  max-name-length: 32
+  min-members-for-war: 3
+  power-per-claim: 10
+
+# Arena
+arena:
+  entry-fee: 100
+  enable-elo: true
+  default-elo: 1000
+
+# Caché
 cache:
   expiry-minutes: 30
+  cleanup-interval-minutes: 5
+  max-size: 5000
 
+# Backup
 backup:
   enabled: true
   interval-minutes: 120
+  max-backups: 10
+  backup-path: "plugins/SurvivalCore/backups"
 
+# Notificaciones
+notifications:
+  enabled: true
+  enable-titles: true
+  enable-sounds: true
+  enable-chat: true
+
+# Eventos
+events:
+  enabled: true
+  auto-broadcast: true
+  broadcast-interval-ticks: 100
+
+# Misiones
+missions:
+  auto-reset-daily: true
+  reset-time: "00:00:00"
+  enable-rewards: true
+  show-progress-bar: true
+
+# Skills
+skills:
+  enable-progression: true
+  exponential-growth: 1.1
+  max-level: 100
+
+# Jobs
+jobs:
+  enable-level-up-notifications: true
+  enable-exp-gain: true
+  money-per-level: 100
+
+# Debug
 debug: false
+debug-level: "INFO"

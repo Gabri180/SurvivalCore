@@ -1,19 +1,50 @@
-# Configuracion de claims y sistema de asedio - Dev3
+# ============================================================
+# SurvivalCore - Configuración de Claims y Sieges
+# ============================================================
+
+# Sistema de Claims
 claims:
   max-claims-per-player: 3
-  max-claim-size: 64
+  max-claims-per-clan: 10
+  min-claim-size: 10
+  max-claim-size: 256
   base-power: 1000
+  power-per-member: 500
+  power-regeneration:
+    enabled: true
+    hours: 1
+    amount: 100
 
+# Protección de Claims
+protection:
+  enable-pvp-in-claims: false
+  enable-explosions-in-claims: false
+  enable-fire-spread: false
+  enable-mob-griefing: false
+  enable-fire-tick: false
+
+# Sistema de Asedio (Sieges)
 siege:
+  enabled: true
   charge-damage: 50
   attack-window-start: "18:00"
   attack-window-end: "23:00"
   max-charges-per-attacker-per-day: 5
   post-raid-immunity-hours: 48
   vulnerable-window-minutes: 30
+  cooldown-between-attacks-hours: 1
+  min-damage-to-trigger-immunity: 50
 
+# Fuentes de Cargas de Asedio
 siege-charge-sources:
   - "weekly_boss_drop"
   - "hard_mission_reward"
   - "expensive_craft"
   - "special_event"
+  - "clan_level_reward"
+
+# Notificaciones de Asedio
+notifications:
+  claim-under-attack: true
+  raid-window-starting: true
+  immunity-about-to-expire: true
