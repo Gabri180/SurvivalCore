@@ -50,7 +50,11 @@ public class MenuAction {
     public void execute(Player player, MenuManager menuManager) {
         switch (type) {
             case COMMAND:
-                String command = replacePlaceholders(value, player);
+                String command = value;
+                // En comandos, reemplazar %player% con @s (selector de Minecraft)
+                command = command.replace("%player%", "@s");
+                // Luego reemplazar otros placeholders normalmente
+                command = replacePlaceholders(command, player);
                 player.performCommand(command);
                 break;
             case OPEN_MENU:
