@@ -270,7 +270,7 @@ public class CustomMenuCommand implements CommandExecutor, TabExecutor {
             return;
         }
 
-        if (menuManager.getMenu(menuId) == null) {
+        if (menuManager.getMenu(menuId) == null && !builders.containsKey(menuId)) {
             player.sendMessage("§cMenú no encontrado: " + menuId);
             return;
         }

@@ -205,3 +205,15 @@ ALTER TABLE clan_members ADD INDEX idx_clan_members_player_id (player_id);
 ALTER TABLE auctions ADD INDEX idx_auctions_end_time (end_time);
 ALTER TABLE siege_charges ADD INDEX idx_siege_charges_claim_id (claim_id);
 ALTER TABLE bounties ADD INDEX idx_bounties_target_uuid (target_uuid);
+
+-- v1.0.19: Sistema de eventos especiales
+CREATE TABLE IF NOT EXISTS events (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    event_type VARCHAR(32) NOT NULL,
+    multiplier DOUBLE NOT NULL,
+    start_time DATETIME NOT NULL,
+    end_time DATETIME NOT NULL,
+    created_by BIGINT,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_events_active (start_time, end_time)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
