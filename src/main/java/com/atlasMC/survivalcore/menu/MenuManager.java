@@ -7,15 +7,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class MenuManager {
     private final JavaPlugin plugin;
     private final Map<String, MenuData> menus = new HashMap<>();
+    private final Map<UUID, String> playerMenus = new HashMap<>();
     private final MenuClickListener clickListener;
 
     public MenuManager(JavaPlugin plugin) {
         this.plugin = plugin;
-        this.clickListener = new MenuClickListener(this);
+        this.clickListener = new MenuClickListener(this, this);
         plugin.getServer().getPluginManager().registerEvents(clickListener, plugin);
     }
 
@@ -33,16 +35,21 @@ public class MenuManager {
         Inventory inv = Bukkit.createInventory(null, menuData.getSize(), menuData.getTitle());
         for (int i = 0; i < menuData.getSize(); i++) {
             if (menuData.getItem(i) != null) {
-                inv.setItem(i, menuData.getItem(i));
+                inv.setItem(i, menuData.getItem(i).clone());
             }
         }
 
-        clickListener.registerInventory(inv, menuData);
+        playerMenus.put(player.getUniqueId(), menuName.toLowerCase());
         player.openInventory(inv);
     }
 
     public MenuData getMenu(String menuName) {
         return menus.get(menuName.toLowerCase());
+    }
+
+    public MenuData getPlayerMenu(UUID playerUuid) {
+        String menuName = playerMenus.get(playerUuid);
+        return menuName != null ? menus.get(menuName) : null;
     }
 
     public Map<String, MenuData> getAllMenus() {

@@ -7,44 +7,32 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.inventory.Inventory;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.WeakHashMap;
 
 public class MenuClickListener implements Listener {
     private final MenuManager menuManager;
-    private final Map<Inventory, MenuData> registeredMenus = new WeakHashMap<>();
+    private final MenuManager menuManagerRef;
 
-    public MenuClickListener(MenuManager menuManager) {
+    public MenuClickListener(MenuManager menuManager, MenuManager menuManagerRef) {
         this.menuManager = menuManager;
-    }
-
-    public void registerInventory(Inventory inv, MenuData menuData) {
-        registeredMenus.put(inv, menuData);
-    }
-
-    public void unregisterInventory(Inventory inv) {
-        registeredMenus.remove(inv);
+        this.menuManagerRef = menuManagerRef;
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onClick(InventoryClickEvent event) {
-        Inventory clicked = event.getClickedInventory();
-        if (clicked == null || !registeredMenus.containsKey(clicked)) {
-            return;
-        }
-
-        event.setCancelled(true);
-
         if (!(event.getWhoClicked() instanceof Player)) {
             return;
         }
 
         Player player = (Player) event.getWhoClicked();
+        MenuData menuData = menuManagerRef.getPlayerMenu(player.getUniqueId());
+
+        if (menuData == null) {
+            return;
+        }
+
+        event.setCancelled(true);
+
         int slot = event.getRawSlot();
-        MenuData menuData = registeredMenus.get(clicked);
 
         if (slot < 0 || slot >= menuData.getSize()) {
             return;
@@ -68,15 +56,18 @@ public class MenuClickListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onDrag(InventoryDragEvent event) {
-        if (event.getInventory() == null || !registeredMenus.containsKey(event.getInventory())) {
+        if (!(event.getWhoClicked() instanceof Player)) {
+            return;
+        }
+
+        Player player = (Player) event.getWhoClicked();
+        MenuData menuData = menuManagerRef.getPlayerMenu(player.getUniqueId());
+
+        if (menuData == null) {
             return;
         }
 
         event.setCancelled(true);
-
-        if (event.getWhoClicked() instanceof Player) {
-            Player player = (Player) event.getWhoClicked();
-            player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 0.5f, 0.5f);
-        }
+        player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 0.5f, 0.5f);
     }
 }
