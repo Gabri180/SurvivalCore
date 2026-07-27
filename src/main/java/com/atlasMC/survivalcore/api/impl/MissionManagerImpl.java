@@ -92,4 +92,95 @@ public class MissionManagerImpl implements IMissionManager {
                         .findFirst()
                         .orElse(null)));
     }
+
+    @Override
+    public void getPlayerMissions(UUID uuid, Consumer<List<Mission>> callback) {
+        getActiveMissions(uuid, callback);
+    }
+
+    @Override
+    public void claimReward(UUID uuid, long missionId, Consumer<Boolean> callback) {
+        PlayerProfile profile = playerCache.get(uuid);
+        if (profile == null) {
+            callback.accept(false);
+            return;
+        }
+
+        missionRepository.loadPlayerProgress(profile.getPlayerId(), progresses -> {
+            MissionProgress prog = progresses.stream()
+                    .filter(p -> p.getMissionId() == missionId)
+                    .findFirst()
+                    .orElse(null);
+
+            if (prog == null || !prog.isCompleted() || prog.isClaimed()) {
+                callback.accept(false);
+                return;
+            }
+
+            Mission mission = missionsCache.get(missionId);
+            if (mission == null) {
+                callback.accept(false);
+                return;
+            }
+
+            prog.setClaimed(true);
+            missionRepository.saveMissionProgress(prog);
+            economyAPI.addBalance(uuid, mission.getRewardMoney());
+            callback.accept(true);
+        });
+    }
+
+    @Override
+    public void claimAllRewards(UUID uuid, Consumer<Integer> callback) {
+        PlayerProfile profile = playerCache.get(uuid);
+        if (profile == null) {
+            callback.accept(0);
+            return;
+        }
+
+        missionRepository.loadPlayerProgress(profile.getPlayerId(), progresses -> {
+            int count = 0;
+            for (MissionProgress prog : progresses) {
+                if (prog.isCompleted() && !prog.isClaimed()) {
+                    Mission mission = missionsCache.get(prog.getMissionId());
+                    if (mission != null) {
+                        prog.setClaimed(true);
+                        missionRepository.saveMissionProgress(prog);
+                        economyAPI.addBalance(uuid, mission.getRewardMoney());
+                        count++;
+                    }
+                }
+            }
+            callback.accept(count);
+        });
+    }
+
+    @Override
+    public void getCompletedMissions(UUID uuid, Consumer<List<Mission>> callback) {
+        PlayerProfile profile = playerCache.get(uuid);
+        if (profile == null) {
+            callback.accept(List.of());
+            return;
+        }
+
+        missionRepository.loadPlayerProgress(profile.getPlayerId(), progresses -> {
+            List<Mission> completed = progresses.stream()
+                    .filter(p -> p.isCompleted() && !p.isClaimed())
+                    .map(p -> missionsCache.get(p.getMissionId()))
+                    .toList();
+            callback.accept(completed);
+        });
+    }
+
+    @Override
+    public void getMissionReward(long missionId, Consumer<Long> moneyCallback, Consumer<Long> xpCallback) {
+        Mission mission = missionsCache.get(missionId);
+        if (mission != null) {
+            moneyCallback.accept(mission.getRewardMoney());
+            xpCallback.accept(mission.getRewardExp());
+        } else {
+            moneyCallback.accept(0L);
+            xpCallback.accept(0L);
+        }
+    }
 }

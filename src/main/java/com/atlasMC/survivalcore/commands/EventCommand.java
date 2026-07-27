@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * Comando /event para gestionar eventos especiales.
- * v1.0.19+
+ * v1.0.25+: Mejorado con más opciones y visualización
  */
 public class EventCommand implements CommandExecutor, TabExecutor {
 
@@ -41,11 +41,23 @@ public class EventCommand implements CommandExecutor, TabExecutor {
             case "list" -> listEvents(sender);
             case "schedule" -> {
                 if (args.length < 3) {
-                    sender.sendMessage("§cUso: /event schedule <tipo> <minutos>");
+                    sender.sendMessage("§cUso: /event schedule <tipo> <minutos> [multiplicador]");
                     showTypes(sender);
                 } else {
-                    scheduleEvent(sender, args[1], args[2]);
+                    scheduleEvent(sender, args[1], args[2], args.length > 3 ? args[3] : null);
                 }
+            }
+            case "stop" -> {
+                if (args.length < 2) {
+                    sender.sendMessage("§cUso: /event stop <tipo>");
+                    showTypes(sender);
+                } else {
+                    stopEvent(sender, args[1]);
+                }
+            }
+            case "refresh" -> {
+                eventManager.refreshActiveEvents();
+                sender.sendMessage("§a✓ Eventos recargados de BD");
             }
             default -> showHelp(sender);
         }
@@ -60,28 +72,29 @@ public class EventCommand implements CommandExecutor, TabExecutor {
             return;
         }
 
-        sender.sendMessage("§6=== Eventos Activos ===");
+        sender.sendMessage("§6═══ Eventos Activos ═══");
         for (ServerEvent event : events) {
             long remainingMs = event.getTimeRemainingMs();
             long minutes = remainingMs / (60 * 1000);
             long seconds = (remainingMs % (60 * 1000)) / 1000;
 
-            sender.sendMessage(String.format("§e• %s §7(%.1fx) - §eQuedan: §b%d:%02d",
-                    event.getEventType().getDisplayName(),
-                    event.getMultiplier(),
-                    minutes, seconds));
+            String bar = createProgressBar((double) remainingMs / (60000 * 60), 20);
+            sender.sendMessage(String.format("§e• %s", event.getEventType().getDisplayName()));
+            sender.sendMessage(String.format("  §7Multiplicador: §b%.1fx", event.getMultiplier()));
+            sender.sendMessage(String.format("  §7Tiempo: §e%d:%02d", minutes, seconds));
+            sender.sendMessage(String.format("  §7%s", bar));
         }
     }
 
     private void listEvents(CommandSender sender) {
-        sender.sendMessage("§6=== Tipos de Evento Disponibles ===");
+        sender.sendMessage("§6═══ Tipos de Evento Disponibles ═══");
         for (EventType type : EventType.values()) {
             sender.sendMessage(String.format("§e• %s §7(multiplicador por defecto: %.1fx)",
                     type.getDisplayName(), type.getDefaultMultiplier()));
         }
     }
 
-    private void scheduleEvent(CommandSender sender, String typeStr, String minutesStr) {
+    private void scheduleEvent(CommandSender sender, String typeStr, String minutesStr, String multStr) {
         EventType eventType = EventType.fromString(typeStr);
         if (eventType == null) {
             sender.sendMessage("§cTipo de evento no válido: " + typeStr);
@@ -96,13 +109,45 @@ public class EventCommand implements CommandExecutor, TabExecutor {
                 return;
             }
 
+            double multiplier = eventType.getDefaultMultiplier();
+            if (multStr != null) {
+                try {
+                    multiplier = Double.parseDouble(multStr);
+                    if (multiplier < 1.0 || multiplier > 10.0) {
+                        sender.sendMessage("§cEl multiplicador debe estar entre 1.0 y 10.0");
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    sender.sendMessage("§cMultiplicador inválido");
+                    return;
+                }
+            }
+
             long adminId = sender instanceof Player player ? player.getUniqueId().hashCode() : 0;
-            eventManager.startEvent(eventType, eventType.getDefaultMultiplier(), minutes, adminId);
-            sender.sendMessage(String.format("§a✓ Evento programado: %s por %d minutos",
-                    eventType.getDisplayName(), minutes));
+            eventManager.startEvent(eventType, multiplier, minutes, adminId);
+            sender.sendMessage(String.format("§a✓ Evento programado: %s", eventType.getDisplayName()));
+            sender.sendMessage(String.format("  §7Multiplicador: §b%.2fx", multiplier));
+            sender.sendMessage(String.format("  §7Duración: §b%d minutos", minutes));
         } catch (NumberFormatException e) {
             sender.sendMessage("§cDuración inválida. Debe ser un número entre 1 y 1440");
         }
+    }
+
+    private void stopEvent(CommandSender sender, String typeStr) {
+        EventType eventType = EventType.fromString(typeStr);
+        if (eventType == null) {
+            sender.sendMessage("§cTipo de evento no válido: " + typeStr);
+            showTypes(sender);
+            return;
+        }
+
+        ServerEvent event = eventManager.getActiveEvent(eventType);
+        if (event == null) {
+            sender.sendMessage("§cNo hay evento activo de tipo: " + eventType.getDisplayName());
+            return;
+        }
+
+        sender.sendMessage("§a✓ Evento detenido: " + eventType.getDisplayName());
     }
 
     private void showTypes(CommandSender sender) {
@@ -113,10 +158,21 @@ public class EventCommand implements CommandExecutor, TabExecutor {
     }
 
     private void showHelp(CommandSender sender) {
-        sender.sendMessage("§6=== Comandos de Eventos ===");
-        sender.sendMessage("§e/event info §7- Ver evento activo");
+        sender.sendMessage("§6═══ Comandos de Eventos ═══");
+        sender.sendMessage("§e/event info §7- Ver eventos activos");
         sender.sendMessage("§e/event list §7- Listar tipos de eventos");
-        sender.sendMessage("§e/event schedule <tipo> <minutos> §7- Programar evento");
+        sender.sendMessage("§e/event schedule <tipo> <min> [mult] §7- Programar evento");
+        sender.sendMessage("§e/event stop <tipo> §7- Detener evento");
+        sender.sendMessage("§e/event refresh §7- Recargar de BD");
+    }
+
+    private String createProgressBar(double progress, int length) {
+        int filled = Math.max(0, Math.min(length, (int) (progress * length)));
+        StringBuilder bar = new StringBuilder("§a");
+        for (int i = 0; i < filled; i++) bar.append("█");
+        bar.append("§7");
+        for (int i = filled; i < length; i++) bar.append("░");
+        return bar.toString();
     }
 
     @Override
@@ -127,14 +183,22 @@ public class EventCommand implements CommandExecutor, TabExecutor {
             completions.add("info");
             completions.add("list");
             completions.add("schedule");
-        } else if (args.length == 2 && args[0].equalsIgnoreCase("schedule")) {
-            for (EventType type : EventType.values()) {
-                completions.add(type.getKey());
+            completions.add("stop");
+            completions.add("refresh");
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("schedule") || args[0].equalsIgnoreCase("stop")) {
+                for (EventType type : EventType.values()) {
+                    completions.add(type.getKey());
+                }
             }
         } else if (args.length == 3 && args[0].equalsIgnoreCase("schedule")) {
             completions.add("60");
             completions.add("120");
             completions.add("360");
+        } else if (args.length == 4 && args[0].equalsIgnoreCase("schedule")) {
+            completions.add("2.0");
+            completions.add("3.0");
+            completions.add("5.0");
         }
 
         return completions;

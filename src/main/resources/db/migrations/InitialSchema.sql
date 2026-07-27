@@ -219,3 +219,20 @@ CREATE TABLE IF NOT EXISTS events (
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_events_active (start_time, end_time)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- v1.0.25: Optimizaciones de BD y Performance
+-- Índices adicionales para leaderboards y queries críticas
+ALTER TABLE player_mission_progress ADD INDEX idx_progress_completed (completed);
+ALTER TABLE player_mission_progress ADD INDEX idx_progress_claimed (claimed);
+ALTER TABLE arena_stats ADD INDEX idx_arena_stats_elo (elo DESC);
+ALTER TABLE arena_stats ADD INDEX idx_arena_stats_wins (wins DESC);
+ALTER TABLE players ADD INDEX idx_players_money (money DESC);
+ALTER TABLE players ADD INDEX idx_players_prestige (prestige DESC);
+ALTER TABLE player_jobs ADD INDEX idx_jobs_player_type (player_id, job_type);
+ALTER TABLE player_jobs ADD INDEX idx_jobs_level (level DESC);
+ALTER TABLE player_skills ADD INDEX idx_skills_player_type (player_id, skill_type);
+ALTER TABLE player_skills ADD INDEX idx_skills_level (level DESC);
+ALTER TABLE clans ADD INDEX idx_clans_power (power DESC);
+ALTER TABLE missions ADD INDEX idx_missions_type (mission_type);
+ALTER TABLE missions ADD INDEX idx_missions_frequency (frequency);
+ALTER TABLE events ADD INDEX idx_events_type (event_type);

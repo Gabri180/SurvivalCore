@@ -39,6 +39,7 @@ public class Mission {
     public void setTarget(String target) { this.target = target; }
     public long getRewardMoney() { return rewardMoney; }
     public void setRewardMoney(long rewardMoney) { this.rewardMoney = rewardMoney; }
+    public long getRewardExp() { return reward; }
     public MissionFrequency getFrequency() { return frequency; }
     public void setFrequency(MissionFrequency frequency) { this.frequency = frequency; }
 

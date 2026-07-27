@@ -1,5 +1,5 @@
 name: SurvivalCore
-version: 1.0.24
+version: 1.0.25
 main: com.atlasMC.survivalcore.SurvivalCorePlugin
 api-version: '1.21'
 authors: [Gabriel, Hauch, Dev3]
@@ -36,7 +36,7 @@ commands:
     aliases: [notif, notifs]
   mission:
     description: Sistema de misiones diarias
-    usage: /mission <menu|list|info|progress>
+    usage: /mission <menu|list|info|progress|claim|claimall>
     aliases: [missions]
   skill:
     description: Árbol de skills y experiencia
@@ -56,16 +56,16 @@ commands:
     aliases: [menued]
   sc:
     description: Comando de administración de SurvivalCore
-    usage: /sc <reload|gui|help>
+    usage: /sc <reload|gui|help|backup>
     permission: survivalcore.admin
   event:
     description: Gestiona eventos especiales del servidor
-    usage: /event <info|list|schedule>
+    usage: /event <info|list|schedule|stop|refresh>
     aliases: [eventos]
     permission: survivalcore.event.admin
   leaderboard:
     description: Ver rankings globales
-    usage: /leaderboard <money|arena|clan>
+    usage: /leaderboard <money|arena|clan|skill|job> [página]
     aliases: [lb, ranking]
 
 permissions:

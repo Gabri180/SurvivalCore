@@ -63,4 +63,19 @@ public class MenuManager {
     public MenuClickListener getClickListener() {
         return clickListener;
     }
+
+    public void openMissionMenu(Player player) {
+        CustomMenuBuilder builder = new CustomMenuBuilder("_missions_" + player.getUniqueId())
+            .title("§6Misiones")
+            .rows(6)
+            .backgroundColor("DARK_GRAY_STAINED_GLASS_PANE")
+            .fillBackground(true);
+
+        builder.addCloseButton(53);
+
+        MenuData menuData = builder.build();
+        String menuId = "_missions_" + player.getUniqueId();
+        registerMenu(menuId, menuData);
+        openMenu(player, menuId);
+    }
 }
