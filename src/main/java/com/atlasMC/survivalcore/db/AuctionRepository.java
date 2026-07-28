@@ -60,6 +60,12 @@ public class AuctionRepository {
                 null, amount, bidderId, auctionId);
     }
 
+    public void updateAuction(Auction auction) {
+        databaseManager.executeAsync(
+                "UPDATE auctions SET current_price = ?, current_bidder_id = ? WHERE id = ?",
+                null, auction.getCurrentPrice(), auction.getCurrentBidderId(), auction.getId());
+    }
+
     public void deleteAuction(long auctionId) {
         databaseManager.executeAsync("DELETE FROM auctions WHERE id = ?", null, auctionId);
     }

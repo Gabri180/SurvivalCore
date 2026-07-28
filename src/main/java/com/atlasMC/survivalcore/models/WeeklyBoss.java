@@ -79,6 +79,20 @@ public class WeeklyBoss {
         this.health = Math.max(0, this.health - amount);
     }
 
+    public long getReward() {
+        return switch (bossType) {
+            case FROST_TITAN -> 10000;
+            case MOLTEN_WYRM -> 12000;
+        };
+    }
+
+    public long getExp() {
+        return switch (bossType) {
+            case FROST_TITAN -> 500;
+            case MOLTEN_WYRM -> 600;
+        };
+    }
+
     public static Builder builder() {
         return new Builder();
     }

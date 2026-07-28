@@ -6,6 +6,8 @@ import com.atlasMC.survivalcore.cache.PlayerCache;
 import com.atlasMC.survivalcore.db.BountyRepository;
 import com.atlasMC.survivalcore.models.Bounty;
 import com.atlasMC.survivalcore.models.PlayerProfile;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.time.Instant;
 import java.util.*;
@@ -45,6 +47,12 @@ public class BountyManagerImpl implements IBountyManager {
             bounty.setId(id);
             bountiesCache.put(id, bounty);
         });
+
+        Player target = Bukkit.getPlayer(targetUuid);
+        if (target != null) {
+            target.sendMessage("§c⚠ §6Hay una recompensa de §e$" + reward + " §6sobre tu cabeza!");
+        }
+
         return bounty;
     }
 
@@ -58,6 +66,12 @@ public class BountyManagerImpl implements IBountyManager {
 
         economyAPI.addBalance(killerUuid, bounty.getReward());
         playerBountyEarnings.put(killerUuid, playerBountyEarnings.getOrDefault(killerUuid, 0L) + bounty.getReward());
+
+        Player killerPlayer = Bukkit.getPlayer(killerUuid);
+        if (killerPlayer != null) {
+            killerPlayer.sendMessage("§a✓ §6Recompensa cobrada §e$" + bounty.getReward());
+        }
+
         bountyRepository.claimBounty(bountyId, killer.getPlayerId());
         bountiesCache.remove(bountyId);
     }
@@ -108,5 +122,12 @@ public class BountyManagerImpl implements IBountyManager {
     @Override
     public long getTotalBountyReward(UUID playerUuid) {
         return playerBountyEarnings.getOrDefault(playerUuid, 0L);
+    }
+
+    public void setBountyNotification(UUID targetUuid, long totalBounty) {
+        Player target = Bukkit.getPlayer(targetUuid);
+        if (target != null) {
+            target.sendMessage("§c⚠ §6Recompensas totales sobre ti: §e$" + totalBounty);
+        }
     }
 }

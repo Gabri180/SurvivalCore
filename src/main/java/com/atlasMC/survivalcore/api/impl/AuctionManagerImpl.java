@@ -6,6 +6,8 @@ import com.atlasMC.survivalcore.cache.PlayerCache;
 import com.atlasMC.survivalcore.db.AuctionRepository;
 import com.atlasMC.survivalcore.models.Auction;
 import com.atlasMC.survivalcore.models.PlayerProfile;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.time.Instant;
 import java.util.*;
@@ -60,10 +62,18 @@ public class AuctionManagerImpl implements IAuctionManager {
         Long previousBidderId = auction.getCurrentBidderId();
         if (previousBidderId != null && previousBidderId > 0) {
             economyAPI.addBalance(new UUID(0, previousBidderId), auction.getCurrentBid());
+            notifyPlayer(new UUID(0, previousBidderId), "§6Tu puja fue superada en §e" + auction.getItemName() + " §6por §e$" + amount);
         }
 
         auction.placeBid(bidder.getPlayerId(), amount);
         economyAPI.removeBalance(bidderUuid, amount);
+
+        Player bidderPlayer = Bukkit.getPlayer(bidderUuid);
+        if (bidderPlayer != null) {
+            bidderPlayer.sendMessage("§a✓ §6Puja colocada en §e" + auction.getItemName() + " §6por §e$" + amount);
+        }
+
+        auctionRepository.updateAuction(auction);
         return true;
     }
 
@@ -106,8 +116,15 @@ public class AuctionManagerImpl implements IAuctionManager {
         Auction auction = auctionsCache.get(auctionId);
         if (auction == null || !auction.isExpired()) return;
 
+        UUID sellerId = new UUID(0, auction.getSellerId());
         if (auction.getCurrentBidderId() != null && auction.getCurrentBidderId() > 0) {
-            economyAPI.addBalance(new UUID(0, auction.getSellerId()), auction.getCurrentBid());
+            UUID winnerId = new UUID(0, auction.getCurrentBidderId());
+            economyAPI.addBalance(sellerId, auction.getCurrentBid());
+
+            notifyPlayer(sellerId, "§a✓ §6Tu subasta de §e" + auction.getItemName() + " §6se vendió por §e$" + auction.getCurrentBid());
+            notifyPlayer(winnerId, "§a✓ §6Ganaste la subasta de §e" + auction.getItemName() + " §6por §e$" + auction.getCurrentBid());
+        } else {
+            notifyPlayer(sellerId, "§7Tu subasta de §e" + auction.getItemName() + " §7no tuvo pujas");
         }
 
         auctionRepository.deleteAuction(auctionId);
@@ -126,5 +143,12 @@ public class AuctionManagerImpl implements IAuctionManager {
         return auction != null && auction.getCurrentBidderId() != null
                 ? new UUID(0, auction.getCurrentBidderId())
                 : null;
+    }
+
+    private void notifyPlayer(UUID uuid, String message) {
+        Player player = Bukkit.getPlayer(uuid);
+        if (player != null && player.isOnline()) {
+            player.sendMessage(message);
+        }
     }
 }
