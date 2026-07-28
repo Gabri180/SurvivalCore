@@ -1,6 +1,6 @@
 # SurvivalCore v1.0.25 — Survival PvP Enterprise
 
-**Status:** ✅ **v1.0.35 - Production Ready (ULTRA FINAL)**
+**Status:** ✅ **v1.0.36 - Production Ready (ULTRA FINAL + PETS)**
 
 ---
 
@@ -414,7 +414,7 @@ El plugin se genera "shaded" (todas las dependencias incluidas: HikariCP, MySQL 
 
 | Métrica | Valor |
 |---------|-------|
-| **Versión Actual** | 1.0.35 (ULTRA FINAL) |
+| **Versión Actual** | 1.0.36 (ULTRA FINAL + PETS) |
 | **Líneas de código** | ~6,500 |
 | **Tablas de BD** | 16+ |
 | **Comandos** | 30+ |
@@ -509,7 +509,17 @@ SurvivalCore/
 
 ## 📝 Changelog
 
-### v1.0.35 (Último - ULTRA FINAL)
+### v1.0.36 (Último - PETS SYSTEM)
+- ✅ **Pet System** - Mascotas completas (7 tipos)
+- ✅ **Pet Types** - Wolf, Dragon, Phoenix, Demon, Angel, Cat, Fairy
+- ✅ **Pet Leveling** - Exp-based con rates configurables
+- ✅ **Pet Menu** - Integración en /menu edit
+- ✅ **Pet Shop** - Comprar mascotas desde menú
+- ✅ **Pet Commands** - /pet create|list|summon|dismiss|info|menu
+- ✅ **Disabled by Default** - Configurable en pets.yml
+- ✅ **Menu Integration** - Accesible desde editor de menús
+
+### v1.0.35 (ULTRA FINAL)
 - ✅ **Reinforcing System** - Refuerzo de bloques con 4 niveles
 - ✅ **Item Repairs** - Reparar durability de items por dinero
 - ✅ **Block Protection** - Proteger bloques estratégicos
