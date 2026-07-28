@@ -18,22 +18,22 @@ import java.util.*;
 public class LicenseManager {
 
     private final JavaPlugin plugin;
+    private final LicenseConfig config;
     private String licenseKey;
     private License currentLicense;
     private String serverUuid;
-    private String licenseServerUrl = "https://your-vps-ip/api/licenses";
+    private String licenseServerUrl;
     private boolean validating = false;
     private int validationFailCount = 0;
-    private static final int MAX_OFFLINE_DAYS = 7;
+    private int maxOfflineDays;
 
-    public LicenseManager(JavaPlugin plugin, String licenseKey) {
+    public LicenseManager(JavaPlugin plugin) {
         this.plugin = plugin;
-        this.licenseKey = licenseKey;
+        this.config = new LicenseConfig(plugin);
+        this.licenseKey = config.getLicenseKey();
+        this.licenseServerUrl = config.getLicenseServerUrl();
+        this.maxOfflineDays = config.getOfflineGracePeriodDays();
         this.serverUuid = generateServerUuid();
-    }
-
-    public void setLicenseServerUrl(String url) {
-        this.licenseServerUrl = url;
     }
 
     public void initialize() {
@@ -75,7 +75,7 @@ public class LicenseManager {
             this.currentLicense = cachedLicense;
             this.validationFailCount++;
 
-            if (validationFailCount > MAX_OFFLINE_DAYS) {
+            if (validationFailCount > maxOfflineDays) {
                 Bukkit.getLogger().severe("❌ Licencia expirada. Por favor, reconectar a internet.");
                 disablePlugin();
             }

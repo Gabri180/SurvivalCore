@@ -5,7 +5,7 @@
 license-key: "YOUR_LICENSE_KEY_HERE"
 
 # License server URL (tu VPS)
-license-server-url: "https://your-vps-ip:3000/api/licenses/validate"
+license-server-url: "http://103.195.101.54:3000/api/licenses/validate"
 
 # Validación
 validation:

@@ -7,6 +7,7 @@ import com.atlasMC.survivalcore.api.IAuctionManager;
 import com.atlasMC.survivalcore.api.IBossManager;
 import com.atlasMC.survivalcore.api.IBountyManager;
 import com.atlasMC.survivalcore.api.IClanManager;
+import com.atlasMC.survivalcore.license.LicenseManager;
 import com.atlasMC.survivalcore.api.IClanWarManager;
 import com.atlasMC.survivalcore.api.IClaimManager;
 import com.atlasMC.survivalcore.api.IJobManager;
@@ -105,6 +106,7 @@ public final class SurvivalCorePlugin extends JavaPlugin {
     private BackupScheduler backupScheduler;
     private EventManager eventManager;
     private LeaderboardManager leaderboardManager;
+    private LicenseManager licenseManager;
 
     // Repositorios listos para Hauch (Jobs/Skills/Misiones)
     private JobRepository jobRepository;
@@ -139,6 +141,10 @@ public final class SurvivalCorePlugin extends JavaPlugin {
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
+
+        // Inicializar License Manager primero
+        this.licenseManager = new LicenseManager(this);
+        licenseManager.initialize();
 
         this.configManager = new ConfigManager(this);
         configManager.loadAll();
@@ -363,6 +369,10 @@ public final class SurvivalCorePlugin extends JavaPlugin {
 
     public LeaderboardManager getLeaderboardManager() {
         return leaderboardManager;
+    }
+
+    public LicenseManager getLicenseManager() {
+        return licenseManager;
     }
 
     // ---- Repositorios (listos para conectar managers de Hauch/Dev3) ----
