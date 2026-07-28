@@ -1,6 +1,6 @@
 # SurvivalCore v1.0.25 — Survival PvP Enterprise
 
-**Status:** ✅ **v1.0.30 - Production Ready (FINAL)**
+**Status:** ✅ **v1.0.35 - Production Ready (ULTRA FINAL)**
 
 ---
 
@@ -171,6 +171,57 @@ SurvivalCore es un plugin completo para servidores Minecraft Paper 1.21.1 con m�
 - ✅ **Smooth animation** - 100 ticks de duración
 
 ### 1️⃣6️⃣ SUBASTAS AVANZADAS & REPUTACIÓN (v1.0.30)
+
+### 1️⃣7️⃣ REINFORCING SYSTEM (v1.0.31)
+- ✅ **ReinforcingManager** - Reforzar bloques en claims
+- ✅ **Reinforcement Levels** - IRON (5k$) → DIAMOND (15k$) → OBSIDIAN (50k$)
+- ✅ **Damage Reduction** - 25% por nivel (máx 75%)
+- ✅ **Health Tracking** - Bloques con vida/salud
+- ✅ **Upgrade System** - Mejorar nivel de refuerzo
+- ✅ **Auto-destruction** - Bloques se rompen cuando mueren
+- ✅ **Repair System** - Reparar bloques reforzados
+
+### 1️⃣8️⃣ ITEM REPAIR SYSTEM (v1.0.32)
+- ✅ **ItemRepairManager** - Reparar durability
+- ✅ **Cost System** - 100 dinero por punto de durability
+- ✅ **Durability Indicator** - Green/Yellow/Red/Dark Red status
+- ✅ **Enchantment Support** - Reparar items encantados
+- ✅ **Wear Tracking** - Porcentaje de desgaste
+- ✅ **Perfect State Check** - No reparar items nuevos
+
+### 1️⃣9️⃣ BLOCK PROTECTION (v1.0.33)
+- ✅ **BlockProtectionManager** - Proteger bloques estratégicos
+- ✅ **Per-Claim Protection** - Por cada claim
+- ✅ **Owner-Only Access** - Solo owner puede editar
+- ✅ **Bulk Operations** - Limpiar protección de claims
+- ✅ **Protected Block Listing** - Ver bloques protegidos
+- ✅ **Integration Ready** - Compatible con ClanManager
+
+### 2️⃣0️⃣ ADVANCED PVP STATS (v1.0.34)
+- ✅ **AdvancedPvPManager** - Estadísticas avanzadas
+- ✅ **Kill Streaks** - Racha de kills con notificaciones
+- ✅ **Streak Notifications**:
+  - x3: [Racha x3]
+  - x5: [Racha x5]
+  - x10+: [¡RACHA x10!]
+- ✅ **Total K/D Tracking** - Kills, deaths, ratio
+- ✅ **Top Killers** - Leaderboard de asesinos
+- ✅ **Server Announcements** - Anuncios servidor-wide
+- ✅ **Auto-Reset** - Reinicio de racha en muerte
+
+### 2️⃣1️⃣ QUALITY OF LIFE (v1.0.35)
+- ✅ **QualityOfLifeManager** - Mejoras de UX
+  - AFK detection (5 min timeout)
+  - AFK/BACK announcements
+  - Custom MOTD
+  - Server status display
+  - Player highlight effects
+  - Teleport with messages
+- ✅ **CacheOptimizer** - Monitoreo de performance
+  - Cache hit rate tracking
+  - Memory usage monitoring
+  - Auto-GC cuando > 90%
+  - Real-time performance metrics
 - ✅ **ReputationManager** - Sistema de reputación global
 - ✅ **Reputation levels**: OUTLAW (-100), NEUTRAL (0), HERO (+100)
 - ✅ **Dynamic pricing**:
@@ -363,7 +414,7 @@ El plugin se genera "shaded" (todas las dependencias incluidas: HikariCP, MySQL 
 
 | Métrica | Valor |
 |---------|-------|
-| **Versión Actual** | 1.0.30 (FINAL) |
+| **Versión Actual** | 1.0.35 (ULTRA FINAL) |
 | **Líneas de código** | ~6,500 |
 | **Tablas de BD** | 16+ |
 | **Comandos** | 30+ |
@@ -458,7 +509,15 @@ SurvivalCore/
 
 ## 📝 Changelog
 
-### v1.0.30 (Último - FINAL)
+### v1.0.35 (Último - ULTRA FINAL)
+- ✅ **Reinforcing System** - Refuerzo de bloques con 4 niveles
+- ✅ **Item Repairs** - Reparar durability de items por dinero
+- ✅ **Block Protection** - Proteger bloques estratégicos
+- ✅ **Advanced PvP Stats** - Kill streaks, K/D ratio, top killers
+- ✅ **Quality of Life** - AFK detection, MOTD, server status
+- ✅ **Cache Optimizer** - Monitoreo de performance y memoria
+
+### v1.0.30 (FINAL)
 - ✅ **Arena Tournaments** - Sistema de torneos con brackets y rewards
 - ✅ **Clan Banking** - Banco compartido con gestión de dinero del clan
 - ✅ **Clan Alliances** - Sistema de alianzas entre clanes
