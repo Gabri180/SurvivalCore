@@ -1,6 +1,6 @@
 # SurvivalCore v1.0.25 — Survival PvP Enterprise
 
-**Status:** ✅ **v1.0.25 - Production Ready**
+**Status:** ✅ **v1.0.26 - Production Ready**
 
 ---
 
@@ -76,17 +76,25 @@ SurvivalCore es un plugin completo para servidores Minecraft Paper 1.21.1 con m�
 - ✅ **Límite diario de cargas**: Configurable
 - ✅ **Comandos**: `/claim info`, `/siege start`, `/siege status`
 
-### 7️⃣ SUBASTAS & BOUNTIES (v1.0.16 - v1.0.20)
-- ✅ **AuctionManager** - Sistema de subastas con pujas
-- ✅ **BountyManager** - Recompensas por cabeza
-- ✅ **AuctionRepository** - BD de subastas activas
+### 7️⃣ SUBASTAS & BOUNTIES (v1.0.16 - v1.0.20, mejorado en v1.0.26)
+- ✅ **AuctionManager** - Sistema completo de subastas con pujas
+- ✅ **Auto-finalización**: Scheduler limpia subastas expiradas cada minuto
+- ✅ **Notificaciones**: Alertas cuando se es superado en puja
+- ✅ **Notificaciones finales**: Vendedor y ganador reciben confirmación
+- ✅ **BountyManager** - Sistema completo de recompensas por cabeza
+- ✅ **Notificaciones de bounty**: Target y asesino reciben mensajes
+- ✅ **Killstreak tracking**: Seguimiento de muertes consecutivas
+- ✅ **AuctionRepository** - BD con actualización en tiempo real
 - ✅ **Comandos**: `/auction create`, `/auction bid`, `/auction info`
 - ✅ **Comandos**: `/bounty create`, `/bounty list`
-- ✅ **Auto-finalización**: Subastas se cierran automáticamente
 
-### 8️⃣ JEFES (v1.0.16 - v1.0.20)
-- ✅ **BossManager** - Spawns semanales de jefes
-- ✅ **BossRepository** - Tracking de jefes
+### 8️⃣ JEFES (v1.0.16 - v1.0.20, mejorado en v1.0.26)
+- ✅ **BossManager** - Completo con tracking de daño
+- ✅ **Damage tracking** - Seguimiento de daño por jugador
+- ✅ **Top damagers** - Ranking de top 3 dañadores
+- ✅ **Boss rewards** - Dinero + XP automático (10k$+500exp / 12k$+600exp)
+- ✅ **Broadcast notifications** - Anuncio servidor cuando jefe cae
+- ✅ **BossRepository** - Persistencia en BD
 - ✅ **Comandos**: `/boss info`, `/boss stats`
 - ✅ **Listeners**: Drops especiales, evento de muerte
 
@@ -336,7 +344,7 @@ El plugin se genera "shaded" (todas las dependencias incluidas: HikariCP, MySQL 
 
 | Métrica | Valor |
 |---------|-------|
-| **Versión Actual** | 1.0.25 |
+| **Versión Actual** | 1.0.26 |
 | **Líneas de código** | ~6,500 |
 | **Tablas de BD** | 16+ |
 | **Comandos** | 30+ |
@@ -431,7 +439,14 @@ SurvivalCore/
 
 ## 📝 Changelog
 
-### v1.0.25 (Último)
+### v1.0.26 (Último)
+- ✅ **Auction System COMPLETO**: Auto-finalización, notificaciones de pujas
+- ✅ **Bounty System COMPLETO**: Notificaciones, killstreak tracking
+- ✅ **Boss System COMPLETO**: Damage tracking, top damagers, rewards automáticas
+- ✅ **AuctionFinalizerScheduler**: Limpieza automática cada minuto
+- ✅ **Notifications**: Sistema de notificaciones integrado
+
+### v1.0.25
 - ✅ Leaderboards globales (5 tipos)
 - ✅ Database optimization + índices
 - ✅ Eventos especiales (DOUBLE_XP, DOUBLE_MONEY)
