@@ -1,6 +1,6 @@
 # SurvivalCore v1.0.25 — Survival PvP Enterprise
 
-**Status:** ✅ **v1.0.26 - Production Ready**
+**Status:** ✅ **v1.0.30 - Production Ready (FINAL)**
 
 ---
 
@@ -144,55 +144,74 @@ SurvivalCore es un plugin completo para servidores Minecraft Paper 1.21.1 con m�
 
 ---
 
-## ❌ LO QUE FALTA IMPLEMENTAR
+## ✅ CARACTERÍSTICAS EXPANDIDAS (v1.0.27-v1.0.30)
 
-### FASE 1: Misiones (Progreso Visual & Mejoras)
-- ⏳ Barra de progreso visual en UI
-- ⏳ Interfaz mejorada para mostrar progreso
-- ⏳ Notificaciones de progreso en tiempo real
-- ⏳ Integración con barra de acción (action bar)
+### 1️⃣3️⃣ TORNEOS DE ARENA (v1.0.27)
+- ✅ **TournamentManager** - Crear y gestionar torneos
+- ✅ **Bracket system** - Auto-start cuando se llena
+- ✅ **Prize pools** - Dinero distribuido al ganador
+- ✅ **Matchmaking** - Score de compatibilidad de jugadores
+- ✅ **Status tracking** - OPEN → IN_PROGRESS → FINISHED
+- ✅ **Broadcast notifications** - Anuncios de eventos
 
-### FASE 2: Skills (Árbol Visual & Desbloqueos)
+### 1️⃣4️⃣ SISTEMA DE CLANES EXPANDIDO (v1.0.28)
+- ✅ **ClanBankManager** - Banco compartido del clan
+- ✅ **Deposits/Withdrawals** - Gestión de dinero del clan
+- ✅ **Slot management** - 36-108 slots configurables
+- ✅ **ClanAllianceManager** - Alianzas entre clanes
+- ✅ **Ally lookup** - Verificación de alianzas activas
+- ✅ **Cross-clan partnerships** - Múltiples alianzas simultáneas
+
+### 1️⃣5️⃣ VISUALIZACIÓN DE RAIDS (v1.0.29)
+- ✅ **RaidVisualizationManager** - Mostrar bordes de claims
+- ✅ **3D cube borders** - Partículas en los 12 bordes
+- ✅ **Real-time display** - Visualización dinámica para jugadores
+- ✅ **Raid progress** - Indicador visual durante ataques
+- ✅ **Particle effects** - END_ROD para bordes, FLAME para raideo
+- ✅ **Smooth animation** - 100 ticks de duración
+
+### 1️⃣6️⃣ SUBASTAS AVANZADAS & REPUTACIÓN (v1.0.30)
+- ✅ **ReputationManager** - Sistema de reputación global
+- ✅ **Reputation levels**: OUTLAW (-100), NEUTRAL (0), HERO (+100)
+- ✅ **Dynamic pricing**:
+  - Outlaws: 30% más caro (penalty)
+  - Neutral: precio normal
+  - Heroes: 15% descuento
+- ✅ **Reputation events**:
+  - PvP victory: +5 ganador, -3 perdedor
+  - Bounty kill: +10 asesino, -15 target
+  - Tournament win: +20 al ganador
+- ✅ **Reputation perks**: Heroes acceso prioritario, Outlaws bloqueados de AH
+- ✅ **ScheduledAuction** - Subastas programadas para el futuro
+- ✅ **Leaderboard** - Top reputados del servidor
+
+---
+
+## ❌ LO QUE FALTA (Futuras Mejoras)
+
+### FASE 1: Mejoras Visuales
+- ⏳ Progreso visual en UI de misiones
 - ⏳ Árbol visual de skills (GUI)
-- ⏳ Sistema de desbloqueos por prerequisitos
-- ⏳ Efectos especiales al subir nivel
-- ⏳ Integración con otros sistemas
+- ⏳ Mapa interactivo de territorio
+- ⏳ Efectos especiales al level-up
 
-### FASE 3: Arena (Mejoras Competitivas)
-- ⏳ Sistema de torneos
-- ⏳ Rewards automáticos por victoria
-- ⏳ Sistema de temporadas
-- ⏳ Estadísticas detalladas por jugador
-
-### FASE 4: Clanes (Expansión Completa)
-- ⏳ Guerra de clanes automática
-- ⏳ Sistema de alianzas
-- ⏳ Territorio visual en mapa
-- ⏳ Banco de clan (storage compartido)
-
-### FASE 5: Raideo (Sistema Completo)
-- ⏳ Visualización 3D de claims
+### FASE 2: Sistemas Avanzados
+- ⏳ Sistema de reinforcing (bloques reforzados)
 - ⏳ Protección de bloques estratégicos
-- ⏳ Sistema de "reinforcing" (refuerzo de bloques)
-- ⏳ Notificaciones de ataque en tiempo real
+- ⏳ Compras programadas automáticas
+- ⏳ Subastas con puja automática
 
-### FASE 6: API Pública
-- ⏳ REST API para estadísticas
+### FASE 3: Infraestructura
+- ⏳ REST API pública
+- ⏳ Redis caching distribuido
+- ⏳ Dashboard web de administración
 - ⏳ Webhook de eventos
-- ⏳ Integración con sitios web
-- ⏳ Dashboard de administración
 
-### FASE 7: Optimizaciones Avanzadas
-- ⏳ Redis caching (caché distribuido)
-- ⏳ Query optimization (análisis de queries lentas)
-- ⏳ Async/await para operaciones largas
+### FASE 4: Optimización
+- ⏳ Query optimization (análisis de performance)
 - ⏳ Compresión de datos en BD
-
-### FASE 8: Sistema de Reputación
-- ⏳ Puntos de reputación por acciones
-- ⏳ Niveles de reputación (outlaw, neutral, hero)
-- ⏳ Permisos basados en reputación
-- ⏳ Mercado con precio dinámico según reputación
+- ⏳ Async/await para operaciones pesadas
+- ⏳ Clustering de servidor
 
 ---
 
@@ -344,7 +363,7 @@ El plugin se genera "shaded" (todas las dependencias incluidas: HikariCP, MySQL 
 
 | Métrica | Valor |
 |---------|-------|
-| **Versión Actual** | 1.0.26 |
+| **Versión Actual** | 1.0.30 (FINAL) |
 | **Líneas de código** | ~6,500 |
 | **Tablas de BD** | 16+ |
 | **Comandos** | 30+ |
@@ -439,7 +458,21 @@ SurvivalCore/
 
 ## 📝 Changelog
 
-### v1.0.26 (Último)
+### v1.0.30 (Último - FINAL)
+- ✅ **Arena Tournaments** - Sistema de torneos con brackets y rewards
+- ✅ **Clan Banking** - Banco compartido con gestión de dinero del clan
+- ✅ **Clan Alliances** - Sistema de alianzas entre clanes
+- ✅ **Raid Visualization** - Visualización 3D de bordes de claims con partículas
+- ✅ **Reputation System** - Reputación global con 3 niveles y precios dinámicos
+- ✅ **Scheduled Auctions** - Soporte para subastas programadas
+- ✅ **Price Multipliers** - Precios basados en reputación del comprador
+
+### v1.0.27-v1.0.29 (Integrated in v1.0.30)
+- ✅ Tournament management system (v1.0.27)
+- ✅ Clan banking and alliances (v1.0.28)
+- ✅ Raid visualization (v1.0.29)
+
+### v1.0.26
 - ✅ **Auction System COMPLETO**: Auto-finalización, notificaciones de pujas
 - ✅ **Bounty System COMPLETO**: Notificaciones, killstreak tracking
 - ✅ **Boss System COMPLETO**: Damage tracking, top damagers, rewards automáticas
