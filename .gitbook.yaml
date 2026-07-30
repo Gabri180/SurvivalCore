@@ -1,0 +1,37 @@
+root: ./docs
+
+structure:
+  readme: README.md
+  summary: SUMMARY.md
+
+redirects:
+  previous-page: new-page
+  help: guides/troubleshooting.md
+  support: guides/faq.md
+
+title: SurvivalCore Documentation
+description: Enterprise-grade Minecraft Plugin Documentation - Complete guides for installation, configuration, and usage
+
+author: SurvivalCore Development Team
+copyright: All Rights Reserved © 2026
+
+language: en
+
+plugins:
+  - katex
+
+pdf:
+  pageSize: a4
+  headerTemplate: '<div style="text-align: center;">SurvivalCore v1.0.41</div>'
+  footerTemplate: '<div style="text-align: center;">Page <span class="page"></span></div>'
+  margin:
+    top: 36
+    right: 36
+    bottom: 36
+    left: 36
+
+variables:
+  version: "1.0.41"
+  url: "https://survivalcore.gitbook.io"
+  github: "https://github.com/Gabri180/SurvivalCore"
+  email: "gabrielsummers11@icloud.com"
