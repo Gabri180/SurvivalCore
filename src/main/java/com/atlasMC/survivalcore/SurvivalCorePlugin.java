@@ -303,8 +303,8 @@ public final class SurvivalCorePlugin extends JavaPlugin {
         getCommand("event").setExecutor(eventCmd);
         getCommand("event").setTabCompleter(eventCmd);
 
-        // v1.0.20: Leaderboards
-        LeaderboardCommand leaderboardCmd = new LeaderboardCommand(leaderboardManager);
+        // v1.0.39: Leaderboards v2
+        LeaderboardCommand leaderboardCmd = new LeaderboardCommand();
         getCommand("leaderboard").setExecutor(leaderboardCmd);
         getCommand("leaderboard").setTabCompleter(leaderboardCmd);
     }

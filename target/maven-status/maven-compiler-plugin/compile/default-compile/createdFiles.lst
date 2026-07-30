@@ -14,6 +14,7 @@ com\atlasMC\survivalcore\managers\ReinforcingManager.class
 com\atlasMC\survivalcore\menu\PaginatedMenu.class
 com\atlasMC\survivalcore\api\impl\SkillManagerImpl.class
 com\atlasMC\survivalcore\models\ScheduledAuction.class
+com\atlasMC\survivalcore\analytics\ServerDashboard.class
 com\atlasMC\survivalcore\api\IMissionManager.class
 com\atlasMC\survivalcore\managers\LeaderboardManager$LeaderboardEntry.class
 com\atlasMC\survivalcore\managers\CacheOptimizer.class
@@ -21,6 +22,7 @@ com\atlasMC\survivalcore\db\DatabaseManager.class
 com\atlasMC\survivalcore\leaderboard\LeaderboardEntry.class
 com\atlasMC\survivalcore\commands\SkillCommand.class
 com\atlasMC\survivalcore\enums\ClanRole.class
+com\atlasMC\survivalcore\achievements\Achievement$AchievementType.class
 com\atlasMC\survivalcore\api\impl\EventManagerImpl.class
 com\atlasMC\survivalcore\models\MissionProgress$Builder.class
 com\atlasMC\survivalcore\events\SpecialEvent$EventType.class
@@ -31,6 +33,7 @@ com\atlasMC\survivalcore\menu\MenuFactory.class
 com\atlasMC\survivalcore\config\ConfigManager.class
 com\atlasMC\survivalcore\events\PlayerSkillLevelUpEvent.class
 com\atlasMC\survivalcore\enums\MissionType.class
+com\atlasMC\survivalcore\analytics\ServerDashboard$DashboardMetric.class
 com\atlasMC\survivalcore\models\Claim.class
 com\atlasMC\survivalcore\commands\MenuCommand.class
 com\atlasMC\survivalcore\api\IClanManager.class
@@ -39,6 +42,7 @@ com\atlasMC\survivalcore\backup\BackupManager.class
 com\atlasMC\survivalcore\scheduler\SchedulerManager.class
 com\atlasMC\survivalcore\menu\MenuYamlWriter.class
 com\atlasMC\survivalcore\db\AuctionRepository.class
+com\atlasMC\survivalcore\achievements\Achievement.class
 com\atlasMC\survivalcore\models\WeeklyBoss.class
 com\atlasMC\survivalcore\menu\MenuData.class
 com\atlasMC\survivalcore\missions\Mission$MissionType.class
@@ -52,6 +56,7 @@ com\atlasMC\survivalcore\db\ArenaRepository$ArenaStats.class
 com\atlasMC\survivalcore\models\ArenaStats$Builder.class
 com\atlasMC\survivalcore\models\ClanMember$Builder.class
 com\atlasMC\survivalcore\services\ExperienceService.class
+com\atlasMC\survivalcore\analytics\PredictionEngine.class
 com\atlasMC\survivalcore\models\Mission.class
 com\atlasMC\survivalcore\api\IEventManager.class
 com\atlasMC\survivalcore\models\ClanBank$Builder.class
@@ -84,6 +89,7 @@ com\atlasMC\survivalcore\models\Mission$Builder.class
 com\atlasMC\survivalcore\models\PlayerSkill.class
 com\atlasMC\survivalcore\models\WeeklyBoss$Builder.class
 com\atlasMC\survivalcore\menu\PaginatedMenu$PaginatedItem.class
+com\atlasMC\survivalcore\achievements\AchievementManager.class
 com\atlasMC\survivalcore\listeners\MissionProgressListener$1.class
 com\atlasMC\survivalcore\commands\LeaderboardCommand.class
 com\atlasMC\survivalcore\managers\RaidVisualizationManager.class
@@ -145,6 +151,7 @@ com\atlasMC\survivalcore\listeners\PvPKillstreakListener.class
 com\atlasMC\survivalcore\models\Tournament$Builder.class
 com\atlasMC\survivalcore\api\IBossManager.class
 com\atlasMC\survivalcore\menu\MenuAliasManager$MenuOpenCommand.class
+com\atlasMC\survivalcore\events\EventPersistence.class
 com\atlasMC\survivalcore\managers\CacheOptimizer$1.class
 com\atlasMC\survivalcore\enums\ArenaType.class
 com\atlasMC\survivalcore\menu\MenuAction$ActionType.class
@@ -197,6 +204,7 @@ com\atlasMC\survivalcore\managers\QualityOfLifeManager.class
 com\atlasMC\survivalcore\menu\CustomMenuBuilder$CustomMenuTemplate.class
 com\atlasMC\survivalcore\models\ClanMember.class
 com\atlasMC\survivalcore\db\ClanWarRepository.class
+com\atlasMC\survivalcore\events\AutomaticEventScheduler.class
 com\atlasMC\survivalcore\models\Tournament.class
 com\atlasMC\survivalcore\menu\CustomMenuBuilder.class
 com\atlasMC\survivalcore\listeners\BossDeathListener.class

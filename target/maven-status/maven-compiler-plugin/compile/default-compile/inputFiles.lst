@@ -40,6 +40,7 @@ C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survi
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\commands\AuctionCommand.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\menu\EditableMenu.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\api\IArenaManager.java
+C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\analytics\ServerDashboard.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\commands\ArenaCommand.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\leaderboard\LeaderboardEntry.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\license\License.java
@@ -59,9 +60,11 @@ C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survi
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\api\impl\JobManagerImpl.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\models\ArenaStats.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\enums\PetType.java
+C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\achievements\AchievementManager.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\menu\CustomMenuBuilder.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\listeners\JobKillListener.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\api\IClanWarManager.java
+C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\events\EventPersistence.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\menu\MenuEditorGUI.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\notifications\NotificationManager.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\menu\MenuClickListener.java
@@ -108,6 +111,7 @@ C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survi
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\models\Mission.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\managers\ClanBankManager.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\enums\JobType.java
+C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\achievements\Achievement.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\enums\ClaimDamageType.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\managers\LeaderboardManager.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\enums\SkillType.java
@@ -123,6 +127,7 @@ C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survi
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\commands\SkillCommand.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\managers\BlockProtectionManager.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\api\ISkillManager.java
+C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\events\AutomaticEventScheduler.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\listeners\PvPKillstreakListener.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\commands\CustomMenuCommand.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\database\DatabaseOptimizer.java
@@ -145,6 +150,7 @@ C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survi
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\menu\ChatInputPrompt.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\commands\PetCommand.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\listeners\PlayerDataListener.java
+C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\analytics\PredictionEngine.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\commands\EventCommand.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\api\impl\BossManagerImpl.java
 C:\Users\marti\Downloads\MC Plugins\SurvivalCore\src\main\java\com\atlasMC\survivalcore\api\impl\ArenaManagerImpl.java
