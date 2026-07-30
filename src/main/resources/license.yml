@@ -1,0 +1,76 @@
+# SurvivalCore License Configuration
+# Sistema de Licencias Profesional
+
+# License key (obtener en https://gumroad.com/...)
+license-key: "YOUR_LICENSE_KEY_HERE"
+
+# License server URL (tu VPS)
+license-server-url: "http://103.195.101.54:3000/api/licenses/validate"
+
+# Validación
+validation:
+  # Validar cada X horas (24 = diariamente)
+  interval-hours: 24
+
+  # Permitir offline durante X días si validación falla
+  offline-grace-period-days: 7
+
+  # Timeout de conexión (segundos)
+  connection-timeout: 5
+
+# Tiers y limits
+tiers:
+  STARTER:
+    max-players: 50
+    max-servers: 1
+    price: "$9.99/mes"
+
+  PROFESSIONAL:
+    max-players: 200
+    max-servers: 3
+    price: "$24.99/mes"
+
+  ENTERPRISE:
+    max-players: 9999
+    max-servers: 9999
+    price: "$49.99/mes"
+
+  LIFETIME:
+    max-players: 9999
+    max-servers: 9999
+    price: "$199.99"
+
+# Features by tier
+features:
+  # Visible sin licencia
+  free:
+    - economy-basic
+    - 3-jobs
+    - 5-skills
+
+  # STARTER+
+  starter:
+    - missions
+    - arena-limited
+    - auctions
+
+  # PROFESSIONAL+
+  professional:
+    - pets
+    - clans-full
+    - raids
+    - events
+
+  # ENTERPRISE
+  enterprise:
+    - api-rest
+    - dashboard-web
+    - multi-server
+    - support-24-7
+
+# Mensajes
+messages:
+  invalid-license: "§c❌ Licencia inválida o expirada. Compra en: https://gumroad.com/..."
+  license-expired: "§c❌ Tu licencia expiró el §e%date%. Renueva en: https://gumroad.com/..."
+  validation-failed: "§7⚠ No se pudo validar la licencia. Usando cache local."
+  feature-locked: "§c❌ Esta feature requiere tier §e%tier%"

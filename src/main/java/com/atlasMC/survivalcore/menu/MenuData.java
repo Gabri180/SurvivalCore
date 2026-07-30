@@ -1,0 +1,122 @@
+package com.atlasMC.survivalcore.menu;
+
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class MenuData {
+    private final String name;
+    private final String title;
+    private final int size;
+    private final MenuAction[] actions;
+    private final ItemStack[] items;
+    private final Map<Integer, List<String>> lores = new HashMap<>();
+    private final Map<String, Object> metadata = new HashMap<>();
+
+    public MenuData(String name, String title, int size) {
+        this.name = name;
+        this.title = title;
+        this.size = size;
+        this.actions = new MenuAction[size];
+        this.items = new ItemStack[size];
+
+        for (int i = 0; i < size; i++) {
+            this.actions[i] = MenuAction.none();
+        }
+    }
+
+    public void setItem(int slot, ItemStack item, MenuAction action) {
+        if (slot < 0 || slot >= size) return;
+        items[slot] = item;
+        actions[slot] = action != null ? action : MenuAction.none();
+        applyLore(slot);
+    }
+
+    public void setItem(int slot, ItemStack item) {
+        setItem(slot, item, MenuAction.none());
+    }
+
+    public void addLoreLine(int slot, String line) {
+        if (slot < 0 || slot >= size) return;
+        lores.computeIfAbsent(slot, k -> new ArrayList<>()).add(line);
+        applyLore(slot);
+    }
+
+    public void setLore(int slot, List<String> loreLines) {
+        if (slot < 0 || slot >= size) return;
+        lores.put(slot, new ArrayList<>(loreLines));
+        applyLore(slot);
+    }
+
+    public void clearLore(int slot) {
+        if (slot < 0 || slot >= size) return;
+        lores.remove(slot);
+        applyLore(slot);
+    }
+
+    public List<String> getLore(int slot) {
+        return lores.getOrDefault(slot, new ArrayList<>());
+    }
+
+    private void applyLore(int slot) {
+        ItemStack item = items[slot];
+        if (item == null) return;
+
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) return;
+
+        List<String> lore = lores.get(slot);
+        if (lore != null && !lore.isEmpty()) {
+            meta.setLore(new ArrayList<>(lore));
+            item.setItemMeta(meta);
+        }
+    }
+
+    public ItemStack getItem(int slot) {
+        if (slot < 0 || slot >= size) return null;
+        return items[slot];
+    }
+
+    public MenuAction getAction(int slot) {
+        if (slot < 0 || slot >= size) return MenuAction.none();
+        return actions[slot];
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setMetadata(String key, Object value) {
+        metadata.put(key, value);
+    }
+
+    public Object getMetadata(String key) {
+        return metadata.get(key);
+    }
+
+    public String getMetadataString(String key) {
+        Object value = metadata.get(key);
+        return value != null ? value.toString() : null;
+    }
+
+    public Boolean getMetadataBoolean(String key) {
+        Object value = metadata.get(key);
+        return value instanceof Boolean ? (Boolean) value : null;
+    }
+
+    public boolean hasMetadata(String key) {
+        return metadata.containsKey(key);
+    }
+}

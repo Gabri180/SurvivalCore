@@ -1,0 +1,18 @@
+# Jefes semanales
+bosses:
+  frost_titan:
+    display: "Titán de Escarcha"
+    health: 500
+    spawn-day: "SATURDAY"
+    spawn-time: "20:00"
+    rewards:
+      - "siege_charge"
+      - "diamond_block"
+  molten_wyrm:
+    display: "Wyrm de Magma"
+    health: 750
+    spawn-day: "SUNDAY"
+    spawn-time: "20:00"
+    rewards:
+      - "siege_charge"
+      - "netherite_ingot"

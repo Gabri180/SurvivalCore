@@ -1,0 +1,75 @@
+# Pet System Configuration
+# Sistema de Mascotas
+
+# Enable/Disable the pet system
+enabled: false
+
+# Pet Types and Costs
+pets:
+  WOLF:
+    display-name: "§6Lobo"
+    icon: "🐺"
+    cost: 5000
+    max-health: 100
+
+  DRAGON:
+    display-name: "§5Dragón"
+    icon: "🐉"
+    cost: 20000
+    max-health: 200
+
+  PHOENIX:
+    display-name: "§c🔥 Fénix"
+    icon: "🔥"
+    cost: 25000
+    max-health: 250
+
+  DEMON:
+    display-name: "§4Demonio"
+    icon: "👿"
+    cost: 15000
+    max-health: 180
+
+  ANGEL:
+    display-name: "§e⭐ Ángel"
+    icon: "✨"
+    cost: 18000
+    max-health: 190
+
+  CAT:
+    display-name: "§7Gato"
+    icon: "🐱"
+    cost: 3000
+    max-health: 50
+
+  FAIRY:
+    display-name: "§b🧚 Hada"
+    icon: "✨"
+    cost: 8000
+    max-health: 120
+
+# Pet Leveling
+leveling:
+  # Base experience needed for level 1->2
+  base-exp-per-level: 1000
+  # Multiplier for each level (1.5x means each level costs 50% more)
+  exp-multiplier: 1.5
+  # Max level
+  max-level: 100
+
+# Pet Benefits
+benefits:
+  # XP multiplier when pet is active
+  xp-multiplier: 1.1
+  # Money multiplier when pet is active
+  money-multiplier: 1.05
+
+# Pet Commands
+commands:
+  enabled: true
+
+# Pet Menu Integration
+menu:
+  enabled: true
+  # Add pets to /menu edit
+  show-in-editor: true

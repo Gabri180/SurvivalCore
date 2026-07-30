@@ -1,0 +1,68 @@
+# ============================================================
+# SurvivalCore - Configuración de Trabajos (Jobs)
+# ============================================================
+
+# Definición de trabajos
+jobs:
+  MINER:
+    display-name: "§8Minero"
+    description: "Extrae minerales y gana dinero"
+    icon: "DIAMOND_PICKAXE"
+    max-level: 100
+    exp-per-level-multiplier: 1.15
+    base-money-per-action: 10
+    actions:
+      - "ORE_BREAK"
+      - "DEEPSLATE_BREAK"
+
+  LUMBERJACK:
+    display-name: "§2Leñador"
+    description: "Tala árboles y obtén ganancias"
+    icon: "IRON_AXE"
+    max-level: 100
+    exp-per-level-multiplier: 1.15
+    base-money-per-action: 8
+    actions:
+      - "LOG_BREAK"
+      - "TREE_CHOP"
+
+  FARMER:
+    display-name: "§6Granjero"
+    description: "Cultiva y cosecha"
+    icon: "WOODEN_HOE"
+    max-level: 100
+    exp-per-level-multiplier: 1.15
+    base-money-per-action: 5
+    actions:
+      - "CROP_HARVEST"
+      - "SEED_PLANT"
+
+  FISHERMAN:
+    display-name: "§b Pescador"
+    description: "Pesca en aguas tranquilas"
+    icon: "FISHING_ROD"
+    max-level: 100
+    exp-per-level-multiplier: 1.15
+    base-money-per-action: 12
+    actions:
+      - "FISH_CATCH"
+      - "TREASURE_FIND"
+
+  HUNTER:
+    display-name: "§cCazador"
+    description: "Mata mobs y gana recompensas"
+    icon: "BOW"
+    max-level: 100
+    exp-per-level-multiplier: 1.15
+    base-money-per-action: 15
+    actions:
+      - "MOB_KILL"
+      - "BOSS_KILL"
+
+# Configuración global
+settings:
+  max-active-jobs-per-player: 2
+  payout-interval-minutes: 60
+  enable-payout-notifications: true
+  level-up-multiplier: 1.2
+  prestige-bonus-multiplier: 1.5

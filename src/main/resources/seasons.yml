@@ -1,0 +1,53 @@
+# ============================================================
+# SurvivalCore - Configuración de Temporadas
+# ============================================================
+
+# Configuración de temporadas
+season:
+  duration-days: 60
+  auto-rotate: true
+  start-month: 1
+  start-day: 1
+  reset-on-new-season: false
+  notify-one-week-before: true
+
+# Recompensas por ranking
+rewards:
+  top-1:
+    display-name: "§4§lCampeón de la Temporada"
+    money: 50000
+    prestige-bonus: 1
+    item: "GOLDEN_HEAD"
+    custom-title: "&4Campeón"
+
+  top-2:
+    display-name: "§c§lSubcampeón"
+    money: 25000
+    prestige-bonus: 0
+    item: "DIAMOND_BLOCK:5"
+    custom-title: "&cVice-Campeón"
+
+  top-3:
+    display-name: "§e§lTercero"
+    money: 10000
+    item: "EMERALD_BLOCK:3"
+    custom-title: "&ePodio"
+
+  top-10:
+    money: 5000
+    item: "DIAMOND:5"
+
+# Battle Pass
+pass:
+  enable-free-pass: true
+  enable-premium-pass: true
+  free-tiers: 50
+  premium-tiers: 50
+  exp-per-tier: 1000
+  premium-rewards-multiplier: 2.0
+
+# Notificaciones
+notifications:
+  season-ending-soon: true
+  announce-top-players: true
+  broadcast-completion: true

@@ -1,0 +1,21 @@
+# Tienda - Items disponibles con precios
+shop:
+  categories:
+    blocks:
+      display: "§6Bloques"
+      items:
+        dirt:
+          name: "Tierra"
+          price: 10
+          quantity: 64
+        stone:
+          name: "Piedra"
+          price: 15
+          quantity: 64
+    tools:
+      display: "§bHerramientas"
+      items:
+        diamond_pickaxe:
+          name: "Pico de Diamante"
+          price: 5000
+          quantity: 1

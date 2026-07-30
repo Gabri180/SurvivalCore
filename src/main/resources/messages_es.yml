@@ -1,0 +1,113 @@
+# ============================================================
+# SurvivalCore - Mensajes en Español (v1.0.21)
+# ============================================================
+
+prefix: "&8[&6AtlasMC&8] &r"
+
+# Mensajes generales
+general:
+  no-permission: "&cNo tienes permiso para hacer eso."
+  player-only: "&cEste comando solo puede ser usado por jugadores."
+  player-not-found: "&cJugador no encontrado."
+  invalid-usage: "&cUso incorrecto. Usa: &f{usage}"
+  invalid-number: "&cDebes ingresar un número válido."
+  reload-success: "&aConfiguración recargada correctamente."
+  error: "&c¡Error! Contacta a un administrador."
+
+# Economía
+economy:
+  balance: "&7Tu balance: &a${amount}"
+  balance-other: "&7Balance de {player}: &a${amount}"
+  not-enough-money: "&cNo tienes suficiente dinero. Necesitas &a${needed}"
+  received-money: "&aHas recibido &f${amount}"
+  removed-money: "&cSe te ha descontado &f${amount}"
+  transaction-failed: "&cLa transacción falló. Intenta más tarde."
+
+# Trabajos
+jobs:
+  joined: "&aTe has unido al trabajo &f{job}"
+  left: "&cHas abandonado el trabajo &f{job}"
+  already-in-job: "&cYa tienes ese trabajo."
+  level-up: "&6Tu trabajo &f{job} &6subió al nivel &f{level}"
+  max-jobs: "&cYa alcanzaste el máximo de trabajos activos."
+  exp-gain: "&7+&a{exp} &7XP en &f{job}"
+
+# Skills
+skills:
+  level-up: "&b¡Tu skill &f{skill} &bsubió al nivel &f{level}&b!"
+  unlocked-item: "&d¡Has desbloqueado &f{item}&d por tu nivel de &f{skill}&d!"
+  progress: "&7Progreso de &f{skill}&7: {progress}%"
+  max-level: "&cHas alcanzado el nivel máximo en &f{skill}"
+
+# Misiones
+missions:
+  completed: "&a¡Misión completada! &f{mission}"
+  progress: "&7Progreso de &f{mission}&7: &b{progress}/{target}"
+  new-mission: "&eNueva misión disponible: &f{mission}"
+  claimed-rewards: "&a¡Has reclamado las recompensas!"
+  already-claimed: "&cYa reclamaste las recompensas de esta misión."
+  not-completed: "&cAún no has completado esta misión."
+
+# PvP
+pvp:
+  arena-join: "&aTe has unido a la arena &f{arena}"
+  arena-leave: "&cHas salido de la arena."
+  arena-already-in: "&cYa estás en una arena."
+  killstreak: "&c¡{player} &6está en racha de &f{streak} &6muertes!"
+  bounty-set: "&eSe ha puesto una recompensa de &f${amount} &esobre &f{player}"
+  bounty-claimed: "&a¡Has reclamado la recompensa de &f${amount} &apor matar a &f{player}&a!"
+  player-killed: "&c¡{player} &cha sido eliminado por &f{killer}"
+
+# Clanes
+clans:
+  created: "&aClan &f{clan} &acreado correctamente."
+  invited: "&eHas sido invitado al clan &f{clan}"
+  already-in-clan: "&cYa estás en un clan."
+  war-declared: "&c¡El clan &f{clan} &cha declarado la guerra a &f{target}&c!"
+  member-joined: "&a&f{player} &ase ha unido al clan"
+  member-left: "&c&f{player} &cha abandonado el clan"
+
+# Claims y Raideo
+claims:
+  under-attack: "&c&l¡ALERTA! &cTu base está siendo atacada por &f{attacker}&c!"
+  claim-broken: "&4¡Tu claim ha sido destruido!"
+  immune: "&7Este claim tiene inmunidad temporal tras un raideo reciente."
+  outside-window: "&cSolo se puede atacar entre las &f{start} &cy las &f{end}&c."
+  max-charges-reached: "&cYa alcanzaste el máximo de cargas de asedio por hoy."
+  siege-ended: "&aEl asedio ha terminado."
+
+# Jefes
+bosses:
+  spawned: "&4&l¡Un jefe ha aparecido! &f{boss} &4en &f{location}"
+  defeated: "&6¡{player} &6ha derrotado a &f{boss}&6!"
+  health-broadcast: "&7Vida del jefe: &c{health}%"
+
+# Subastas
+auctions:
+  listed: "&aHas publicado &f{item} &aen subasta por &f${price}"
+  bid-placed: "&aHas ofertado &f${amount} &apor &f{item}"
+  won: "&a¡Has ganado la subasta de &f{item}&a!"
+  outbid: "&cHas sido superado en la puja de &f{item}"
+
+# Temporadas
+seasons:
+  ended: "&6La temporada &f{season} &6ha finalizado."
+  rewards-claimed: "&aRecompensas de temporada reclamadas correctamente."
+  rank-announcement: "&6¡{player} &6terminó en &f#{rank} &6de la temporada!"
+
+# Prestigio
+prestige:
+  success: "&d&l¡Has prestigiado! &dAhora eres prestigio &f{level}"
+  requirements-not-met: "&cNecesitas alcanzar el rango máximo antes de prestigiar."
+
+# Eventos
+events:
+  started: "&6✨ ¡EVENTO ACTIVADO! &f{event} &6(Multiplicador: &e{multiplier}x&6)"
+  ended: "&c✗ Evento finalizado: &f{event}"
+
+# Leaderboards
+leaderboards:
+  money-top: "&6═══ TOP 10 Jugadores Ricos ═══"
+  arena-top: "&6═══ TOP 10 Arenas (ELO) ═══"
+  clan-top: "&6═══ TOP 10 Clanes ═══"
+  your-rank: "&7Tu posición: &b#{rank}"

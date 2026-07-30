@@ -1,0 +1,74 @@
+# ============================================================
+# SurvivalCore - Configuración de Jefes Semanales (Bosses)
+# ============================================================
+
+# Jefes disponibles
+bosses:
+  FROST_TITAN:
+    display-name: "§bTitán de Escarcha"
+    description: "El señor del hielo eterno"
+    health: 500
+    spawn-day: SATURDAY
+    spawn-time: "20:00:00"
+    world: world_resources
+    spawn-location: "0:100:0"
+    difficulty: HARD
+    rewards:
+      money: 50000
+      exp: 15000
+    drops:
+      - "DIAMOND:25"
+      - "EMERALD:10"
+    ability:
+      type: "FREEZE"
+      cooldown-ticks: 100
+
+  MOLTEN_WYRM:
+    display-name: "§6Wyrm de Magma"
+    description: "Dragón infernal del fuego abrasador"
+    health: 750
+    spawn-day: SUNDAY
+    spawn-time: "20:00:00"
+    world: world_nether
+    spawn-location: "0:100:0"
+    difficulty: EXTREME
+    rewards:
+      money: 75000
+      exp: 20000
+    drops:
+      - "NETHERITE_INGOT:5"
+      - "DIAMOND:30"
+    ability:
+      type: "LAVA_BURST"
+      cooldown-ticks: 80
+
+  SHADOW_LORD:
+    display-name: "§8Señor de las Sombras"
+    description: "Entidad oscura del más allá"
+    health: 600
+    spawn-day: WEDNESDAY
+    spawn-time: "21:00:00"
+    world: world
+    spawn-location: "0:64:0"
+    difficulty: HARD
+    rewards:
+      money: 60000
+      exp: 18000
+    drops:
+      - "AMETHYST_SHARD:20"
+      - "DIAMOND:20"
+    ability:
+      type: "SHADOW_CLONES"
+      cooldown-ticks: 120
+
+# Configuración global de jefes
+settings:
+  announce-spawn: true
+  announce-kill: true
+  rewards-broadcast: true
+  respawn-interval-days: 7
+  difficulty-modifier: 1.5
+  loot-multiplier: 1.0
+  enable-special-drops: true
+  broadcast-health: true
+  health-broadcast-interval: 50

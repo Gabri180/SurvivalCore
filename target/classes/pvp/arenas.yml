@@ -1,0 +1,14 @@
+# Arenas PvP
+arenas:
+  duel_1:
+    display: "Duelo 1v1"
+    world: "arena_world"
+    spawn1: "100,64,100"
+    spawn2: "100,64,200"
+  ffa:
+    display: "FFA"
+    world: "arena_world"
+    spawns:
+      - "0,64,0"
+      - "50,64,50"
+      - "-50,64,-50"

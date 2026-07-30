@@ -1,0 +1,22 @@
+# Jobs - Trabajos que generan dinero
+jobs:
+  miner:
+    display: "Minero"
+    max-level: 100
+    pay-per-level: 50 # dinero base por nivel
+  lumberjack:
+    display: "Leñador"
+    max-level: 100
+    pay-per-level: 40
+  farmer:
+    display: "Granjero"
+    max-level: 100
+    pay-per-level: 35
+  fisherman:
+    display: "Pescador"
+    max-level: 100
+    pay-per-level: 45
+  hunter:
+    display: "Cazador"
+    max-level: 100
+    pay-per-level: 55

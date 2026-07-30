@@ -1,0 +1,80 @@
+name: SurvivalCore
+version: 1.0.38
+main: com.atlasMC.survivalcore.SurvivalCorePlugin
+api-version: '1.21'
+authors: [Gabriel, Hauch, Dev3]
+description: "Survival PvP Enterprise - AtlasMC"
+load: POSTWORLD
+
+commands:
+  job:
+    description: Gestiona tu trabajo actual
+    usage: /job <menu|set|info>
+    aliases: [jobs]
+  stats:
+    description: Muestra tus estadisticas de skills y progresion
+    usage: /stats [jugador]
+  arena:
+    description: Sistema de arenas PvP 1v1
+    usage: /arena
+    aliases: [arenas]
+  clan:
+    description: Sistema de clanes
+    usage: /clan
+    aliases: [clanes]
+  auction:
+    description: Casa de subastas
+    usage: /auction
+    aliases: [ah]
+  bounty:
+    description: Sistema de recompensas por cabeza
+    usage: /bounty
+    aliases: [recompensa]
+  notificaciones:
+    description: Gestiona tus preferencias de notificaciones
+    usage: /notificaciones <menu|toggle|status>
+    aliases: [notif, notifs]
+  mission:
+    description: Sistema de misiones diarias
+    usage: /mission <menu|list|info|progress|claim|claimall>
+    aliases: [missions]
+  skill:
+    description: Árbol de skills y experiencia
+    usage: /skill <menu|list|info|stats>
+    aliases: [skills]
+  custommenu:
+    description: Constructor de menús personalizados
+    usage: /custommenu <create|item|title|size|bgcolor|save|cancel|open|list>
+    aliases: [customm, cmenu]
+    permission: survivalcore.admin
+  menuedit:
+    description: Editor de menus (admin)
+    usage: /menuedit <shop>
+  menu:
+    description: Editor de menús in-game
+    usage: /menu <edit|slot|material|name|action|save|cancel>
+    aliases: [menued]
+  sc:
+    description: Comando de administración de SurvivalCore
+    usage: /sc <reload|gui|help|backup>
+    permission: survivalcore.admin
+  event:
+    description: Gestiona eventos especiales del servidor
+    usage: /event <info|list|schedule|stop|refresh>
+    aliases: [eventos]
+    permission: survivalcore.event.admin
+  leaderboard:
+    description: Ver rankings globales
+    usage: /leaderboard <money|arena|clan|skill|job> [página]
+    aliases: [lb, ranking]
+
+permissions:
+  survivalcore.admin:
+    description: Acceso administrativo total a SurvivalCore
+    default: op
+  survivalcore.player:
+    description: Acceso base de jugador a SurvivalCore
+    default: true
+  survivalcore.event.admin:
+    description: Crear y gestionar eventos especiales
+    default: op
